@@ -7,7 +7,8 @@
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean --yes",
     "gulp:tasks": "gulp --tasks",
-    "prod:build": "gulp build"
+    "prod:build": "lerna run --parallel prod:build && gulp build",
+    "dev:watch": "lerna run --parallel dev:watch"
   },
   "repository": {
     "type": "git",
