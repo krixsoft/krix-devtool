@@ -1,0 +1,27 @@
+{
+  "name": "krix-devtool",
+  "version": "0.0.0",
+  "description": "krix-devtool",
+  "main": "background.js",
+  "scripts": {
+    "gulp:tasks": "gulp --tasks",
+    "prod:build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geass1000/krix-devtool.git"
+  },
+  "author": "Andrey Shuleiko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Geass1000/krix-devtool/issues"
+  },
+  "homepage": "https://github.com/Geass1000/krix-devtool#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "del": "^5.1.0"
+  }
+}
