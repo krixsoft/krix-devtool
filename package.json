@@ -4,6 +4,8 @@
   "description": "krix-devtool",
   "main": "background.js",
   "scripts": {
+    "lerna:bootstrap": "lerna bootstrap",
+    "lerna:clean": "lerna clean --yes",
     "gulp:tasks": "gulp --tasks",
     "prod:build": "gulp build"
   },
@@ -17,11 +19,12 @@
     "url": "https://github.com/Geass1000/krix-devtool/issues"
   },
   "homepage": "https://github.com/Geass1000/krix-devtool#readme",
+  "devDependencies": {},
   "dependencies": {
+    "concurrently": "^5.0.2",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "lerna": "^3.18.3",
     "lodash": "^4.17.15"
-  },
-  "devDependencies": {
-    "del": "^5.1.0"
   }
 }
