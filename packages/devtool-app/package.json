@@ -1,10 +1,10 @@
 {
-  "name": "krix-devtool-app",
+  "name": "@krix-devtool/app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "dev:start": "ng serve",
+    "prod:build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -29,6 +29,7 @@
     "@angular/cli": "~8.3.21",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
+    "@types/chrome": "0.0.91",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.149",
