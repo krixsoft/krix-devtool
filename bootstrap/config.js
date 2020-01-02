@@ -1,8 +1,8 @@
 
 exports.Config = {
   Paths: {
-    ChromeExtension: './src/chrome-extension',
-    DevToolApp: './src/devtool-app/dist',
+    ChromeExtension: './packages/chrome-extension/dist',
+    DevToolApp: './packages/devtool-app/dist',
     Dist: './dist',
   },
 };
