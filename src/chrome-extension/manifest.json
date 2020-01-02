@@ -1,0 +1,8 @@
+{
+  "name": "KrixDevTool",
+  "version": "0.0",
+  "description": "Krix store watcher",
+  "manifest_version": 2,
+  "devtools_page": "devtools.html",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
