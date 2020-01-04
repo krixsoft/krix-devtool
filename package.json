@@ -7,7 +7,7 @@
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean --yes",
     "gulp:tasks": "gulp --tasks",
-    "prod:build": "lerna run --parallel prod:build && gulp build",
+    "prod:build": "lerna run --parallel pkg:build && lerna run --parallel prod:build && gulp build",
     "dev:watch": "lerna run --parallel dev:watch"
   },
   "repository": {
@@ -20,7 +20,12 @@
     "url": "https://github.com/Geass1000/krix-devtool/issues"
   },
   "homepage": "https://github.com/Geass1000/krix-devtool#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "eslint": "^6.8.0",
+    "typescript": "^3.7.4"
+  },
   "dependencies": {
     "concurrently": "^5.0.2",
     "del": "^5.1.0",
