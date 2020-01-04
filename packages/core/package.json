@@ -1,0 +1,50 @@
+{
+  "name": "@krix-devtool/core",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "gulp:tasks": "gulp --gulpfile=./gulp.dev.js --tasks",
+    "gulp:watch": "gulp --gulpfile=./gulp.dev.js build:watch",
+    "gulp:test": "gulp --gulpfile=./gulp.dev.js test:watch",
+    "gulp:clean:dist": "gulp --gulpfile=./gulp.dev.js clean:dist",
+    "gulp:clean:test": "gulp --gulpfile=./gulp.dev.js clean:test",
+    "prod:build": "gulp --gulpfile=./gulp.dev.js build:prod",
+    "dev:watch": "npm run gulp:watch",
+    "dev:test": "npm run gulp:test"
+  },
+  "keywords": [
+    "krix",
+    "krix/storage",
+    "state-storage",
+    "storage"
+  ],
+  "author": "Andrey Shuleiko",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/lodash": "^4.14.149",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^8.9.5",
+    "@types/sinon": "^7.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "@types/chrome": "0.0.91",
+    "chai": "^4.2.0",
+    "concurrently": "^5.0.2",
+    "del": "^5.1.0",
+    "eslint": "^6.8.0",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-mocha": "^7.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "mocha": "^6.2.2",
+    "sinon": "^8.0.2",
+    "tslint": "~5.15.0",
+    "typescript": "~3.5.3"
+  }
+}
