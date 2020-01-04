@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 const gulp = require(`gulp`);
-const del = require(`del`);
 
 const distFolder = `./dist`;
 
-exports[`clean:dist`] = async function cleanDist () {
-  const delResult = await del(`${distFolder}/*`, { force: true });
-  return delResult;
-};
+const GulpCommon = require(`./gulp.common`);
+const { GulpHelper } = require(`../../bootstrap/helpers/gulp.helper`);
 
-exports[`build:move`] = function sharedMove () {
+module.exports = GulpHelper.combineGulpFiles(
+  GulpCommon,
+);
+exports = module.exports;
+
+exports[`build:move`] = function buildMoveTask () {
   return gulp.src([
     `./src/manifest.json`,
     `./src/devtools.html`,

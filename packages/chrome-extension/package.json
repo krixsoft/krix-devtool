@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gulp:tasks": "gulp --gulpfile=./gulp.dev.js --tasks",
-    "gulp:watch": "gulp --gulpfile=./gulp.dev.js build:watch",
-    "gulp:test": "gulp --gulpfile=./gulp.dev.js test:watch",
-    "gulp:clean:dist": "gulp --gulpfile=./gulp.dev.js clean:dist",
-    "gulp:clean:test": "gulp --gulpfile=./gulp.dev.js clean:test",
-    "prod:watch": "npm run gulp:clean:dist && webpack --config webpack.prod.js --w --colors",
-    "prod:build": "gulp --gulpfile=./gulp.prod.js clean:dist && webpack --config webpack.prod.js --progress --colors && gulp --gulpfile=./gulp.prod.js build:move",
-    "dev:watch": "npm run gulp:watch",
-    "dev:test": "npm run gulp:test"
+    "dev:tasks": "gulp --gulpfile=./gulp.dev.js --tasks",
+    "dev:watch": "gulp --gulpfile=./gulp.dev.js build:watch",
+    "dev:test": "gulp --gulpfile=./gulp.dev.js test:watch",
+    "dev:clear:dist": "gulp --gulpfile=./gulp.dev.js clear:dist",
+    "dev:clear:test": "gulp --gulpfile=./gulp.dev.js clear:test",
+    "prod:tasks": "gulp --gulpfile=./gulp.prod.js --tasks",
+    "prod:watch": "npm run gulp:clear:dist && webpack --config webpack.prod.js --w --colors",
+    "prod:build": "gulp --gulpfile=./gulp.prod.js clear:dist && webpack --config webpack.prod.js --progress --colors && gulp --gulpfile=./gulp.prod.js build:move"
   },
   "keywords": [
     "krix",
@@ -24,7 +23,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.15",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "@krix-devtool/core": "0.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
