@@ -1,9 +1,8 @@
 import * as Enums from './enums';
 
-import * as Constants from './constants';
-
 export interface BaseMessage<PayloadType = any> {
-  app: typeof Constants.AppName;
+  id: number;
   ept: Enums.AppEndpoint;
-  payload: PayloadType;
+  type: Enums.MsgCommands;
+  payload?: PayloadType;
 }
