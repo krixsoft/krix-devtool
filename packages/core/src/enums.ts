@@ -5,3 +5,11 @@ export enum AppEndpoint {
   BackgroundScript = 'background-script',
   DevToolApp = 'dev-tool-app',
 }
+
+export namespace MsgCommands {
+  export enum DevToolApp {
+    InitDevTool = 'init-dev-tool',
+  }
+}
+
+export type MsgCommands = MsgCommands.DevToolApp;
