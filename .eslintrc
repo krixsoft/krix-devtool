@@ -49,6 +49,12 @@
     "@typescript-eslint/semi": [ "warn" ],
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
     "no-param-reassign": "warn",
     "function-paren-newline": [ "error", "consistent" ],
     "constructor-super": "warn",
@@ -76,8 +82,8 @@
     "no-useless-constructor": "off",
     "max-classes-per-file": [ "warn", 1 ],
     "max-len": [ "warn", {
-      "code": 100,
-      "comments": 100
+      "code": 120,
+      "comments": 120
     }],
     "arrow-parens": [ "warn", "always" ],
     "arrow-body-style": [ "error", "always" ],
@@ -88,6 +94,8 @@
     "space-before-function-paren": ["error", "always"],
     "space-in-parens": [ "warn", "never" ],
     "no-useless-escape": "off",
-    "object-curly-spacing": [ "error", "always" ]
+    "object-curly-spacing": [ "error", "always" ],
+    "no-extra-semi": "off",
+    "no-empty": "off"
   }
 }
