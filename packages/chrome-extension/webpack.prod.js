@@ -6,6 +6,7 @@ const path = require('path');
 module.exports = {
   entry: {
     background: `./src/background.ts`,
+    contentscript: `./src/contentscript.ts`,
     devtools: `./src/devtools.ts`,
   },
   output: {

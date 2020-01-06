@@ -7,6 +7,19 @@
     "scripts": [ "background.bundle.js" ],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": [ "<all_urls>" ],
+      "exclude_globs": [ "https://www.google*" ],
+      "js": [ "contentscript.bundle.js" ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "devtools_page": "devtools.html",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "permissions": [
+    "tabs",
+    "<all_urls>"
+  ]
 }
