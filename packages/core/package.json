@@ -45,5 +45,8 @@
     "sinon": "^8.0.2",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
+  },
+  "__processed_by_ivy_ngcc__": {
+    "main": "8.2.14"
   }
 }
