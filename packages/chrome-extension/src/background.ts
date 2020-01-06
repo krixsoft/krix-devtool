@@ -1,10 +1,9 @@
+import { EndpointConnector } from './background/endpoint-connector';
+
 console.log(`BgS: Hello World!`);
 
-chrome.runtime.onConnect.addListener((port) => {
-  console.log(`BgS - onConnect:`, port);
+const endpointConnector = EndpointConnector.getInstance();
 
-  port.onMessage.addListener((message, senderPort) => {
-    console.log(`BgS - onMessage:`, message, senderPort);
-    port.postMessage({ payload: `Hello!` });
-  });
+chrome.runtime.onConnect.addListener((port) => {
+  endpointConnector.onConnect(port);
 });
