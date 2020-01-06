@@ -7,3 +7,5 @@ export {
   Constants,
   Interfaces,
 };
+
+export * from './singleton';
