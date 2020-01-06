@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
     if (_.isNil(chrome)) {
       return;
     }
+    console.log(chrome);
 
     console.log(`DTA: Hello World!`);
 
@@ -25,8 +26,14 @@ export class AppComponent implements OnInit {
       console.log(`DTA - onMessage:`, message, senderPort);
     });
 
-    port.postMessage({
-      payload: `Hi, I'm a DevTool Application!`,
-    });
+    const initMsg: Core.Interfaces.BaseMessage = {
+      id: chrome.devtools.inspectedWindow.tabId,
+      ept: Core.Enums.AppEndpoint.BackgroundScript,
+      type: Core.Enums.MsgCommands.DevToolApp.InitDevTool,
+      payload: {
+      },
+    };
+
+    port.postMessage(initMsg);
   }
 }
