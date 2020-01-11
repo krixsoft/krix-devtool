@@ -20,8 +20,8 @@ export class MessageRetranslatorService {
     msgData?: TMsg,
   ): void {
     if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
-      console.warn(`MessageRetranslator - sendMessage:`,
-        `CS is trying to send messages to the unsupported endpoint (${endpoint})`);
+      console.warn(`MessageRetranslatorService - sendMessage:`,
+        `DTA is trying to send messages to the unsupported endpoint (${endpoint})`);
       return;
     }
 
