@@ -30,7 +30,7 @@ module.exports = {
         test: /\.tsx?$/,
         loader: `eslint-loader`,
         options: {
-          configFile: `./.eslintrc`,
+          configFile: `./.eslintrc.json`,
         },
         exclude: /node_modules/,
       },

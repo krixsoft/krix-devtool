@@ -4,13 +4,13 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "dev:tasks": "gulp --gulpfile=./gulp.dev.js --tasks",
-    "dev:watch": "gulp --gulpfile=./gulp.dev.js build:watch",
-    "dev:test": "gulp --gulpfile=./gulp.dev.js test:watch",
-    "dev:clear:dist": "gulp --gulpfile=./gulp.dev.js clear:dist",
-    "dev:clear:test": "gulp --gulpfile=./gulp.dev.js clear:test",
-    "pkg:tasks": "gulp --gulpfile=./gulp.pkg.js --tasks",
-    "pkg:build": "gulp --gulpfile=./gulp.pkg.js build"
+    "gulp:clear:dist": "gulp --gulpfile=./common.gulp.js clear:dist",
+    "gulp:clear:test": "gulp --gulpfile=./common.gulp.js clear:test",
+    "webpack:build": "webpack --config webpack.prod.js --progress --colors",
+    "dev:build": "gulp --gulpfile=./build.gulp.js build",
+    "dev:watch": "gulp --gulpfile=./watch-pkg.gulp.js watch",
+    "dev:test": "gulp --gulpfile=./watch-pkg.gulp.js test:watch",
+    "ext:build": "npm run gulp:clear:dist && npm run dev:build"
   },
   "keywords": [
     "krix",
@@ -22,29 +22,30 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.15",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.7",
+    "@types/chai": "^4.2.11",
     "@types/lodash": "^4.14.149",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^8.9.5",
-    "@types/sinon": "^7.5.1",
-    "@typescript-eslint/eslint-plugin": "^2.14.0",
-    "@typescript-eslint/parser": "^2.14.0",
-    "@types/chrome": "0.0.91",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.1",
+    "@types/sinon": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "@types/chrome": "0.0.104",
     "chai": "^4.2.0",
-    "concurrently": "^5.0.2",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "gulp-mocha": "^7.0.2",
-    "gulp-typescript": "^6.0.0-alpha.1",
-    "mocha": "^6.2.2",
-    "sinon": "^8.0.2",
-    "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "gulp-replace": "^1.0.0",
+    "gulp-run": "^1.7.1",
+    "gulp-typescript": "^5.0.1",
+    "mocha": "^7.1.1",
+    "sinon": "^9.0.2",
+    "tslint": "~6.1.1",
+    "typescript": "~3.8.3"
   },
   "__processed_by_ivy_ngcc__": {
     "main": "8.2.14"
