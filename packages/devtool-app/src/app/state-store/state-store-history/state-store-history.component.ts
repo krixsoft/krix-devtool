@@ -7,9 +7,9 @@ import * as Krix from '@krix/state-store';
 import { HistoryService } from '../core/services/history.service';
 @Component({
   selector: 'krix-history',
-  templateUrl: './history-list.component.html',
+  templateUrl: './state-store-history.component.html',
 })
-export class HistoryListComponent implements OnInit, OnDestroy {
+export class StateStoreHistory implements OnInit, OnDestroy {
   private stateChanges: Krix.Interfaces.StoreChange[] = [];
   public filteredStateChanges: Krix.Interfaces.StoreChange[];
   public store: any = {};
