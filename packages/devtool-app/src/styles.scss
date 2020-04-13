@@ -1,1 +1,145 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+body {
+  color: #b3bec4;
+}
+
+krix-root {
+  display: flex;
+  height: 100%;
+  min-height: 100vh;
+}
+
+krix-state-store {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+
+  .layout {
+    height: 100%;
+    display: flex;
+    flex: 1;
+  }
+
+  .layout-history {
+    width: 35%;
+    background-color: #23262d;
+
+    .history {
+      display: flex;
+      flex-direction: column;
+
+      .history-filter {
+        input {
+          height: 3em;
+          width: 100%;
+          border: none;
+          background-color: #23262d;
+          padding: 0.7em 1em;
+          color: white;
+          outline: none;
+
+          &::placeholder {
+            color: #fac800;
+          }
+        }
+      }
+
+      .history-list {
+        list-style: none;
+
+        li {
+          cursor: pointer;
+          transition: 0.1s ease-in-out;
+          border-bottom: 2px solid #26282e;
+          padding: 0.5em 1em;
+          display: flex;
+          justify-content: space-between;
+          border-top: 1px solid #1d1d21;
+
+          &:hover,
+          &.selected {
+            background-color: #212227;
+          }
+        }
+
+        li.init {
+          justify-content: start;
+          .arrow-icon {
+            font-weight: bolder;
+            color: #fac800;
+            margin-right: 0.2em;
+          }
+        }
+
+        .s-icon {
+          border: 2px solid #fac800;
+          border-radius: 5px;
+          padding: 1px 4px;
+          font-size: 0.75em;
+          color: #fac800;
+        }
+      }
+    }
+  }
+
+  .layout-main {
+    width: 65%;
+    background-color: #212227;
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .main-nav {
+        height: 3em;
+        display: flex;
+        align-items: center;
+        background-color: #23262d;
+
+        a {
+          outline: none;
+          border-bottom: 2px solid #23262d;
+          color: #b3bec4;
+          padding: 0.3em 1em;
+          margin: 0.3em 0 0 1em;
+          text-decoration: none;
+
+          &:hover,
+          &.active {
+            border-bottom: 2px solid #fac800;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .main-router-outlet {
+        height: 100%;
+        flex: 1;
+        position: relative;
+
+        &::before {
+          content: '';
+          width: 150%;
+          height: 150%;
+          display: block;
+          box-shadow: inset -7px -7px 7px 3px #11111285;
+          top: 0;
+          left: 0;
+          position: absolute;
+        }
+      }
+    }
+  }
+}
