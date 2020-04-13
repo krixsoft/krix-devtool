@@ -1,0 +1,11 @@
+<div>
+  <ul>
+    <li>
+      {{ state.name }}
+      <app-state-tree-child
+        [state]="state.state"
+        *ngIf="state.state"
+      ></app-state-tree-child>
+    </li>
+  </ul>
+</div>
