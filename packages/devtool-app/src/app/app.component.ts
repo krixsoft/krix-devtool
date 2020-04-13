@@ -1,36 +1,40 @@
 import { Inject, Component, OnInit } from '@angular/core';
 
 import * as Core from '@krix-devtool/core';
-
+import * as Krix from '@krix/state-store';
 import * as Shared from './shared';
 
 // Services
-import {
-  MessageRetranslatorService,
-} from './core/services';
+import { MessageRetranslatorService } from './core/services';
+import { HistoryService } from './state-store/core/services/history.service';
+
+import { stateChanges } from './state-store/example';
 
 @Component({
   selector: 'krix-root',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
   title = 'DevTool';
 
-  constructor (
+  constructor(
     private readonly messageRetranslator: MessageRetranslatorService,
     @Inject(Shared.Constants.DI.Lodash)
     private readonly lodash: Shared.Interfaces.Pkg.Lodash,
-  ) {
-  }
+    private historyService: HistoryService
+  ) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     if (this.lodash.isNil(chrome)) {
       return;
     }
     console.log(chrome);
 
     console.log(`DTA: Hello World!`);
+
+    stateChanges.map((stateChange: Krix.Interfaces.StoreChange) => {
+      this.historyService.addStateChange(stateChange);
+    });
 
     // TODO: Move to BridgeConnectorService
     const port = chrome.runtime.connect({
@@ -48,7 +52,7 @@ export class AppComponent implements OnInit {
 
     this.messageRetranslator.sendMessage(
       Core.Enums.AppEndpoint.BackgroundScript,
-      Core.Enums.MsgCommands.DevToolApp.InitDevTool,
+      Core.Enums.MsgCommands.DevToolApp.InitDevTool
     );
   }
 }
