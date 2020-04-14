@@ -17,14 +17,14 @@ import { stateChanges } from './state-store/example';
 export class AppComponent implements OnInit {
   title = 'DevTool';
 
-  constructor(
+  constructor (
     private readonly messageRetranslator: MessageRetranslatorService,
     @Inject(Shared.Constants.DI.Lodash)
     private readonly lodash: Shared.Interfaces.Pkg.Lodash,
-    private historyService: HistoryService
-  ) {}
+    private historyService: HistoryService,
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     if (this.lodash.isNil(chrome)) {
       return;
     }
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
 
     this.messageRetranslator.sendMessage(
       Core.Enums.AppEndpoint.BackgroundScript,
-      Core.Enums.MsgCommands.DevToolApp.InitDevTool
+      Core.Enums.MsgCommands.DevToolApp.InitDevTool,
     );
   }
 }
