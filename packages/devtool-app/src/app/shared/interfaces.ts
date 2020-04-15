@@ -7,7 +7,7 @@ export namespace Pkg {
 export interface StateTreeNode {
   key: string;
   value: any;
-  nodeIsOpen: boolean;
-  nodeCanOpen: boolean;
+  nodeIsOpened: boolean;
+  nodeCanBeOpened: boolean;
 }
 
