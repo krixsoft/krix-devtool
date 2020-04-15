@@ -12,7 +12,7 @@ export class StateTreeNodeComponent implements OnInit {
   private state: any = {};
   private stateWithOptions: StateTreeNode[] = [];
 
-  @Input('state') set inState (value: any) {
+  @Input('store') set inStore (value: any) {
     this.state = value;
     this.stateWithOptions = this.transform(this.state);
   }
