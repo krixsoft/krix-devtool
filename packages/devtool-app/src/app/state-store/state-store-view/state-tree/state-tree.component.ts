@@ -20,7 +20,7 @@ export class StateTreeComponent implements OnInit {
     this.sjStoreChange = this.historyService
       .getStoreObserver()
       .subscribe(() => {
-        this.state = this.historyService.getStore();
+        this.state = _.assign({}, this.historyService.getStore());
       });
   }
 
