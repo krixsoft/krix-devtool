@@ -6,6 +6,19 @@
   font-weight: 600;
 }
 
+*::-webkit-scrollbar-track {
+  background-color: #17181b;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  background-color: #17181b;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cea503;
+}
+
 body {
   font-size: 14px;
   color: #b3bec4;
@@ -14,8 +27,7 @@ body {
 krix-root,
 .layout-wrapper {
   display: flex;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
 }
 
@@ -25,7 +37,7 @@ krix-root,
   .navbar {
     height: 2.5em;
     display: flex;
-    z-index: 1;
+    z-index: 5;
     align-items: center;
     background-color: #212227;
     box-shadow: 0px -3px 6px 0px #000000;
@@ -59,13 +71,21 @@ krix-state-store {
   .layout-history {
     width: 35%;
     background-color: #23262d;
+    position: relative;
 
     .history {
+      height: 100%;
       display: flex;
       flex-direction: column;
 
       .history-filter {
         height: 3em;
+        position: fixed;
+        width: 35%;
+        box-shadow: -7px -3px 5px 0px #000000;
+        top: 2.5em;
+        z-index: 2;
+        left: 0;
 
         input {
           height: 100%;
@@ -83,7 +103,9 @@ krix-state-store {
       }
 
       .history-list {
+        overflow: auto;
         list-style: none;
+        margin-top: 3em;
 
         li {
           cursor: pointer;
