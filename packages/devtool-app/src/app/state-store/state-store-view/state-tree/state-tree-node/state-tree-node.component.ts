@@ -41,24 +41,36 @@ export class StateTreeNodeComponent implements OnInit {
 
   transform (value: any): any {
     if (!_.isObject(value)) { return; };
-    const content: { key: string; value: any; isOpen?: boolean; canOpen?: boolean }[] = [];
+
+    const content: { key: string; value: any; nodeIsOpen?: boolean; nodeCanOpen?: boolean }[] = [];
+
     for (const key in value) {
-      if (!key) {
+      if (Object.prototype.hasOwnProperty.call(value, key) === false) {
         continue;
       }
-      let newObject = { key: key, value: value[key], canOpen: false };
-      if (_.isObject(newObject.value)) {
-        newObject = _.assign({}, newObject, { nodeCanOpen: true, nodeIsOpen: false });
+
+      const previousState = _.find(this.stateWithOptions, ['key', key]);
+
+      if (_.isNil(previousState) === false) {
+        const newState = _.assign({}, previousState, { value: value[key] });
+        content.push(newState);
+        continue;
       }
-      content.push(newObject);
+
+      if (_.isObject(value[key])) {
+        content.push({ key: key, value: value[key], nodeCanOpen: true, nodeIsOpen: false });
+        continue;
+      }
+
+      content.push({ key: key, value: value[key], nodeCanOpen: false, nodeIsOpen: false });
     }
     return content;
   }
 
   getColor (value: any): string {
     if (_.isNull(value) || _.isUndefined(value) || _.isNaN(value)) { return '#ad7bad'; }
-    if (_.isNumber(value)) { return '#4f80b3'; }
-    if (_.isString(value)) { return '#76bb6a'; }
-    if (_.isBoolean(value)) { return '#d64848'; }
+    if (_.isNumber(value)) { return '#357bc3'; }
+    if (_.isString(value)) { return '#4da23e'; }
+    if (_.isBoolean(value)) { return '#d03131'; }
   }
 }
