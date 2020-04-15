@@ -11,16 +11,41 @@ body {
   color: #b3bec4;
 }
 
-krix-root {
+krix-root,
+.layout-wrapper {
   display: flex;
   height: 100%;
   min-height: 100vh;
+  width: 100%;
+}
+
+.layout-wrapper {
+  flex-direction: column;
+
+  .navbar {
+    height: 2.5em;
+    display: flex;
+    z-index: 1;
+    align-items: center;
+    background-color: #212227;
+    box-shadow: 0px -3px 6px 0px #000000;
+
+    a {
+      margin-left: 1.5em;
+      text-decoration: none;
+      color: #b3bec4;
+
+      &.active {
+        color: #fac800;
+      }
+    }
+  }
 }
 
 krix-state-store {
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   overflow: hidden;
   flex-direction: column;
