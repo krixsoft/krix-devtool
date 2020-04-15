@@ -1,5 +1,5 @@
 <ul class="state-tree-node-wrapper">
-  <li *ngFor="let stateNode of stateWithOptions">
+  <li *ngFor="let stateNode of stateWithOptions; trackBy: trackByFn">
     <span (click)="onClickToggleShowUl(stateNode)" class="state-tree-node" [class.clickble]="stateNode.nodeCanOpen">
       <fa-icon [icon]="faPlus" *ngIf="stateNode.nodeCanOpen && !stateNode.nodeIsOpen"></fa-icon>
 
@@ -9,7 +9,8 @@
         {{stateNode.key}}:
       </span>
 
-      <span *ngIf="stateNode.nodeCanOpen && !stateNode.nodeIsOpen" class="object">{{"{ ... }"}}</span>
+      <span *ngIf="stateNode.nodeCanOpen && !stateNode.nodeIsOpen"
+        class="object">{{checkNodeValueType(stateNode.value)}}</span>
 
       <span class="state-tree-node-value"
         [style.color]="getColor(stateNode.value)">{{getStateNodeValue(stateNode.value)}}</span>
