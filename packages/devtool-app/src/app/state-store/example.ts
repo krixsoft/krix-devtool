@@ -39,7 +39,7 @@ export const stateChanges = [
     newValue: {
       id: 54, name: {
         hello: undefined,
-        world: NaN,
+        world: [1, 'string', 3, 4, 5],
       },
     },
   },
