@@ -6,7 +6,7 @@ import * as Krix from '@krix/state-store';
 
 import { HistoryService } from '../core/services/history.service';
 @Component({
-  selector: 'krix-history',
+  selector: 'krix-state-store-history',
   templateUrl: './state-store-history.component.html',
 })
 export class StateStoreHistory implements OnInit, OnDestroy {
@@ -60,7 +60,7 @@ export class StateStoreHistory implements OnInit, OnDestroy {
     this.filteredStateChanges = _.concat([], this.stateChanges);
   }
 
-  ngOnDestroy () {
+  ngOnDestroy (): void {
     this.sjStoreChange.unsubscribe();
     this.sjStateChangesChange.unsubscribe();
     this.sjCurrentStateChangeNumberChange.unsubscribe();
