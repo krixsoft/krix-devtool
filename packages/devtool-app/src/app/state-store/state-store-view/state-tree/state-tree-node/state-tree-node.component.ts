@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import * as _ from 'lodash';
-import { StateTreeNode } from '../../../../shared/interfaces';
+import * as Interfaces from '../../../../shared/interfaces';
 
 @Component({
   selector: 'krix-state-tree-node',
@@ -10,43 +10,83 @@ import { StateTreeNode } from '../../../../shared/interfaces';
 })
 export class StateTreeNodeComponent implements OnInit {
   private state: any = {};
-  private stateWithOptions: StateTreeNode[] = [];
+  private childrenStateNodes: Interfaces.StateNode[] = [];
 
-  @Input('store') set inStore (value: any) {
+  @Input('store')
+  set inStore (value: any) {
     this.state = value;
-    this.stateWithOptions = this.transform(this.state);
+    this.childrenStateNodes = this.createStateNodesFromStore(this.state);
   }
 
+  /**
+   * ICONs
+   */
   public faMinus = faMinus;
   public faPlus = faPlus;
 
-  constructor () {}
+  constructor () { ; }
 
-  ngOnInit (): void {
-  }
+  ngOnInit (): void { ; }
 
-  onClickToggleShowUl (stateNode: StateTreeNode): void {
+  /**
+   * Handles `Click` events for the `UL` tag. Switchs a `Node Is Opened` flag to the
+   * opposite value.
+   *
+   * @param stateNode
+   */
+  onClickToggleShowUl (
+    stateNode: Interfaces.StateNode,
+  ): void {
     stateNode.nodeIsOpened = !stateNode.nodeIsOpened;
   }
 
-  checkNodeValueType (value: any): string {
-    if (_.isArray(value)) { return ' [ ... ] '; }
-    if (_.isObject(value)) { return ' { ... } '; }
-  }
+  /**
+   * Returns a string representation of value.
+   *
+   * @param  {any} value
+   * @return {string}
+   */
+  getStringRepresentationOfValue (
+    value: any,
+  ): string {
+    if (_.isArray(value)) {
+      return ' [ ... ] ';
+    }
 
-  getStateNodeValue (value: any): string {
-    if (_.isObject(value)) { return null; }
-    if (_.isString(value)) { return ` "${value}"`; }
-    if (_.isNull(value)) { return 'null'; }
-    if (_.isUndefined(value)) { return 'undefined'; }
-    if (_.isNaN(value)) { return 'NaN'; }
+    if (_.isObject(value)) {
+      return ' { ... } ';
+    }
+
+    if (_.isString(value)) {
+      return ` "${value}"`;
+    }
+
+    if (_.isNull(value)) {
+      return 'null';
+    }
+
+    if (_.isUndefined(value)) {
+      return 'undefined';
+    }
+
+    if (_.isNaN(value)) {
+      return 'NaN';
+    }
     return value;
   }
 
-  transform (store: any): any {
+  /**
+   * Iterates the component store and creates from it `State Node` entities.
+   *
+   * @param  {any} store
+   * @return {Interfaces.StateNode[]}
+   */
+  createStateNodesFromStore (
+    store: any,
+  ): Interfaces.StateNode[] {
     if (!_.isObject(store)) { return; };
 
-    const content: StateTreeNode[] = [];
+    const stateNodes: Interfaces.StateNode[] = [];
 
     for (const key in store) {
       if (Object.prototype.hasOwnProperty.call(store, key) === false) {
@@ -64,7 +104,7 @@ export class StateTreeNodeComponent implements OnInit {
         newValue = store[key];
       }
 
-      const nodeForState = _.find(this.stateWithOptions, [ 'key', key ]);
+      const nodeForState = _.find(this.childrenStateNodes, [ 'key', key ]);
       // If node for state doesn't exist
       if (_.isNil(nodeForState) === true) {
         // Add new node
@@ -75,7 +115,7 @@ export class StateTreeNodeComponent implements OnInit {
           nodeIsOpened: false,
         };
 
-        content.push(newNodeForState);
+        stateNodes.push(newNodeForState);
         continue;
       }
 
@@ -93,35 +133,53 @@ export class StateTreeNodeComponent implements OnInit {
           nodeIsOpened: nodeIsOpened,
         });
 
-      content.push(updatedNodeForState);
-    }
-    return content;
-  }
-
-  createCopyOfNodeValue (nodeValue: any): any {
-    if (_.isObject(nodeValue) || _.isArray(nodeValue)) {
-      return _.clone(nodeValue);
+        stateNodes.push(updatedNodeForState);
     }
 
-    return nodeValue;
+    return stateNodes;
   }
 
-  getColor (value: any): string {
+  /**
+   * Defines the type of a state and returns corresponding color.
+   *
+   * @param  {any} value
+   * @return {string} - hex code of color
+   */
+  getColor (
+    value: any,
+  ): string {
     if (_.isNull(value) || _.isUndefined(value) || _.isNaN(value)) {
       return '#ad7bad';
     }
+
+    if (_.isArray(value) || _.isObject(value)) {
+      return '#f4a460';
+    }
+
     if (_.isNumber(value)) {
       return '#357bc3';
     }
+
     if (_.isString(value)) {
       return '#4da23e';
     }
+
     if (_.isBoolean(value)) {
       return '#d03131';
     }
   }
 
-  trackByFn (index: number, item: any): string {
+  /**
+   * Returns an uniq key for item from args.
+   *
+   * @param  {number} index
+   * @param  {any} item
+   * @return {string}
+   */
+  trackByFn (
+    index: number,
+    item: any,
+  ): string {
     return `${item.key}`;
   }
 }

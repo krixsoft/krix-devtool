@@ -1,5 +1,5 @@
 <ul class="state-tree-node-wrapper">
-  <li *ngFor="let stateNode of stateWithOptions; trackBy: trackByFn">
+  <li *ngFor="let stateNode of childrenStateNodes; trackBy: trackByFn">
     <span
       class="state-tree-node"
       (click)="onClickToggleShowUl(stateNode)"
@@ -20,17 +20,11 @@
       </span>
 
       <span
-        class="object"
-        *ngIf="stateNode.nodeCanBeOpened && !stateNode.nodeIsOpened"
-      >
-        {{ checkNodeValueType(stateNode.value) }}
-      </span>
-
-      <span
         class="state-tree-node-value"
         [style.color]="getColor(stateNode.value)"
+        *ngIf="(stateNode.nodeCanBeOpened === true && stateNode.nodeIsOpened === false) || stateNode.nodeCanBeOpened === false"
       >
-        {{ getStateNodeValue(stateNode.value) }}
+        {{ getStringRepresentationOfValue(stateNode.value) }}
       </span>
     </span>
 

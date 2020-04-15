@@ -4,7 +4,7 @@ export namespace Pkg {
   export type Lodash = _.LoDashStatic;
 }
 
-export interface StateTreeNode {
+export interface StateNode {
   key: string;
   value: any;
   nodeIsOpened: boolean;
