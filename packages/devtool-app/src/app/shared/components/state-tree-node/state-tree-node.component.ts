@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import * as _ from 'lodash';
-import * as Interfaces from '../../../../shared/interfaces';
+import * as Interfaces from '../../interfaces';
 
 @Component({
   selector: 'krix-state-tree-node',

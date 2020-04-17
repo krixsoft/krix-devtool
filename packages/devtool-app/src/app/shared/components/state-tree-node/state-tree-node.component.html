@@ -1,0 +1,21 @@
+<ul class="state-tree-node-wrapper">
+  <li *ngFor="let stateNode of childrenStateNodes; trackBy: trackByFn">
+    <span class="state-tree-node" (click)="onClickToggleShowUl(stateNode)" [class.clickble]="stateNode.nodeCanBeOpened">
+      <fa-icon [icon]="faPlus" *ngIf="stateNode.nodeCanBeOpened && !stateNode.nodeIsOpened"></fa-icon>
+
+      <fa-icon [icon]="faMinus" *ngIf="stateNode.nodeCanBeOpened && stateNode.nodeIsOpened"></fa-icon>
+
+      <span>
+        {{ stateNode.key }}:
+      </span>
+
+      <span class="state-tree-node-value" [style.color]="getColor(stateNode.value)"
+        *ngIf="(stateNode.nodeCanBeOpened === true && stateNode.nodeIsOpened === false) || stateNode.nodeCanBeOpened === false">
+        {{ getStringRepresentationOfValue(stateNode.value) }}
+      </span>
+    </span>
+
+    <krix-state-tree-node [store]="stateNode.value" *ngIf="stateNode.value && stateNode.nodeIsOpened">
+    </krix-state-tree-node>
+  </li>
+</ul>
