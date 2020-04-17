@@ -1,4 +1,4 @@
-import { StateTreeComponent } from './state-store/state-store-view/state-tree/state-tree.component';
+import { StateTreeComponent } from './state-store/layout/state-tree/state-tree.component';
 import { StateStoreComponent } from './state-store/state-store.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';

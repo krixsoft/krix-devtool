@@ -1,8 +1,8 @@
-import { Subscription } from 'rxjs';
-import { HistoryService } from './../../core/services/history.service';
 import { Component, OnInit } from '@angular/core';
-
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
+
+import { HistoryService } from '../../core/services/history.service';
 
 @Component({
   selector: 'krix-state-tree',
