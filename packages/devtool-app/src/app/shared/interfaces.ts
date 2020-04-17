@@ -4,10 +4,10 @@ export namespace Pkg {
   export type Lodash = _.LoDashStatic;
 }
 
-export interface StateTreeNode {
+export interface StateNode {
   key: string;
   value: any;
-  nodeIsOpen: boolean;
-  nodeCanOpen: boolean;
+  nodeIsOpened: boolean;
+  nodeCanBeOpened: boolean;
 }
 

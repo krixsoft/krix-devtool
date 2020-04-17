@@ -1,22 +1,36 @@
 <ul class="state-tree-node-wrapper">
-  <li *ngFor="let stateNode of stateWithOptions; trackBy: trackByFn">
-    <span (click)="onClickToggleShowUl(stateNode)" class="state-tree-node" [class.clickble]="stateNode.nodeCanOpen">
-      <fa-icon [icon]="faPlus" *ngIf="stateNode.nodeCanOpen && !stateNode.nodeIsOpen"></fa-icon>
+  <li *ngFor="let stateNode of childrenStateNodes; trackBy: trackByFn">
+    <span
+      class="state-tree-node"
+      (click)="onClickToggleShowUl(stateNode)"
+      [class.clickble]="stateNode.nodeCanBeOpened"
+    >
+      <fa-icon
+        [icon]="faPlus"
+        *ngIf="stateNode.nodeCanBeOpened && !stateNode.nodeIsOpened"
+      ></fa-icon>
 
-      <fa-icon [icon]="faMinus" *ngIf="stateNode.nodeCanOpen && stateNode.nodeIsOpen"></fa-icon>
+      <fa-icon
+        [icon]="faMinus"
+        *ngIf="stateNode.nodeCanBeOpened && stateNode.nodeIsOpened"
+      ></fa-icon>
 
       <span>
-        {{stateNode.key}}:
+        {{ stateNode.key }}:
       </span>
 
-      <span *ngIf="stateNode.nodeCanOpen && !stateNode.nodeIsOpen"
-        class="object">{{checkNodeValueType(stateNode.value)}}</span>
-
-      <span class="state-tree-node-value"
-        [style.color]="getColor(stateNode.value)">{{getStateNodeValue(stateNode.value)}}</span>
+      <span
+        class="state-tree-node-value"
+        [style.color]="getColor(stateNode.value)"
+        *ngIf="(stateNode.nodeCanBeOpened === true && stateNode.nodeIsOpened === false) || stateNode.nodeCanBeOpened === false"
+      >
+        {{ getStringRepresentationOfValue(stateNode.value) }}
+      </span>
     </span>
 
-    <krix-state-tree-node [state]="stateNode.value" *ngIf="stateNode.value && stateNode.nodeIsOpen">
-    </krix-state-tree-node>
+    <krix-state-tree-node
+      [store]="stateNode.value"
+      *ngIf="stateNode.value && stateNode.nodeIsOpened"
+    ></krix-state-tree-node>
   </li>
 </ul>
