@@ -9,9 +9,13 @@
         {{ stateNode.key }}:
       </span>
 
-      <span class="state-tree-node-value" [style.color]="getColor(stateNode.value)"
-        *ngIf="(stateNode.nodeCanBeOpened === true && stateNode.nodeIsOpened === false) || stateNode.nodeCanBeOpened === false">
+      <span class="state-tree-node-value" [class]="getColorClassName(stateNode.valueType)"
+        *ngIf="stateNode.nodeCanBeOpened === false">
         {{ getStringRepresentationOfValue(stateNode.value) }}
+      </span>
+
+      <span class="state-tree-node-preview" *ngIf="stateNode.nodeCanBeOpened && !stateNode.nodeIsOpened"
+        [innerHTML]="showObjectPreview(stateNode.value)">
       </span>
     </span>
 

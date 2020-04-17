@@ -1,5 +1,7 @@
+import { ValueTypes } from './../../enums';
 import { Component, OnInit, Input } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import * as _ from 'lodash';
 import * as Interfaces from '../../interfaces';
@@ -11,6 +13,7 @@ import * as Interfaces from '../../interfaces';
 export class StateTreeNodeComponent implements OnInit {
   private state: any = {};
   private childrenStateNodes: Interfaces.StateNode[] = [];
+  public objectPreview: string = '';
 
   @Input('store')
   set inStore (value: any) {
@@ -24,9 +27,9 @@ export class StateTreeNodeComponent implements OnInit {
   public faMinus = faMinus;
   public faPlus = faPlus;
 
-  constructor () { ; }
+  constructor (private sanitizer: DomSanitizer) { ; }
 
-  ngOnInit (): void { ; }
+  ngOnInit (): void { }
 
   /**
    * Handles `Click` events for the `UL` tag. Switchs a `Node Is Opened` flag to the
@@ -50,15 +53,15 @@ export class StateTreeNodeComponent implements OnInit {
     value: any,
   ): string {
     if (_.isArray(value)) {
-      return ' [ ... ] ';
+      return '[ ... ]';
     }
 
     if (_.isObject(value)) {
-      return ' { ... } ';
+      return '{ ... }';
     }
 
     if (_.isString(value)) {
-      return ` "${value}"`;
+      return `"${value}"`;
     }
 
     if (_.isNull(value)) {
@@ -104,6 +107,8 @@ export class StateTreeNodeComponent implements OnInit {
         newValue = store[key];
       }
 
+      const stateValueType = this.getValueType(newValue);
+
       const nodeForState = _.find(this.childrenStateNodes, ['key', key]);
       // If node for state doesn't exist
       if (_.isNil(nodeForState) === true) {
@@ -113,6 +118,7 @@ export class StateTreeNodeComponent implements OnInit {
           value: newValue,
           nodeCanBeOpened: nodeCanBeOpened,
           nodeIsOpened: false,
+          valueType: stateValueType,
         };
 
         stateNodes.push(newNodeForState);
@@ -131,6 +137,7 @@ export class StateTreeNodeComponent implements OnInit {
           value: newValue,
           nodeCanBeOpened: nodeCanBeOpened,
           nodeIsOpened: nodeIsOpened,
+          valueType: stateValueType,
         });
 
       stateNodes.push(updatedNodeForState);
@@ -140,32 +147,60 @@ export class StateTreeNodeComponent implements OnInit {
   }
 
   /**
-   * Defines the type of a state and returns corresponding color.
+   * Returns the color class corresponding to the type.
+   *
+   * @param  {string} type
+   * @return {string} - class with color
+   */
+  getColorClassName (
+    type: ValueTypes,
+  ): string {
+    switch (type) {
+      case ValueTypes.Null: case ValueTypes.NaN: case ValueTypes.Undefined: return 'null-or-undefined';
+      case ValueTypes.Number: return 'number';
+      case ValueTypes.Array: case ValueTypes.Object: return 'object';
+      case ValueTypes.String: return 'string';
+      case ValueTypes.Boolean: return 'boolean';
+    }
+  }
+
+  /**
+   * Returns a string representation of value type.
    *
    * @param  {any} value
-   * @return {string} - hex code of color
+   * @return {ValueTypes}
    */
-  getColor (
+  getValueType (
     value: any,
-  ): string {
-    if (_.isNull(value) || _.isUndefined(value) || _.isNaN(value)) {
-      return '#ad7bad';
+  ): ValueTypes {
+    if (_.isNull(value)) {
+      return ValueTypes.Null;
+    }
+    if (_.isUndefined(value)) {
+      return ValueTypes.Undefined;
+    }
+    if (_.isNaN(value)) {
+      return ValueTypes.NaN;
     }
 
-    if (_.isArray(value) || _.isObject(value)) {
-      return '#f4a460';
+    if (_.isArray(value)) {
+      return ValueTypes.Array;
+    }
+
+    if (_.isObject(value)) {
+      return ValueTypes.Object;
     }
 
     if (_.isNumber(value)) {
-      return '#357bc3';
+      return ValueTypes.Number;
     }
 
     if (_.isString(value)) {
-      return '#4da23e';
+      return ValueTypes.String;
     }
 
     if (_.isBoolean(value)) {
-      return '#d03131';
+      return ValueTypes.Boolean;
     }
   }
 
@@ -181,5 +216,51 @@ export class StateTreeNodeComponent implements OnInit {
     item: any,
   ): string {
     return `${item.key}`;
+  }
+
+  /**
+   *
+   * @param  {any} object
+   * @returns string
+   */
+  showObjectPreview (object: any): any {
+    if (_.isObject(object) === false) { return object; }
+
+    const objectPreviewFields: string[] = [];
+
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key) === false) {
+        continue;
+      }
+
+      const value = _.isString(object[key]) ? `"${object[key]}"` : object[key];
+      const valueType = this.getValueType(value);
+      const colorClassName = this.getColorClassName(valueType);
+
+      const htmlTemplate = `<span class="${colorClassName}"> ${value} </span>`;
+
+      let valueString: string;
+
+      if (_.isArray(value)) {
+        valueString = ` ${key}: <span class="object">[ ... ]</span>`;
+      } else if (_.isObject(value)) {
+        valueString = ` ${key}: <span class="object">{ ... }</span>`;
+      } else {
+        valueString = ` ${key}: ${htmlTemplate}`;
+      }
+
+      objectPreviewFields.push(valueString);
+    }
+
+    const previewString = objectPreviewFields.join(',');
+
+    const leftBracket = _.isArray(object) ? '[' : '{';
+    const rightBracket = _.isArray(object) ? ']' : '}';
+
+    const previewStringWithBrackets = `<span class="object">${leftBracket}</span> ${previewString}`
+      + ` <span class="object">${rightBracket}</span>`;
+
+    const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(previewStringWithBrackets);
+    return sanitizedHtml;
   }
 }
