@@ -58,6 +58,22 @@ export const stateChanges = [
     oldValue: true,
     newValue: false,
   },
+  {
+    statePath: 'session.user',
+    state: ['session', 'user'],
+    oldValue: {
+      id: 54, name: {
+        hello: undefined,
+        world: [1, 'string', 3, 4, 5],
+      },
+    },
+    newValue: {
+      id: null, name: {
+        hello: null,
+        world: null,
+      },
+    },
+  },
 ];
 
 export const state = {
