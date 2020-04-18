@@ -74,13 +74,6 @@ krix-state-store {
   flex: 1;
   display: flex;
   overflow: hidden;
-  flex-direction: column;
-
-  .layout {
-    height: 100%;
-    display: flex;
-    flex: 1;
-  }
 
   .layout-history {
     width: 35%;
@@ -91,53 +84,6 @@ krix-state-store {
   .layout-main {
     width: 65%;
     background-color: #212227;
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-
-      .navbar {
-        height: 2.5em;
-        display: flex;
-        align-items: center;
-        background-color: #23262d;
-        border-left: 1px solid #1d1d21;
-
-        a {
-          height: 2.5em;
-          outline: none;
-          border-bottom: 2px solid #23262d;
-          color: #b3bec4;
-          text-decoration: none;
-
-          &:hover,
-          &.active {
-            border-bottom: 2px solid #fac800;
-            cursor: pointer;
-            width: 5em;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-          }
-        }
-      }
-
-      .main-router-outlet {
-        height: 100%;
-        flex: 1;
-        box-shadow: 8px 8px 14px -17px #000000 inset;
-        overflow-y: auto;
-        overflow-x: hidden;
-        width: 100%;
-        padding-right: 20px;
-
-        router-outlet {
-          height: 100%;
-          width: 100%;
-        }
-      }
-    }
   }
 }
 
@@ -207,6 +153,53 @@ krix-state-store-history {
       padding: 1px 4px;
       font-size: 0.75em;
       color: #fac800;
+    }
+  }
+}
+
+krix-state-store-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .navbar {
+    height: 2.5em;
+    display: flex;
+    align-items: center;
+    background-color: #23262d;
+    border-left: 1px solid #1d1d21;
+
+    a {
+      height: 2.5em;
+      outline: none;
+      border-bottom: 2px solid #23262d;
+      color: #b3bec4;
+      text-decoration: none;
+
+      &:hover,
+      &.active {
+        border-bottom: 2px solid #fac800;
+        cursor: pointer;
+        width: 5em;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .main-router-outlet {
+    height: 100%;
+    flex: 1;
+    box-shadow: 8px 8px 14px -17px #000000 inset;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    padding-right: 20px;
+
+    router-outlet {
+      height: 100%;
+      width: 100%;
     }
   }
 }
