@@ -13,9 +13,19 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports: [BrowserModule, CoreModule, StateStoreModule, SharedModule, AppRouter],
-  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    CoreModule,
+    SharedModule,
+    StateStoreModule,
+    AppRouter,
+  ],
+  declarations: [
+    AppComponent,
+  ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [
+    AppComponent,
+  ],
 })
 export class AppModule { }
