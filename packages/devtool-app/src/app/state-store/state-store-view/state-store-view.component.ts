@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'krix-state-store-view',
   templateUrl: './state-store-view.component.html',
 })
-export class StateStoreView implements OnInit {
+export class StateStoreViewComponent implements OnInit {
   constructor () { }
 
   ngOnInit (): void { }
