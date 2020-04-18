@@ -12,7 +12,7 @@ import * as Interfaces from '../../interfaces';
 })
 export class StateTreeNodeComponent implements OnInit {
   private state: any = {};
-  private childrenStateNodes: Interfaces.StateNode[] = [];
+  public childrenStateNodes: Interfaces.StateNode[] = [];
   public objectPreview: string = '';
 
   @Input('store')
