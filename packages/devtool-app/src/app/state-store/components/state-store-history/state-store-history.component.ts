@@ -4,7 +4,7 @@ import { faStripeS } from '@fortawesome/free-brands-svg-icons';
 import * as _ from 'lodash';
 import * as Krix from '@krix/state-store';
 
-import { HistoryService } from '../core/history.service';
+import { HistoryService } from '../../core/history.service';
 @Component({
   selector: 'krix-state-store-history',
   templateUrl: './state-store-history.component.html',

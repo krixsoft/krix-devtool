@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { SharedModule } from './../shared/shared.module';
+import { StateStoreRouter } from './state-store.router';
 
 // --- Components
-import { StateStoreComponent } from './state-store.component';
-import { StateStoreHistoryComponent } from './state-store-history/state-store-history.component';
-import { StateStoreViewComponent } from './state-store-view/state-store-view.component';
-import { StateTreeComponent } from './layout/state-tree/state-tree.component';
+import { StateStoreComponent } from './components/state-store/state-store.component';
+import { StateStoreHistoryComponent } from './components/state-store-history/state-store-history.component';
+import { StateStoreViewComponent } from './components/state-store-view/state-store-view.component';
+import { StateTreeComponent } from './pages/state-tree/state-tree.component';
 
 // --- Services
 import { HistoryService } from './core/history.service';
@@ -18,6 +19,7 @@ import { HistoryService } from './core/history.service';
     CommonModule,
     SharedModule,
     RouterModule,
+    StateStoreRouter,
   ],
   declarations: [
     StateStoreComponent,
