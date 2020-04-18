@@ -209,26 +209,27 @@ krix-state-store {
   }
 }
 
-
 krix-state-tree {
+  display: block;
+  height: 100%;
+  width: 100%;
 
-  .state-tree {
-    font-size: 16px;
-    height: 100%;
-    width: 100%;
-    padding-top: 20px;
+  padding-top: 20px;
 
-    .state-tree-node-wrapper {
-      list-style: none;
+  font-size: 16px;
+}
 
-      li {
-        padding-left: 30px;
-        margin: 5px 0;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+krix-state-tree-node {
+  .state-tree-node-wrapper {
+    list-style: none;
+
+    li {
+      padding-left: 30px;
+      margin: 5px 0;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -267,8 +268,7 @@ krix-state-tree {
   }
 
   .state-tree-node-preview {
-    font-size: 14px;
+    font-size: 16px;
     font-style: italic;
   }
-
 }
