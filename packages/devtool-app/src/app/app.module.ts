@@ -6,8 +6,9 @@ import { NgModule } from '@angular/core';
 import { AppRouter } from './app.router';
 
 // --- Modules
-import { StateStoreModule } from './state-store/state-store.module';
 import { CoreModule } from './core/core.module';
+import { StateStoreModule } from './state-store/state-store.module';
+import { SettingsModule } from './settings/settings.module';
 
 // --- Components
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { AppNavigationComponent } from './components/app-navigation/app-navigati
     CoreModule,
     SharedModule,
     StateStoreModule,
+    SettingsModule,
     AppRouter,
   ],
   declarations: [
