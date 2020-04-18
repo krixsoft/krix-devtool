@@ -11,7 +11,7 @@ import { HistoryService } from './state-store/core/history.service';
 import { stateChanges } from './state-store/example';
 
 @Component({
-  selector: 'krix-root',
+  selector: 'krix-devtool-app',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
