@@ -6,7 +6,7 @@ import * as Shared from './shared';
 
 // Services
 import { MessageRetranslatorService } from './core/services';
-import { HistoryService } from './state-store/core/services/history.service';
+import { HistoryService } from './state-store/core/history.service';
 
 import { stateChanges } from './state-store/example';
 
