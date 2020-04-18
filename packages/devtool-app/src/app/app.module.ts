@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 
 // --- Components
 import { AppComponent } from './app.component';
+import { AppNavigationComponent } from './components/app-navigation/app-navigation.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
   ],
   declarations: [
     AppComponent,
+    AppNavigationComponent,
   ],
   providers: [],
   bootstrap: [

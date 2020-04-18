@@ -30,83 +30,97 @@ body {
   color: #b3bec4;
 }
 
-krix-root,
-.layout-wrapper {
+krix-devtool-app {
   display: flex;
+  flex-direction: column;
+
   height: 100vh;
   width: 100%;
 }
 
-.layout-wrapper {
-  flex-direction: column;
+krix-app-navigation {
+  display: flex;
+  align-items: center;
+  
+  height: 2.5em;
+  z-index: 5;
 
-  .main-navbar {
-    height: 2.5em;
+  background-color: #212227;
+  border-bottom: 1px solid #1d1d21;
+  box-shadow: 0px -3px 6px 0px #000000;
+
+  a {
     display: flex;
-    z-index: 5;
     align-items: center;
-    background-color: #212227;
-    box-shadow: 0px -3px 6px 0px #000000;
+    justify-content: center;
 
-    a {
-      height: 100%;
-      width: 8em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: #b3bec4;
+    height: 100%;
+    width: 8em;
 
-      &.active {
-        color: #fac800;
-        border-left: 2px solid hsla(230, 9%, 10%, 0.4);
-        border-right: 2px solid hsla(230, 9%, 10%, 0.4);
-        background: hsla(230, 8%, 13%, 1);
-        border-bottom: 2px solid #fac800;
-      }
+    color: #b3bec4;
+    text-decoration: none;
+
+    &.active {
+      background: hsla(230, 8%, 13%, 1);
+      border-right: 2px solid hsla(230, 9%, 10%, 0.4);
+      border-left: 2px solid hsla(230, 9%, 10%, 0.4);
+      border-bottom: 2px solid #fac800;
+
+      color: #fac800;
     }
   }
 }
 
 krix-state-store {
+  display: flex;
+  flex: 1;
+
   width: 100%;
   height: 100%;
-  flex: 1;
-  display: flex;
+
   overflow: hidden;
 
   .layout-history {
     width: 35%;
-    background-color: #23262d;
+
     position: relative;
+
+    background-color: #23262d;
   }
 
   .layout-main {
     width: 65%;
+
     background-color: #212227;
   }
 }
 
 krix-state-store-history {
-  height: 100%;
   display: flex;
   flex-direction: column;
 
+  height: 100%;
+
   .history-filter {
     height: 2.5em;
-    position: fixed;
     width: 35%;
-    border-right: 1px solid #26282e;
+
+    position: fixed;
     top: 2.5em;
-    z-index: 2;
     left: 0;
+    z-index: 2;
+
+    border-right: 1px solid #26282e;
 
     input {
       height: 100%;
       width: 100%;
-      border: none;
-      background-color: #23262d;
+
       padding: 0.7em 1em;
+
+      background-color: #23262d;
+      border: none;
+      
       color: white;
 
       &::placeholder {
@@ -116,19 +130,25 @@ krix-state-store-history {
   }
 
   .history-list {
-    overflow: auto;
-    list-style: none;
     margin-top: 2.5em;
+
     border-bottom: 1px solid #1d1d21;
 
+    list-style: none;
+
+    overflow: auto;
+
     li {
-      cursor: pointer;
-      transition: 0.1s ease-in-out;
-      border-bottom: 2px solid #26282e;
-      padding: 0.5em 1em;
       display: flex;
       justify-content: space-between;
+
+      padding: 0.5em 1em;
+
       border-top: 1px solid #1d1d21;
+      border-bottom: 2px solid #26282e;
+
+      cursor: pointer;
+      transition: 0.1s ease-in-out;
 
       &:hover,
       &.selected {
@@ -141,18 +161,21 @@ krix-state-store-history {
       justify-content: start;
 
       .arrow-icon {
-        font-weight: bolder;
-        color: #fac800;
         margin-right: 0.2em;
+
+        color: #fac800;
+        font-weight: bolder;
       }
     }
 
     .s-icon {
+      padding: 1px 4px;
+
       border: 2px solid #fac800;
       border-radius: 5px;
-      padding: 1px 4px;
-      font-size: 0.75em;
+
       color: #fac800;
+      font-size: 0.75em;
     }
   }
 }
@@ -160,42 +183,54 @@ krix-state-store-history {
 krix-state-store-view {
   display: flex;
   flex-direction: column;
+
   height: 100%;
 
   .navbar {
-    height: 2.5em;
     display: flex;
     align-items: center;
+
+    height: 2.5em;
+
     background-color: #23262d;
     border-left: 1px solid #1d1d21;
 
     a {
       height: 2.5em;
-      outline: none;
+
       border-bottom: 2px solid #23262d;
+      
       color: #b3bec4;
       text-decoration: none;
 
+      outline: none;
+
       &:hover,
       &.active {
-        border-bottom: 2px solid #fac800;
-        cursor: pointer;
-        width: 5em;
-        justify-content: center;
         display: flex;
         align-items: center;
+        justify-content: center;
+
+        width: 5em;
+
+        border-bottom: 2px solid #fac800;
+
+        cursor: pointer;
       }
     }
   }
 
   .main-router-outlet {
-    height: 100%;
     flex: 1;
+
+    height: 100%;
+    width: 100%;
+
+    padding-right: 20px;
+
     box-shadow: 8px 8px 14px -17px #000000 inset;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 100%;
-    padding-right: 20px;
 
     router-outlet {
       height: 100%;
@@ -206,6 +241,7 @@ krix-state-store-view {
 
 krix-state-tree {
   display: block;
+
   height: 100%;
   width: 100%;
 
@@ -217,18 +253,22 @@ krix-state-tree-node {
     list-style: none;
 
     li {
+      width: 100%;
+
       padding-left: 30px;
       margin: 5px 0;
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
+
       text-overflow: ellipsis;
+      white-space: nowrap;
+
+      overflow: hidden;
     }
   }
 
   .state-tree-node {
-    cursor: default;
     width: 100%;
+    
+    cursor: default;
 
     fa-icon {
       color: #fac800;
