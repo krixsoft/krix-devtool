@@ -6,9 +6,12 @@
   />
 </div>
 <ul class="history-list" (click)="onClickSelectStateChange($event)">
-  <li class="init" [attr.data-id]="-1">
+  <li class="init"
+    [class.selected]="-1 === selectedStateChangeNumber"
+    [attr.data-id]="-1">
     <span class="arrow-icon">-></span> INIT
   </li>
+
   <li
     *ngFor="let stateChange of filteredStateChanges; let i = index"
     [class.selected]="stateChange.id === selectedStateChangeNumber"
