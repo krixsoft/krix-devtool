@@ -30,9 +30,9 @@ export class MessageHandler extends Core.Singleton {
     message: Core.Interfaces.BaseMessage,
     port: chrome.runtime.Port,
   ): void {
-    switch (message.type) {
+    switch (message.command) {
       case MsgCommands.DevToolApp.InitDevTool: {
-        this.messageRetranslator.setDTAPort(message.id, port);
+        this.messageRetranslator.setDTAPort(message.tabId, port);
         return;
       }
     }

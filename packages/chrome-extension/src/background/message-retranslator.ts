@@ -18,40 +18,40 @@ export class MessageRetranslator extends Core.Singleton {
       .asObservable();
   }
 
-  setCSPort (id: number, port: chrome.runtime.Port): void {
-    const bridgeMetadata = this.store.get(id);
+  setCSPort (tabId: number, port: chrome.runtime.Port): void {
+    const bridgeMetadata = this.store.get(tabId);
     const newBridgeMetadata: Interfaces.BridgeMetadata = _.assign({}, bridgeMetadata, {
       csPort: port,
     });
 
-    this.store.set(id, newBridgeMetadata);
+    this.store.set(tabId, newBridgeMetadata);
     this.sjNotification.next({
-      id: id,
+      tabId: tabId,
       type: Enums.BridgeNotificationType.ContentScript,
     });
   }
 
-  setDTAPort (id: number, port: chrome.runtime.Port): void {
-    const bridgeMetadata = this.store.get(id);
+  setDTAPort (tabId: number, port: chrome.runtime.Port): void {
+    const bridgeMetadata = this.store.get(tabId);
     const newBridgeMetadata: Interfaces.BridgeMetadata = _.assign({}, bridgeMetadata, {
       dtaPort: port,
     });
 
-    this.store.set(id, newBridgeMetadata);
+    this.store.set(tabId, newBridgeMetadata);
     this.sjNotification.next({
-      id: id,
+      tabId: tabId,
       type: Enums.BridgeNotificationType.DevToolApp,
     });
   }
 
   sendMessage (message: Core.Interfaces.BaseMessage): void {
-    const bridgeMetadata = this.store.get(message.id);
+    const bridgeMetadata = this.store.get(message.tabId);
 
-    switch (message.ept) {
+    switch (message.endpoint) {
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(bridgeMetadata.dtaPort)) {
           console.warn(`MessageRetranslator - sendMessage:`,
-            `BgS is trying to send messages to the unregistered DevTool Application (${message.id})`);
+            `BgS is trying to send messages to the unregistered DevTool Application (${message.tabId})`);
           return;
         }
 
@@ -62,7 +62,7 @@ export class MessageRetranslator extends Core.Singleton {
       case Core.Enums.AppEndpoint.DevToolPlugin: {
         if (_.isNil(bridgeMetadata.csPort)) {
           console.warn(`MessageRetranslator - sendMessage:`,
-            `BgS is trying to send messages to the unregistered Content Script (${message.id})`);
+            `BgS is trying to send messages to the unregistered Content Script (${message.tabId})`);
           return;
         }
 
@@ -71,7 +71,7 @@ export class MessageRetranslator extends Core.Singleton {
       }
       default:
         console.warn(`MessageRetranslator - sendMessage:`,
-          `BgS is trying to send messages to the unsupported endpoint (${message.id}:${message.ept})`);
+          `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.endpoint})`);
     }
   }
 }

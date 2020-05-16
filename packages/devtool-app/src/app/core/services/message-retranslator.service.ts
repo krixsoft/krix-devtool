@@ -4,19 +4,19 @@ import * as Core from '@krix-devtool/core';
 @Injectable()
 export class MessageRetranslatorService {
   private bgsPort: chrome.runtime.Port;
-  private id: number;
+  private tabId: number;
 
   setBgSPort (port: chrome.runtime.Port): void {
     this.bgsPort = port;
   }
 
-  setIdentifier (id: number): void {
-    this.id = id;
+  setTabId (id: number): void {
+    this.tabId = id;
   }
 
   sendMessage <TMsg = any> (
     endpoint: Core.Enums.AppEndpoint,
-    msgType: any,
+    msgCommand: any,
     msgData?: TMsg,
   ): void {
     if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
@@ -26,9 +26,9 @@ export class MessageRetranslatorService {
     }
 
     const messsag: Core.Interfaces.BaseMessage<TMsg> = {
-      id: this.id,
-      ept: endpoint,
-      type: msgType,
+      tabId: this.tabId,
+      endpoint: endpoint,
+      command: msgCommand,
       payload: msgData,
     };
 

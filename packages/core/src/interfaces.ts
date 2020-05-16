@@ -1,8 +1,8 @@
 import * as Enums from './enums';
 
 export interface BaseMessage<PayloadType = any> {
-  id: number;
-  ept: Enums.AppEndpoint;
-  type: Enums.MsgCommands;
+  tabId: number;
+  endpoint: Enums.AppEndpoint;
+  command: Enums.MsgCommands;
   payload?: PayloadType;
 }

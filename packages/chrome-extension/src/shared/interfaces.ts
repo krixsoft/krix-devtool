@@ -6,6 +6,6 @@ export interface BridgeMetadata {
 }
 
 export interface BridgeNotification {
-  id: number;
+  tabId: number;
   type: Enums.BridgeNotificationType;
 }

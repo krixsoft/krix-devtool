@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     this.messageRetranslator.setBgSPort(port);
 
     const tabId = this.lodash.get(chrome, `devtools.inspectedWindow.tabId`);
-    this.messageRetranslator.setIdentifier(tabId);
+    this.messageRetranslator.setTabId(tabId);
 
     // TODO: Move to BridgeConnectorService
     port.onMessage.addListener((message, senderPort) => {

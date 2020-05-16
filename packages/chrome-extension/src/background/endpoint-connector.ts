@@ -58,7 +58,7 @@ export class EndpointConnector extends Core.Singleton {
         return;
       default:
         console.warn(`EndpointConnector - onMessage:`,
-          `BgS is trying to handle the unsupported endpoint (${message.id}:${message.ept})`);
+          `BgS is trying to handle the unsupported endpoint (${message.tabId}:${message.endpoint})`);
     }
   }
 }
