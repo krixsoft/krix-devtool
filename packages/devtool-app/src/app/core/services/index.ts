@@ -1,1 +1,2 @@
-export * from './message-retranslator.service';
+export * from './endpoint-connector';
+export * from './message-retranslator';

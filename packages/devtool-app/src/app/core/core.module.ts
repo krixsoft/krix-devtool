@@ -6,7 +6,8 @@ import * as Shared from '../shared';
 
 // --- Services
 import {
-  MessageRetranslatorService,
+  EndpointConnector,
+  MessageRetranslator,
 } from './services';
 
 @NgModule({
@@ -14,7 +15,8 @@ import {
     CommonModule,
   ],
   providers: [
-    MessageRetranslatorService,
+    EndpointConnector,
+    MessageRetranslator,
     {
       provide: Shared.Constants.DI.Lodash,
       useValue: _,
