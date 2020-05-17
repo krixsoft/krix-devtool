@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as Core from '@krix-devtool/core';
 
 import { MessageRetranslator } from './message-retranslator';
@@ -12,6 +11,14 @@ export class MessageHandler extends Core.Singleton {
     this.messageRetranslator = MessageRetranslator.getInstance();
   }
 
+  /**
+   * `Message` handler.
+   * - dispatches DTA and CS messages to the specific message handler.
+   *
+   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {chrome.runtime.Port} port
+   * @return {void}
+   */
   onMessage (
     message: Core.Interfaces.BaseMessage,
     port: chrome.runtime.Port,
@@ -26,6 +33,13 @@ export class MessageHandler extends Core.Singleton {
     }
   }
 
+  /**
+   * DTA `Message` handler.
+   *
+   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {chrome.runtime.Port} port
+   * @return {void}
+   */
   private handleDTAMessages (
     message: Core.Interfaces.BaseMessage,
     port: chrome.runtime.Port,
@@ -38,6 +52,13 @@ export class MessageHandler extends Core.Singleton {
     }
   }
 
+  /**
+   * CS `Message` handler.
+   *
+   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {chrome.runtime.Port} port
+   * @return {void}
+   */
   private handleCSMessages (
     message: Core.Interfaces.BaseMessage,
     port: chrome.runtime.Port,

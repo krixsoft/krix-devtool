@@ -5,49 +5,85 @@ import * as Core from '@krix-devtool/core';
 import { Interfaces, Enums } from '../shared';
 
 export class MessageRetranslator extends Core.Singleton {
-  private store: Map<number, Interfaces.BridgeMetadata>;
-  private sjNotification: Subject<Interfaces.BridgeNotification>;
+  private bridgeMetadataStore: Map<number, Interfaces.BridgeMetadata>;
+  private sjBridgeMetadataNotif: Subject<Interfaces.BridgeNotification>;
 
   onInit (): void {
-    this.store = new Map();
-    this.sjNotification = new Subject();
+    this.bridgeMetadataStore = new Map();
+    this.sjBridgeMetadataNotif = new Subject();
   }
 
   getObserver (): Observable<Interfaces.BridgeNotification> {
-    return this.sjNotification
+    return this.sjBridgeMetadataNotif
       .asObservable();
   }
 
-  setCSPort (tabId: number, port: chrome.runtime.Port): void {
-    const bridgeMetadata = this.store.get(tabId);
+  /**
+   * Sets the CS port to the `Bridge Metadata` store by the specific tab identifier.
+   * Emits `Bridge Metadata` notification.
+   *
+   * @param  {number} tabId
+   * @param  {chrome.runtime.Port} port
+   * @return {void}
+   */
+  setCSPort (
+    tabId: number,
+    port: chrome.runtime.Port,
+  ): void {
+    // Get a bridge metadata by the tab id
+    const bridgeMetadata = this.bridgeMetadataStore.get(tabId);
+
+    // Update CS port in the bridge metadata
     const newBridgeMetadata: Interfaces.BridgeMetadata = _.assign({}, bridgeMetadata, {
       csPort: port,
     });
 
-    this.store.set(tabId, newBridgeMetadata);
-    this.sjNotification.next({
+    // Save the new bridge metadata
+    this.bridgeMetadataStore.set(tabId, newBridgeMetadata);
+
+    // Emits `Bridge Metadata` notification
+    this.sjBridgeMetadataNotif.next({
       tabId: tabId,
       type: Enums.BridgeNotificationType.ContentScript,
     });
   }
 
-  setDTAPort (tabId: number, port: chrome.runtime.Port): void {
-    const bridgeMetadata = this.store.get(tabId);
+  /**
+   * Sets the DTA port to the `Bridge Metadata` store by the specific tab identifier.
+   * Emits `Bridge Metadata` notification.
+   *
+   * @param  {number} tabId
+   * @param  {chrome.runtime.Port} port
+   * @return {void}
+   */
+  setDTAPort (
+    tabId: number,
+    port: chrome.runtime.Port,
+  ): void {
+    // Get a bridge metadata by the tab id
+    const bridgeMetadata = this.bridgeMetadataStore.get(tabId);
+
+    // Update DTA port in the bridge metadata
     const newBridgeMetadata: Interfaces.BridgeMetadata = _.assign({}, bridgeMetadata, {
       dtaPort: port,
     });
 
-    this.store.set(tabId, newBridgeMetadata);
-    this.sjNotification.next({
+    // Save the new bridge metadata
+    this.bridgeMetadataStore.set(tabId, newBridgeMetadata);
+
+    // Emits `Bridge Metadata` notification
+    this.sjBridgeMetadataNotif.next({
       tabId: tabId,
       type: Enums.BridgeNotificationType.DevToolApp,
     });
   }
 
   sendMessage (message: Core.Interfaces.BaseMessage): void {
-    const bridgeMetadata = this.store.get(message.tabId);
+    // Get a bridge metadata by the tab id
+    const bridgeMetadata = this.bridgeMetadataStore.get(message.tabId);
 
     switch (message.endpoint) {
+      // Send message to a DTA
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(bridgeMetadata.dtaPort)) {
           console.warn(`MessageRetranslator - sendMessage:`,
@@ -58,6 +94,7 @@ export class MessageRetranslator extends Core.Singleton {
         bridgeMetadata.dtaPort.postMessage(message);
         return;
       }
+      // Send message to a CS or DTP
       case Core.Enums.AppEndpoint.ContentScript:
       case Core.Enums.AppEndpoint.DevToolPlugin: {
         if (_.isNil(bridgeMetadata.csPort)) {
@@ -69,6 +106,7 @@ export class MessageRetranslator extends Core.Singleton {
         bridgeMetadata.csPort.postMessage(message);
         return;
       }
+      // Skip unsupported endpoints
       default:
         console.warn(`MessageRetranslator - sendMessage:`,
           `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.endpoint})`);
