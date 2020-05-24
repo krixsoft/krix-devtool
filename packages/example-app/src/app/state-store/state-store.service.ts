@@ -10,6 +10,11 @@ export class StateStore {
   private krixStateStore: KrixStateStore.StateStore;
   constructor () {
     this.krixStateStore = KrixStateStore.StateStore.create();
+
+    this.krixStateStore.getStoreCommandObserver()
+      .subscribe((command) => {
+        console.log(command);
+      });
   }
 
   /**
