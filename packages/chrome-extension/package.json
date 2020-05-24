@@ -10,7 +10,7 @@
     "dev:build": "gulp --gulpfile=./build.gulp.js build",
     "dev:watch": "gulp --gulpfile=./watch-pkg.gulp.js watch",
     "dev:test": "gulp --gulpfile=./watch-pkg.gulp.js test:watch",
-    "ext:build": "npm run gulp:clear:dist && webpack --config webpack.prod.js --progress --colors && gulp --gulpfile=./build.gulp.js build:ext"
+    "ext:build": "npm run gulp:clear:dist && webpack --config webpack.prod.js --progress --colors && gulp --gulpfile=./ext.gulp.js ext:copy-non-js-files"
   },
   "keywords": [
     "krix",

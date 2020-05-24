@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unsafe-call */
 const gulp = require(`gulp`);
-const ts = require(`gulp-typescript`);
 const replace = require('gulp-replace');
 const LinfraCore = require(`@linfra/core`);
 
