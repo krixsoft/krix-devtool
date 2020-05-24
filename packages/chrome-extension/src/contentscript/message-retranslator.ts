@@ -14,7 +14,7 @@ export class MessageRetranslator extends Core.Singleton {
 
   sendMessage <TMsg = any> (
     endpoint: Core.Enums.AppEndpoint,
-    msgType: any,
+    msgType: Core.Enums.MsgCommands,
     msgData?: TMsg,
   ): void {
     if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
@@ -24,9 +24,9 @@ export class MessageRetranslator extends Core.Singleton {
     }
 
     const messsag: Core.Interfaces.BaseMessage<TMsg> = {
-      id: this.id,
-      ept: endpoint,
-      type: msgType,
+      tabId: this.id,
+      endpoint: endpoint,
+      command: msgType,
       payload: msgData,
     };
 
