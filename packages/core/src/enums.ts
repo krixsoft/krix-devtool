@@ -5,10 +5,10 @@ export enum PackageName {
 }
 
 export enum AppEndpoint {
-  DevToolPlugin = 'dev-tool-plugin',
+  DevToolPlugin = 'devtool-plugin',
   ContentScript = 'content-script',
   BackgroundScript = 'background-script',
-  DevToolApp = 'dev-tool-app',
+  DevToolApp = 'devtool-app',
 }
 
 export namespace MsgCommands {
