@@ -1,4 +1,9 @@
 
+export enum PackageName {
+  StateStore = 'state-store',
+  DataStore = 'data-store',
+}
+
 export enum AppEndpoint {
   DevToolPlugin = 'dev-tool-plugin',
   ContentScript = 'content-script',
