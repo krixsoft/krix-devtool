@@ -21,6 +21,7 @@
   "author": "Andrey Shuleiko",
   "license": "ISC",
   "dependencies": {
+    "@krix/state-store": "^5.0.2-alpha.0",
     "lodash": "^4.17.15",
     "rxjs": "^6.5.5"
   },
