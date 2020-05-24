@@ -9,7 +9,7 @@ export interface InitDeps {
   initDeps(): void;
 }
 
-export interface EndpointMessage extends BridgeMessage {
+export interface EndpointMessage <PayloadType = any> extends BridgeMessage<PayloadType> {
   tabId: number;
   endpoint: Enums.AppEndpoint;
 }
@@ -24,6 +24,6 @@ export type PackageCommand = KrixStateStore.Interfaces.StoreCommand;
 
 export interface PackageMessage  {
   packageName: Enums.PackageName;
-  storeName: string;
+  packageId: string;
   command: PackageCommand;
 }
