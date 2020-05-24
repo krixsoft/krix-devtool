@@ -23,7 +23,7 @@ export class MessageRetranslator extends Core.Singleton {
       return;
     }
 
-    const messsag: Core.Interfaces.BaseMessage<TMsg> = {
+    const messsag: Core.Interfaces.EndpointMessage<TMsg> = {
       tabId: this.id,
       endpoint: endpoint,
       command: msgType,

@@ -8,9 +8,12 @@ export interface InitDeps {
   initDeps(): void;
 }
 
-export interface BaseMessage <PayloadType = any> {
+export interface EndpointMessage extends BridgeMessage {
   tabId: number;
   endpoint: Enums.AppEndpoint;
+}
+
+export interface BridgeMessage <PayloadType = any> {
   command: Enums.MsgCommands;
   payload?: PayloadType;
 }

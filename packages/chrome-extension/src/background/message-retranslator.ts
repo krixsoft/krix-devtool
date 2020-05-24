@@ -81,11 +81,11 @@ export class MessageRetranslator extends Core.Singleton {
   /**
    * Sends message to the specific endpoint by the tab identifier and the endpoint type.
    *
-   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {Core.Interfaces.EndpointMessage} message
    * @return {void}
    */
   sendMessage (
-    message: Core.Interfaces.BaseMessage,
+    message: Core.Interfaces.EndpointMessage,
   ): void {
     // Get a bridge metadata by the tab id
     const bridgeMetadata = this.bridgeMetadataStore.get(message.tabId);

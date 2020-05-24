@@ -31,12 +31,12 @@ export class MessageRetranslator {
   /**
    * Sends message to the specific endpoint by the endpoint type.
    *
-   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {Core.Interfaces.EndpointMessage} message
    * @return {void}
    */
   sendMessage <TMsg = any> (
     endpoint: Core.Enums.AppEndpoint,
-    msgCommand: any,
+    msgCommand: Core.Enums.MsgCommands,
     msgData?: TMsg,
   ): void {
     if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
@@ -45,7 +45,7 @@ export class MessageRetranslator {
       return;
     }
 
-    const messsag: Core.Interfaces.BaseMessage<TMsg> = {
+    const messsag: Core.Interfaces.EndpointMessage<TMsg> = {
       tabId: this.tabId,
       endpoint: endpoint,
       command: msgCommand,

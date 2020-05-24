@@ -66,12 +66,12 @@ export class EndpointConnector extends Core.Singleton {
    * - dispatches the message to the BgS message handler if the message endpoint is the BgS.
    * - skips unsupported endpoints.
    *
-   * @param  {Core.Interfaces.BaseMessage} message
+   * @param  {Core.Interfaces.EndpointMessage} message
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
   private onMessage (
-    message: Core.Interfaces.BaseMessage,
+    message: Core.Interfaces.EndpointMessage,
     port: chrome.runtime.Port,
   ): void {
     console.log(`EndpointConnector - onMessage:`, message, port);
