@@ -4,17 +4,18 @@ import type { Observable } from 'rxjs';
 import { mergeMap as rxjsMergeMap } from 'rxjs/operators';
 
 import * as KrixStateStore from '@krix/state-store';
+import * as KrixDevToolPlugin from '@krix/devtool-plugin';
 
 @Injectable()
 export class StateStore {
   private krixStateStore: KrixStateStore.StateStore;
+  private devToolConnectorPlugin: KrixDevToolPlugin.DevToolConnectorPlugin;
+
   constructor () {
     this.krixStateStore = KrixStateStore.StateStore.create();
 
-    this.krixStateStore.getStoreCommandObserver()
-      .subscribe((command) => {
-        console.log(command);
-      });
+    this.devToolConnectorPlugin = KrixDevToolPlugin.DevToolConnectorPlugin.getInstance();
+    this.devToolConnectorPlugin.connectStateStore('main', this.krixStateStore);
   }
 
   /**
