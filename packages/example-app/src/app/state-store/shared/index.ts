@@ -1,2 +1,7 @@
-export * as Enums from './enums';
-export * as Interfaces from './interfaces';
+import * as Enums from './enums';
+import * as Interfaces from './interfaces';
+
+export {
+  Enums,
+  Interfaces,
+};
