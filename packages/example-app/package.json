@@ -2,7 +2,7 @@
   "name": "@krix-devtool/example-app",
   "version": "0.0.0",
   "scripts": {
-    "dev:start": "./node_modules/.bin/ng serve",
+    "dev:start": "./node_modules/.bin/ng serve --port 4421",
     "test": "./node_modules/.bin/ng test"
   },
   "private": true,
