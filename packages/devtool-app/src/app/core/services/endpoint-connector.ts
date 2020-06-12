@@ -45,7 +45,7 @@ export class EndpointConnector {
   }
 
   private onMessage (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
     console.log(`EndpointConnector - onMessage:`, message, port);

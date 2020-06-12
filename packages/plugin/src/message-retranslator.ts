@@ -41,8 +41,10 @@ export class MessageRetranslator extends Core.Singleton {
     msgCommand: Core.Enums.MsgCommands,
     msgPayload?: MessagePayloadType,
   ): void {
-    const messsag: Core.Interfaces.BridgeMessage<MessagePayloadType> = {
+    const messsag: Core.Interfaces.EndpointMessage<MessagePayloadType> = {
       command: msgCommand,
+      target: Core.Enums.AppEndpoint.DevToolApp,
+      source: Core.Enums.AppEndpoint.DevToolPlugin,
       payload: msgPayload,
     };
 

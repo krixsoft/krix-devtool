@@ -66,12 +66,12 @@ export class EndpointConnector extends Core.Singleton {
    * - dispatches the message to the BgS message handler if the message endpoint is the BgS.
    * - skips unsupported endpoints.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
   private onMessage (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
     console.log(`EndpointConnector - onMessage:`, message, port);
@@ -92,7 +92,7 @@ export class EndpointConnector extends Core.Singleton {
       // Skip unsupported endpoints
       default:
         console.warn(`EndpointConnector - onMessage:`,
-          `BgS is trying to handle the unsupported endpoint (${message.tabId}:${message.endpoint})`);
+          `BgS is trying to handle the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }
 }

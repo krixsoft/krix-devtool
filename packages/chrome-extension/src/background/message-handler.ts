@@ -15,12 +15,12 @@ export class MessageHandler extends Core.Singleton {
    * `Message` handler.
    * - dispatches DTA and CS messages to the specific message handler.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
   onMessage (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
     switch (port.name) {
@@ -36,12 +36,12 @@ export class MessageHandler extends Core.Singleton {
   /**
    * DTA `Message` handler.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
   private handleDTAMessages (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
     switch (message.command) {
@@ -55,12 +55,12 @@ export class MessageHandler extends Core.Singleton {
   /**
    * CS `Message` handler.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
   private handleCSMessages (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
   }

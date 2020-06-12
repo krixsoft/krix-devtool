@@ -81,16 +81,16 @@ export class MessageRetranslator extends Core.Singleton {
   /**
    * Sends message to the specific endpoint by the tab identifier and the endpoint type.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @return {void}
    */
   sendMessage (
-    message: Core.Interfaces.EndpointMessage,
+    message: Core.Interfaces.ExtensionMessage,
   ): void {
     // Get a bridge metadata by the tab id
     const bridgeMetadata = this.bridgeMetadataStore.get(message.tabId);
 
-    switch (message.endpoint) {
+    switch (message.target) {
       // Send message to a DTA
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(bridgeMetadata.dtaPort)) {
@@ -117,7 +117,7 @@ export class MessageRetranslator extends Core.Singleton {
       // Skip unsupported endpoints
       default:
         console.warn(`MessageRetranslator - sendMessage:`,
-          `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.endpoint})`);
+          `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }
 }

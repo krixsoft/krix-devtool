@@ -31,23 +31,24 @@ export class MessageRetranslator {
   /**
    * Sends message to the specific endpoint by the endpoint type.
    *
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.ExtensionMessage} message
    * @return {void}
    */
   sendMessage <TMsg = any> (
-    endpoint: Core.Enums.AppEndpoint,
+    targetEndpoint: Core.Enums.AppEndpoint,
     msgCommand: Core.Enums.MsgCommands,
     msgData?: TMsg,
   ): void {
-    if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
+    if (targetEndpoint === Core.Enums.AppEndpoint.ContentScript) {
       console.warn(`MessageRetranslatorService - sendMessage:`,
-        `DTA is trying to send messages to the unsupported endpoint (${endpoint})`);
+        `DTA is trying to send messages to the unsupported endpoint (${targetEndpoint})`);
       return;
     }
 
-    const messsag: Core.Interfaces.EndpointMessage<TMsg> = {
+    const messsag: Core.Interfaces.ExtensionMessage<TMsg> = {
       tabId: this.tabId,
-      endpoint: endpoint,
+      target: targetEndpoint,
+      source: Core.Enums.AppEndpoint.DevToolApp,
       command: msgCommand,
       payload: msgData,
     };

@@ -13,3 +13,7 @@ port.onMessage.addListener((message, senderPort) => {
 port.postMessage({
   payload: `Hi, I'm a content script!`,
 });
+
+window.addEventListener('message', (event) => {
+  console.log(`CS --- DTP`, event);
+}, false);

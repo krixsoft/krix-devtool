@@ -13,19 +13,20 @@ export class MessageRetranslator extends Core.Singleton {
   }
 
   sendMessage <TMsg = any> (
-    endpoint: Core.Enums.AppEndpoint,
+    targetEndpoint: Core.Enums.AppEndpoint,
     msgType: Core.Enums.MsgCommands,
     msgData?: TMsg,
   ): void {
-    if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
+    if (targetEndpoint === Core.Enums.AppEndpoint.ContentScript) {
       console.warn(`MessageRetranslator - sendMessage:`,
-        `CS is trying to send messages to the unsupported endpoint (${endpoint})`);
+        `CS is trying to send messages to the unsupported endpoint (${targetEndpoint})`);
       return;
     }
 
-    const messsag: Core.Interfaces.EndpointMessage<TMsg> = {
+    const messsag: Core.Interfaces.ExtensionMessage<TMsg> = {
       tabId: this.id,
-      endpoint: endpoint,
+      target: targetEndpoint,
+      source: Core.Enums.AppEndpoint.ContentScript,
       command: msgType,
       payload: msgData,
     };
