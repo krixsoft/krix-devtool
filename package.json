@@ -11,7 +11,8 @@
     "gulp:tasks": "gulp --tasks",
     "dev:build": "gulp dev:linfra:build",
     "dev:watch": "npm run dev:build && lerna run --parallel dev:watch",
-    "ext:build": "gulp ext:linfra:build && gulp ext:bundle"
+    "ext:bundle": "gulp ext:bundle",
+    "ext:build": "gulp ext:linfra:build && npm run ext:bundle"
   },
   "repository": {
     "type": "git",
