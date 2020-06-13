@@ -13,13 +13,21 @@ export enum AppEndpoint {
 
 export namespace MsgCommands {
   export enum DevToolPlugin {
-    InitPlugin = 'init-plugin',
-    UpdateConnectionList = 'update-connection-list',
-    HandleStoreCommand = 'handle-store-command',
+    InitPlugin = 'InitPlugin',
+    UpdatePackageList = 'UpdatePackageList',
+    ExecutePackageCommand = 'ExecutePackageCommand',
   }
   export enum DevToolApp {
+    UpdatePackageList = 'UpdatePackageList',
+    HandlePackageCommand = 'HandlePackageCommand',
     InitDevTool = 'init-devtool-app',
   }
 }
+
+export enum StateStoreCommand {
+  GetStore = 'GetStore',
+}
+
+export type PackageCommands = StateStoreCommand;
 
 export type MsgCommands = MsgCommands.DevToolPlugin | MsgCommands.DevToolApp;

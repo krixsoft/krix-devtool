@@ -28,3 +28,14 @@ export interface PackageMessage  {
   packageId: string;
   command: PackageCommand;
 }
+
+export namespace EndpointMessagePayload {
+  export interface ExecutePackageCommand {
+    packageName: Enums.PackageName;
+    packageId: string;
+    packageCommand: Enums.PackageCommands;
+    fnName: string;
+    fnArgs: any[];
+  }
+}
+
