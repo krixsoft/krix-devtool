@@ -25,7 +25,7 @@ export class MessageRetranslator extends Core.Singleton {
     };
 
     this.sendMessage(
-      Core.Enums.MsgCommands.DevToolPlugin.HandleStoreCommand,
+      Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand,
       messsag,
     );
   }
