@@ -40,8 +40,7 @@ export class EndpointConnector extends Core.Singleton {
     // Register CS
     if (port.name === Core.Constants.CSToBgSConnectionName) {
       // Get a tab identifier from port's settings
-      const tab = port.sender.tab;
-      const tabId = tab.id;
+      const tabId = port?.sender?.tab?.id;
       // Add port to the message retranslator
       this.messageRetranslator.setCSPort(tabId, port);
     }
@@ -88,9 +87,9 @@ export class EndpointConnector extends Core.Singleton {
     console.log(`EndpointConnector - onMessage:`, message, port);
 
     // Extract a message endpoint from the message
-    const endpoint = _.get(message, `endpoint`, null);
-    switch (endpoint) {
-      // Dispatche the message to the BgS message handler
+    const target = message?.target ?? null;
+    switch (target) {
+      // Dispatch the message to the BgS message handler
       case Core.Enums.AppEndpoint.BackgroundScript:
         this.messageHandler.onMessage(message, port);
         return;
