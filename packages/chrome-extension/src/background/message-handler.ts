@@ -63,5 +63,20 @@ export class MessageHandler extends Core.Singleton {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
+    switch (message.command) {
+      case MsgCommands.BackgroundScript.InitCS: {
+        const tabId = port?.sender?.tab?.id;
+        this.messageRetranslator.sendMessage({
+          tabId: tabId,
+          target: Core.Enums.AppEndpoint.ContentScript,
+          source: Core.Enums.AppEndpoint.BackgroundScript,
+          command: Core.Enums.MsgCommands.BackgroundScript.InitCS,
+          payload: {
+            tabId: tabId,
+          },
+        });
+        return;
+      }
+    }
   }
 }
