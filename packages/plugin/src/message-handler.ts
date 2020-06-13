@@ -30,11 +30,11 @@ export class MessageHandler extends Core.Singleton {
         this.onPackageUpdatePackageList(message.payload);
         break;
       default:
-        console.error(`MessageHandler - onMessage: Catch unsupported command`);
+        console.error(`DTP * MessageHandler - onMessage: Catch unsupported command`);
         break;
     }
 
-    console.log(`MessageHandler - onMessage:`, event);
+    console.log(`DTP * MessageHandler - onMessage:`, event);
   }
 
   /**
@@ -50,7 +50,7 @@ export class MessageHandler extends Core.Singleton {
     const packageName = message?.packageName;
 
     if (packageName === null || packageName === undefined) {
-      console.error(`MessageHandler - onPackageUpdatePackageList:`,
+      console.error(`DTP * MessageHandler - onPackageUpdatePackageList:`,
         `Package Name isn't defined`);
       return;
     }
@@ -73,7 +73,7 @@ export class MessageHandler extends Core.Singleton {
     const packageInst: any = this.packageStore.getPackageInst(packageName, packageId);
 
     if (packageInst === null || packageInst === undefined) {
-      console.error(`MessageHandler - onExecutePackageCommand:`,
+      console.error(`DTP * MessageHandler - onExecutePackageCommand:`,
         `Package (${packageName} - ${packageId}) doesn't exist`);
       return;
     }
@@ -82,7 +82,7 @@ export class MessageHandler extends Core.Singleton {
     const packageInstFn: Function = packageInst[packageInstFnName];
 
     if (typeof packageInstFn !== 'function') {
-      console.error(`MessageHandler - onExecutePackageCommand:`,
+      console.error(`DTP * MessageHandler - onExecutePackageCommand:`,
         `Package function (${packageInstFn}) doesn't exist in the package`);
       return;
     }

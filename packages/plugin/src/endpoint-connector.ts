@@ -39,7 +39,7 @@ export class EndpointConnector extends Core.Singleton {
     event: MessageEvent,
   ): void {
     if (event.source !== window) {
-      console.log(`MessageHandler - onMessage: Catch signal from unsupported provider`);
+      console.log(`DTP * MessageHandler - onMessage: Catch signal from unsupported provider`);
       return;
     }
     const message: Core.Interfaces.EndpointMessage = event.data;

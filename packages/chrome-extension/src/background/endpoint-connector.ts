@@ -35,7 +35,7 @@ export class EndpointConnector extends Core.Singleton {
   private onConnect (
     port: chrome.runtime.Port,
   ): void {
-    console.log(`EndpointConnector - onConnect:`, port);
+    console.log(`BgS * EndpointConnector - onConnect:`, port);
 
     // Register CS
     if (port.name === Core.Constants.CSToBgSConnectionName) {
@@ -52,7 +52,7 @@ export class EndpointConnector extends Core.Singleton {
 
     // Add `Disconnect` watcher for the port
     port.onDisconnect.addListener((disconnectedPort) => {
-      console.log(`EndpointConnector - onDisconnect:`, disconnectedPort);
+      console.log(`BgS * EndpointConnector - onDisconnect:`, disconnectedPort);
       this.onDisconnect(disconnectedPort);
     });
   }
@@ -66,7 +66,7 @@ export class EndpointConnector extends Core.Singleton {
   private onDisconnect (
     port: chrome.runtime.Port,
   ): void {
-    console.log(`EndpointConnector - onDisconnect:`, port);
+    console.log(`BgS * EndpointConnector - onDisconnect:`, port);
   }
 
   /**
@@ -84,7 +84,7 @@ export class EndpointConnector extends Core.Singleton {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
-    console.log(`EndpointConnector - onMessage:`, message, port);
+    console.log(`BgS * EndpointConnector - onMessage:`, message, port);
 
     // Extract a message endpoint from the message
     const target = message?.target ?? null;
