@@ -14,6 +14,17 @@ export class EndpointConnector extends Core.Singleton {
   }
 
   /**
+   * Adds listener to `Runtime On Connect` logic.
+   * 
+   * @return {void}
+   */
+  public connect () {
+    chrome.runtime.onConnect.addListener((port) => {
+      this.onConnect(port);
+    });
+  }
+
+  /**
    * `Connect` handler.
    * - registers CS - adds the port to `Message Retranslator` by a tab identifier.
    * - adds `Message` and `Disconnect` watchers.
@@ -21,7 +32,7 @@ export class EndpointConnector extends Core.Singleton {
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
-  public onConnect (
+  private onConnect (
     port: chrome.runtime.Port,
   ): void {
     console.log(`EndpointConnector - onConnect:`, port);
