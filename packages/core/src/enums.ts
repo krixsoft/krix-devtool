@@ -18,7 +18,6 @@ export namespace MsgCommands {
     ExecutePackageCommand = 'ExecutePackageCommand',
   }
   export enum DevToolApp {
-    UpdatePackageList = 'UpdatePackageList',
     HandlePackageCommand = 'HandlePackageCommand',
     InitDevTool = 'init-devtool-app',
   }

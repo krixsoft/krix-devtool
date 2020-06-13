@@ -30,6 +30,10 @@ export interface PackageMessage  {
 }
 
 export namespace EndpointMessagePayload {
+  export interface UpdatePackageListCommand {
+    packageName: Enums.PackageName;
+  }
+
   export interface ExecutePackageCommand {
     packageName: Enums.PackageName;
     packageId: string;
