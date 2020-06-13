@@ -40,7 +40,7 @@ export class EndpointConnector {
     // Send `Init Dev-Tool` command
     this.messageRetranslator.sendMessage(
       Core.Enums.AppEndpoint.BackgroundScript,
-      Core.Enums.MsgCommands.DevToolApp.InitDevTool,
+      Core.Enums.MsgCommands.BackgroundScript.InitDTA,
     );
   }
 

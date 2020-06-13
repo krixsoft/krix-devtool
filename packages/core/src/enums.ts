@@ -17,13 +17,11 @@ export namespace MsgCommands {
     InitDTA = 'InitDTA',
   }
   export enum DevToolPlugin {
-    InitPlugin = 'InitPlugin',
     UpdatePackageList = 'UpdatePackageList',
     ExecutePackageCommand = 'ExecutePackageCommand',
   }
   export enum DevToolApp {
     HandlePackageCommand = 'HandlePackageCommand',
-    InitDevTool = 'init-devtool-app',
   }
 }
 
