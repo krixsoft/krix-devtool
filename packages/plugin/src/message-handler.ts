@@ -16,21 +16,12 @@ export class MessageHandler extends Core.Singleton {
   /**
    * Handles a `Message` flow for a current connection.
    *
-   * @param  {MessageEvent} event
+   * @param  {Core.Interfaces.EndpointMessage} message
    * @return {void}
    */
   onMessage (
-    event: MessageEvent,
+    message: Core.Interfaces.EndpointMessage,
   ): void {
-    if (event.source !== window) {
-      console.log(`MessageHandler - onMessage: Catch signal from unsupported provider`);
-      return;
-    }
-    const message: Core.Interfaces.EndpointMessage = event.data;
-    if (message.target !== Core.Enums.AppEndpoint.DevToolPlugin) {
-      return;
-    }
-
     switch (message.command) {
       case Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand:
         this.onExecutePackageCommand(message.payload);
