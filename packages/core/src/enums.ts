@@ -12,6 +12,10 @@ export enum AppEndpoint {
 }
 
 export namespace MsgCommands {
+  export enum BackgroundScript {
+    InitCS = 'InitCS',
+    InitDTA = 'InitDTA',
+  }
   export enum DevToolPlugin {
     InitPlugin = 'InitPlugin',
     UpdatePackageList = 'UpdatePackageList',
@@ -29,4 +33,4 @@ export enum StateStoreCommand {
 
 export type PackageCommands = StateStoreCommand;
 
-export type MsgCommands = MsgCommands.DevToolPlugin | MsgCommands.DevToolApp;
+export type MsgCommands = MsgCommands.DevToolPlugin | MsgCommands.DevToolApp | MsgCommands.BackgroundScript;
