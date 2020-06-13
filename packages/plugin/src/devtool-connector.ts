@@ -3,6 +3,7 @@ import * as Core from '@krix-devtool/core';
 import { MessageRetranslator } from './message-retranslator';
 import { PackageStore } from './package.store';
 import { EndpointConnector } from './endpoint-connector';
+import { StateStoreCommand } from './state-store.command';
 
 export class DevToolConnectorPlugin
   extends Core.Singleton
@@ -11,12 +12,14 @@ export class DevToolConnectorPlugin
   private messageRetranslator: MessageRetranslator;
   private packageStore: PackageStore;
   private endpointConnector: EndpointConnector;
+  private stateStoreCommand: StateStoreCommand;
 
   initDeps (
   ): void {
     this.messageRetranslator = MessageRetranslator.getInstance();
     this.packageStore = PackageStore.getInstance();
     this.endpointConnector = EndpointConnector.getInstance();
+    this.stateStoreCommand = StateStoreCommand.getInstance();
   }
 
   onInit (
@@ -35,6 +38,9 @@ export class DevToolConnectorPlugin
     stateStore: KrixStateStore.StateStore,
   ): void {
     this.packageStore.setPackageInst(Core.Enums.PackageName.StateStore, storeName, stateStore);
+
+    // Emit a first command to DTA to update his store.
+    this.stateStoreCommand.syncStore(storeName);
 
     // Subscibe on changes of `Store Command` flow of the state store
     stateStore.getStoreCommandObserver()
