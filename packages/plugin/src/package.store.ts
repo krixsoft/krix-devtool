@@ -47,7 +47,7 @@ export class PackageStore
     // Get all package identifiers for the specific package and send their to CS
     const packageIds = this.getAllPackageIds(packageName);
     this.messageRetranslator.sendMessage(
-      Core.Enums.MsgCommands.DevToolPlugin.UpdateConnectionList,
+      Core.Enums.MsgCommands.DevToolApp.UpdatePackageList,
       {
         packageName: packageName,
         packageIds: packageIds,
