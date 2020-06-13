@@ -1,6 +1,13 @@
 import * as Core from '@krix-devtool/core';
 
+import { MessageHandler } from './message-handler';
+
 export class EndpointConnector extends Core.Singleton {
+  private messageHandler: MessageHandler;
+
+  initDeps (): void {
+    this.messageHandler = MessageHandler.getInstance();
+  }
 
   /**
    * Creates a connection to the CS.
@@ -13,19 +20,7 @@ export class EndpointConnector extends Core.Singleton {
 
     // Add `Message` watcher
     window.addEventListener('message', (event: MessageEvent) => {
-      this.onMessage(event);
+      this.messageHandler.onMessage(event);
     }, false);
-  }
-
-  /**
-   * Handles a `Message` flow for a current connection.
-   *
-   * @param  {MessageEvent} event
-   * @return {void}
-   */
-  private onMessage (
-    event: MessageEvent,
-  ): void {
-    console.log(`EndpointConnector - onMessage:`, event);
   }
 }
