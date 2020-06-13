@@ -1,5 +1,4 @@
 import * as Core from '@krix-devtool/core';
-import * as KrixStateStore from '@krix/state-store';
 
 import { PackageStore } from './package.store';
 import { MessageRetranslator } from './message-retranslator';
@@ -36,6 +35,9 @@ export class MessageHandler extends Core.Singleton {
       case Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand:
         this.onExecutePackageCommand(message.payload);
         break;
+      case Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList:
+        this.onPackageUpdatePackageList(message.payload);
+        break;
       default:
         console.error(`MessageHandler - onMessage: Catch unsupported command`);
         break;
@@ -45,10 +47,31 @@ export class MessageHandler extends Core.Singleton {
   }
 
   /**
+   * Handles `Update Package List` command. This logic finds all package ids by the package name and sends
+   * these ids to the DTA.
+   *
+   * @param  {Core.Interfaces.EndpointMessagePayload.UpdatePackageListCommand} message
+   * @return {void}
+   */
+  onPackageUpdatePackageList (
+    message: Core.Interfaces.EndpointMessagePayload.UpdatePackageListCommand,
+  ) {
+    const packageName = message?.packageName;
+
+    if (packageName === null || packageName === undefined) {
+      console.error(`MessageHandler - onPackageUpdatePackageList:`,
+        `Package Name isn't defined`);
+      return;
+    }
+
+    this.packageStore.sendUpdatePackageListCommand(packageName);
+  }
+
+  /**
    * Handles `Execute Package Command` command. This logic finds a package by the package name and package id
    * from the message. After that it executes a command from message and returns result to the DTA.
    * 
-   * @param  {Core.Interfaces.EndpointMessage} message
+   * @param  {Core.Interfaces.EndpointMessagePayload.ExecutePackageCommand} message
    * @return {void}
    */
   onExecutePackageCommand (
@@ -59,7 +82,8 @@ export class MessageHandler extends Core.Singleton {
     const packageInst: any = this.packageStore.getPackageInst(packageName, packageId);
 
     if (packageInst === null || packageInst === undefined) {
-      console.error(`MessageHandler - onMessage: Package (${packageName} - ${packageId}) doesn't exist`);
+      console.error(`MessageHandler - onExecutePackageCommand:`,
+        `Package (${packageName} - ${packageId}) doesn't exist`);
       return;
     }
 
@@ -67,7 +91,8 @@ export class MessageHandler extends Core.Singleton {
     const packageInstFn: Function = packageInst[packageInstFnName];
 
     if (typeof packageInstFn !== 'function') {
-      console.error(`MessageHandler - onMessage: Package function (${packageInstFn}) doesn't exist in the package`);
+      console.error(`MessageHandler - onExecutePackageCommand:`,
+        `Package function (${packageInstFn}) doesn't exist in the package`);
       return;
     }
   
