@@ -1,8 +1,9 @@
 import type * as KrixStateStore from '@krix/state-store';
 import * as Core from '@krix-devtool/core';
-import { MessageRetranslator } from './message-retranslator';
+
+import { MessageRetranslator } from './data-flow/message-retranslator';
+import { EndpointConnector } from './data-flow/endpoint-connector';
 import { PackageStore } from './package.store';
-import { EndpointConnector } from './endpoint-connector';
 
 export class DevToolConnectorPlugin
   extends Core.Singleton

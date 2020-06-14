@@ -1,6 +1,6 @@
 import * as Core from '@krix-devtool/core';
 
-import { PackageStore } from './package.store';
+import { PackageStore } from '../package.store';
 import { MessageRetranslator } from './message-retranslator';
 
 export class MessageHandler extends Core.Singleton {
@@ -46,7 +46,7 @@ export class MessageHandler extends Core.Singleton {
    */
   onPackageUpdatePackageList (
     message: Core.Interfaces.EndpointMessagePayload.UpdatePackageListCommand,
-  ) {
+  ): void {
     const packageName = message?.packageName;
 
     if (packageName === null || packageName === undefined) {
@@ -61,7 +61,7 @@ export class MessageHandler extends Core.Singleton {
   /**
    * Handles `Execute Package Command` command. This logic finds a package by the package name and package id
    * from the message. After that it executes a command from message and returns result to the DTA.
-   * 
+   *
    * @param  {Core.Interfaces.EndpointMessagePayload.ExecutePackageCommand} message
    * @return {void}
    */
@@ -86,7 +86,7 @@ export class MessageHandler extends Core.Singleton {
         `Package function (${packageInstFn}) doesn't exist in the package`);
       return;
     }
-  
+
     const packageInstFnArgs = message?.fnArgs ?? [];
 
     const result = packageInstFn.apply(packageInst, packageInstFnArgs);

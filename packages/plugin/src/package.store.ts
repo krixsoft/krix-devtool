@@ -1,6 +1,6 @@
 import * as Core from '@krix-devtool/core';
 
-import { MessageRetranslator } from './message-retranslator';
+import { MessageRetranslator } from './data-flow/message-retranslator';
 
 export class PackageStore
   extends Core.Singleton
