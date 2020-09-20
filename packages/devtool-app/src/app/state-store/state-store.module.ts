@@ -7,7 +7,7 @@ import { StateStoreRouter } from './state-store.router';
 
 // --- Components
 import { StateStoreComponent } from './components/state-store/state-store.component';
-import { StateStoreHistoryComponent } from './components/state-store-history/state-store-history.component';
+import { StateStoreSidebarComponent } from './components/state-store-sidebar/state-store-sidebar.component';
 import { StateStoreViewComponent } from './components/state-store-view/state-store-view.component';
 import { StateTreeComponent } from './pages/state-tree/state-tree.component';
 
@@ -23,7 +23,7 @@ import { HistoryService } from './core/history.service';
   ],
   declarations: [
     StateStoreComponent,
-    StateStoreHistoryComponent,
+    StateStoreSidebarComponent,
     StateStoreViewComponent,
     StateTreeComponent,
   ],
