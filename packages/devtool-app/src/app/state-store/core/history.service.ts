@@ -1,10 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subscription, Subject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import * as KrixStateStore from '@krix/state-store';
-import * as Core from '@krix-devtool/core';
 
-import { MessageHandler } from '../../core/data-flow';
 import * as Shared from '../../shared';
 
 import { Interfaces } from '../shared';
@@ -12,7 +10,6 @@ import { Interfaces } from '../shared';
 @Injectable()
 export class HistoryService {
   private krixStateStore: KrixStateStore.StateStore;
-  private packageCommand$: Subscription;
 
   private history: Interfaces.HistoryItem[];
   private currentHistoryItemIndex: number;
@@ -25,7 +22,6 @@ export class HistoryService {
   constructor (
     @Inject(Shared.Constants.DI.Lodash)
     private readonly lodash: Shared.Interfaces.Pkg.Lodash,
-    private messageHandler: MessageHandler,
   ) {
     this.krixStateStore = KrixStateStore.StateStore.create();
 
@@ -34,15 +30,6 @@ export class HistoryService {
     this.history = [];
     this.currentHistoryItemIndex = -1;
     this.historyMessageNumber = 0;
-
-    this.packageCommand$ = this.messageHandler.getPackageCommandObserver()
-      .subscribe((message) => {
-        if (message.packageName !== Core.Enums.PackageName.StateStore) {
-          return;
-        }
-
-        this.onMessage(message.command);
-      });
   }
 
   getHistoryChangeObserver (
