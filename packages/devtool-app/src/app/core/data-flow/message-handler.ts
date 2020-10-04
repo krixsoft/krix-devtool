@@ -4,15 +4,20 @@ import { Subject, Observable } from 'rxjs';
 
 @Injectable()
 export class MessageHandler {
-  private sjPackageCommand: Subject<Core.Interfaces.PackageMessage>;
+  private sjCommand: Subject<Core.Interfaces.EndpointMessage>;
 
   constructor () {
-    this.sjPackageCommand = new Subject();
+    this.sjCommand = new Subject();
   }
 
-  getPackageCommandObserver (
-  ): Observable<Core.Interfaces.PackageMessage> {
-    return this.sjPackageCommand.asObservable();
+  /**
+   * Creates an observable object which gets DTA commands.
+   *
+   * @return {Observable<Core.Interfaces.EndpointMessage>}
+   */
+  getCommandObserver (
+  ): Observable<Core.Interfaces.EndpointMessage> {
+    return this.sjCommand.asObservable();
   }
 
   /**
@@ -24,9 +29,9 @@ export class MessageHandler {
   onMessage (
     message: Core.Interfaces.EndpointMessage,
   ): void {
+    this.sjCommand.next(message);
     switch (message.command) {
       case Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand:
-        this.sjPackageCommand.next(message.payload);
         break;
       default:
         console.error(`DTA * MessageHandler - onMessage: Catch unsupported command`);

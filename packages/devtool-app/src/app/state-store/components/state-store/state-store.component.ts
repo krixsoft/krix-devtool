@@ -19,13 +19,14 @@ export class StateStoreComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit (): void {
-    const packageCommand$ = this.messageHandler.getPackageCommandObserver()
+    const packageCommand$ = this.messageHandler.getCommandObserver()
       .subscribe((message) => {
-        if (message.packageName !== Core.Enums.PackageName.StateStore) {
+        if (message.command !== Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand
+            || message.payload.packageName !== Core.Enums.PackageName.StateStore) {
           return;
         }
 
-        this.historyService.onMessage(message.command);
+        this.historyService.onMessage(message.payload.command);
       });
     this.subscribe(packageCommand$);
   }
