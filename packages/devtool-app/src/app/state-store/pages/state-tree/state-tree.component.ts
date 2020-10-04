@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
+
+import * as KrixStateStore from '@krix/state-store';
+
+import { BaseComponent } from '../../../shared/base.component';
+import * as Shared from '../../../shared';
 
 import { HistoryService } from '../../core/history.service';
 
@@ -8,20 +12,40 @@ import { HistoryService } from '../../core/history.service';
   selector: 'krix-state-tree',
   templateUrl: './state-tree.component.html',
 })
-export class StateTreeComponent implements OnInit {
-  public state: any = {};
+export class StateTreeComponent extends BaseComponent implements OnInit {
+  public stateStore: KrixStateStore.StateStore;
+  public store: unknown;
+
   public sjStoreChange: Subscription;
 
-  constructor (private historyService: HistoryService) { }
+  constructor (
+    @Inject(Shared.Constants.DI.Lodash)
+    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
+    private historyService: HistoryService,
+    private changeDetection: ChangeDetectorRef,
+  ) {
+    super();
 
-  ngOnInit (): void {
-    this.state = this.historyService.getStore();
-
-    this.sjStoreChange = this.historyService
-      .getStoreObserver()
-      .subscribe(() => {
-        this.state = _.assign({}, this.historyService.getStore());
-      });
+    this.changeDetection.detach();
   }
 
+  ngOnInit (): void {
+    super.ngOnInit();
+    this.stateStore = this.historyService.getStateStore();
+
+    const sjHistoryChange = this.historyService
+      .getHistoryChangeObserver()
+      .subscribe(() => {
+        this.updateView();
+      });
+    this.subscribe(sjHistoryChange);
+    this.updateView();
+  }
+
+  updateView (
+  ): void {
+    const store = this.stateStore.getState();
+    this.store = this.lodash.assign({}, store);
+    this.changeDetection.detectChanges();
+  }
 }

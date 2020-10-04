@@ -1,109 +1,168 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Subscription, Subject, Observable } from 'rxjs';
 
-import * as _ from 'lodash';
-import * as Krix from '@krix/state-store';
-import { Subject, Observable } from 'rxjs';
+import * as KrixStateStore from '@krix/state-store';
+import * as Core from '@krix-devtool/core';
+
+import { MessageHandler } from '../../core/data-flow';
+import * as Shared from '../../shared';
+
+import { Interfaces } from '../shared';
 
 @Injectable()
 export class HistoryService {
-  public stateChanges: Krix.Interfaces.StoreChange[] = [];
-  public currentStateChangeNumber: number = 0;
-  public currentStateChange: any;
-  public store: any = {};
+  private krixStateStore: KrixStateStore.StateStore;
+  private packageCommand$: Subscription;
 
-  public sjStoreChange = new Subject<null>();
-  public sjStateChangesChange = new Subject<null>();
-  public sjCurrentStateChangeChange = new Subject<null>();
-  public sjCurrentStateChangeNumberChange = new Subject<null>();
+  private history: Interfaces.HistoryItem[];
+  private currentHistoryItemIndex: number;
+  private currentHistoryItem: Interfaces.HistoryItem;
 
-  constructor () { }
+  private sjHistoryChange: Subject<null>;
 
-  getStore (): any {
-    return this.store;
+  private historyMessageNumber: number;
+
+  constructor (
+    @Inject(Shared.Constants.DI.Lodash)
+    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
+    private messageHandler: MessageHandler,
+  ) {
+    this.krixStateStore = KrixStateStore.StateStore.create();
+
+    this.sjHistoryChange = new Subject();
+
+    this.history = [];
+    this.currentHistoryItemIndex = -1;
+    this.historyMessageNumber = 0;
+
+    this.packageCommand$ = this.messageHandler.getPackageCommandObserver()
+      .subscribe((message) => {
+        if (message.packageName !== Core.Enums.PackageName.StateStore) {
+          return;
+        }
+
+        this.onMessage(message.command);
+      });
   }
 
-  getCurrentStateChangeNumber (): number {
-    return this.currentStateChangeNumber;
+  getHistoryChangeObserver (
+  ): Observable<null> {
+    return this.sjHistoryChange.asObservable();
   }
 
-  getCurrentStateChange (): Krix.Interfaces.StoreChange {
-    return this.currentStateChange;
+  getStateStore (
+  ): KrixStateStore.StateStore {
+    return this.krixStateStore;
   }
 
-  getStateChanges (): Krix.Interfaces.StoreChange[] {
-    return this.stateChanges;
+  getHistory (
+  ): Interfaces.HistoryItem[] {
+    return [ ...this.history ];
   }
 
-  getStoreObserver (): Observable<null> {
-    return this.sjStoreChange.asObservable();
+  getCurrentHistoryItem (
+  ): Interfaces.HistoryItem {
+    return this.currentHistoryItem;
   }
 
-  getStateChangesObserver (): Observable<null> {
-    return this.sjStateChangesChange.asObservable();
-  }
-
-  getCurrentStateChangeObserver (): Observable<null> {
-    return this.sjCurrentStateChangeChange.asObservable();
-  }
-
-  getCurrentStateChangeNumberObserver (): Observable<null> {
-    return this.sjCurrentStateChangeNumberChange.asObservable();
-  }
-
-  addStateChange (stateChange: Krix.Interfaces.StoreChange): void {
-    const stateChagneWithId = _.assign(
-      { id: this.stateChanges.length },
-      stateChange,
-    );
-    this.stateChanges.push(stateChagneWithId);
-    if (this.currentStateChangeNumber === this.stateChanges.length - 2) {
-      this.currentStateChangeNumber += 1;
-      _.set(
-        this.store,
-        stateChagneWithId.statePath,
-        stateChagneWithId.newValue,
-      );
-      this.currentStateChange = this.stateChanges[
-        this.currentStateChangeNumber
-      ];
-
-      this.sjCurrentStateChangeNumberChange.next(null);
-      this.sjCurrentStateChangeChange.next(null);
-      this.sjStoreChange.next(null);
-    }
-    this.sjStateChangesChange.next(null);
-  }
-
-  goToStateChange (stateChangeNumber: number): void {
-    if (stateChangeNumber === this.currentStateChangeNumber) {
+  onMessage (
+    message: KrixStateStore.Interfaces.StoreCommand,
+  ): void {
+    if (message.name !== KrixStateStore.Enums.StoreCommandName.SetState) {
       return;
     }
 
-    const direction =
-      stateChangeNumber > this.currentStateChangeNumber ? 1 : -1;
+    const historyItem: Interfaces.HistoryItem = this.lodash.assign({
+      id: this.historyMessageNumber,
+    }, message.data);
+    this.historyMessageNumber += 1;
 
-    if (this.currentStateChangeNumber === -1) {
-      this.currentStateChangeNumber = 0;
+    this.history.push(historyItem);
+
+    if (this.history.length - 2 === this.currentHistoryItemIndex) {
+      this.goToNextDirection(1);
+      this.currentHistoryItemIndex += 1;
+      this.currentHistoryItem = this.history[this.currentHistoryItemIndex];
     }
 
-    while (this.currentStateChangeNumber !== stateChangeNumber) {
-      const stateChange = this.stateChanges[this.currentStateChangeNumber];
-      const stateValue =
-        direction === 1 ? stateChange.newValue : stateChange.oldValue;
-      _.set(this.store, stateChange.statePath, stateValue);
-      this.currentStateChangeNumber += direction;
-      this.currentStateChange = this.stateChanges[
-        this.currentStateChangeNumber
-      ];
+    this.sjHistoryChange.next(null);
+  }
+
+  /**
+   * Sets the state-store to the new state (shifts store on N steps) and changes the current history item.
+   *
+   * @param  {number} newCurrentHistoryItemIndex
+   * @return {void}
+   */
+  goToHistoryItem (
+    newCurrentHistoryItemId: number,
+  ): void {
+    const newCurrentHistoryItemIndex = this.lodash
+      .findIndex(this.history, [ 'id', newCurrentHistoryItemId ]);
+    if (newCurrentHistoryItemIndex === this.currentHistoryItemIndex) {
+      return;
     }
 
-    if (direction === 1) {
-      const stateChange = this.stateChanges[this.currentStateChangeNumber];
-      _.set(this.store, stateChange.statePath, stateChange.newValue);
+    if (newCurrentHistoryItemIndex > this.currentHistoryItemIndex) {
+      const stepsCount = newCurrentHistoryItemIndex - this.currentHistoryItemIndex;
+      this.goToNextDirection(stepsCount);
+    } else {
+      const stepsCount = this.currentHistoryItemIndex - newCurrentHistoryItemIndex;
+      this.goToPrevDirection(stepsCount);
     }
 
-    this.sjCurrentStateChangeChange.next(null);
-    this.sjCurrentStateChangeNumberChange.next(null);
-    this.sjStoreChange.next(null);
+    this.currentHistoryItemIndex = newCurrentHistoryItemIndex;
+    this.currentHistoryItem = this.history[newCurrentHistoryItemIndex];
+
+    this.sjHistoryChange.next(null);
+  }
+
+  /**
+   * Sets the state-store to the next state (shifts store on N steps).
+   * - starts from the next item relative the current history item;
+   * - uses the `newValue` field in every history item to changes the state-store.
+   *
+   * @param  {number} stepsCount
+   * @return {void}
+   */
+  private goToNextDirection (
+    stepsCount: number,
+  ) {
+    for (let i = 1; i <= stepsCount; i++) {
+      const nextHistoryItemIndex = this.currentHistoryItemIndex + i;
+      const nextHistoryItem = this.history[nextHistoryItemIndex];
+      this.krixStateStore.setState({
+        state: nextHistoryItem.state,
+        value: nextHistoryItem.newValue,
+      });
+    }
+  }
+
+  /**
+   * Sets the state-store to the previous state (shifts store on N steps).
+   * - starts from the current history item;
+   * - uses the `oldValue` field in every history item to changes the state-store.
+   *
+   * @param  {number} stepsCount
+   * @return {void}
+   */
+  private goToPrevDirection (
+    stepsCount: number,
+  ) {
+    for (let i = 0; i < stepsCount; i++) {
+      const prevHistoryItemIndex = this.currentHistoryItemIndex - i;
+      const prevHistoryItem = this.history[prevHistoryItemIndex];
+      this.krixStateStore.setState({
+        state: prevHistoryItem.state,
+        value: prevHistoryItem.oldValue,
+      });
+    }
+
+    const newCurrentHistoryItemIndex = this.currentHistoryItemIndex - stepsCount;
+    const newCurrentHistoryItem = this.history[newCurrentHistoryItemIndex];
+    this.krixStateStore.setState({
+      state: newCurrentHistoryItem.state,
+      value: newCurrentHistoryItem.newValue,
+    });
   }
 }
