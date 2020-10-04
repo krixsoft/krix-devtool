@@ -66,7 +66,7 @@ export class MessageHandler extends Core.Singleton {
     switch (message.command) {
       case MsgCommands.BackgroundScript.InitCS: {
         const tabId = port?.sender?.tab?.id;
-        this.messageRetranslator.sendMessage({
+        this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.InitCSCommand>({
           tabId: tabId,
           target: Core.Enums.AppEndpoint.ContentScript,
           source: Core.Enums.AppEndpoint.BackgroundScript,

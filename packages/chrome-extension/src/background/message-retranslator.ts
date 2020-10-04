@@ -84,8 +84,8 @@ export class MessageRetranslator extends Core.Singleton {
    * @param  {Core.Interfaces.ExtensionMessage} message
    * @return {void}
    */
-  sendMessage (
-    message: Core.Interfaces.ExtensionMessage,
+  sendMessage<TPayload = any> (
+    message: Core.Interfaces.ExtensionMessage<TPayload>,
   ): void {
     // Get a bridge metadata by the tab id
     const bridgeMetadata = this.bridgeMetadataStore.get(message.tabId);
