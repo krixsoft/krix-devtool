@@ -7,10 +7,10 @@ import { StateStoreRouter } from './state-store.router';
 import { StateStoreDemoModule } from './demo/state-store-demo.module';
 
 // --- Components
-import { StateStoreComponent } from './components/state-store/state-store.component';
-import { StateStoreSidebarComponent } from './components/state-store-sidebar/state-store-sidebar.component';
-import { StateStoreViewComponent } from './components/state-store-view/state-store-view.component';
-import { StateTreeComponent } from './pages/state-tree/state-tree.component';
+import { StateStoreTabComponent } from './components/state-store-tab/state-store-tab';
+import { TabSidebarComponent } from './components/tab-sidebar/tab-sidebar';
+import { TabContentComponent } from './components/tab-content/tab-content';
+import { StorePageComponent } from './components/tab-content/store-page/store-page';
 
 // --- Services
 import { HistoryService } from './core/history.service';
@@ -24,14 +24,13 @@ import { HistoryService } from './core/history.service';
     StateStoreDemoModule,
   ],
   declarations: [
-    StateStoreComponent,
-    StateStoreSidebarComponent,
-    StateStoreViewComponent,
-    StateTreeComponent,
+    StateStoreTabComponent,
+    TabSidebarComponent,
+    TabContentComponent,
+    StorePageComponent,
   ],
   providers: [
     HistoryService,
   ],
-  exports: [StateStoreComponent],
 })
 export class StateStoreModule { }

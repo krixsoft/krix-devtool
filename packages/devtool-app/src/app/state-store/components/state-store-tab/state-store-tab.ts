@@ -7,10 +7,10 @@ import { HistoryService } from '../../core/history.service';
 import { MessageHandler } from '../../../core/data-flow';
 
 @Component({
-  selector: 'krix-state-store',
-  templateUrl: './state-store.component.html',
+  selector: 'krix-state-store-tab',
+  templateUrl: './state-store-tab.html',
 })
-export class StateStoreComponent extends BaseComponent implements OnInit {
+export class StateStoreTabComponent extends BaseComponent implements OnInit {
   constructor (
     private historyService: HistoryService,
     private messageHandler: MessageHandler,

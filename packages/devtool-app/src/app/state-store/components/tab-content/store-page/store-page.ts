@@ -3,15 +3,15 @@ import { Subscription } from 'rxjs';
 
 import * as KrixStateStore from '@krix/state-store';
 
-import { BaseComponent } from '../../../shared/base.component';
+import { BaseComponent } from '../../../../shared/base.component';
 
-import { HistoryService } from '../../core/history.service';
+import { HistoryService } from '../../../core/history.service';
 
 @Component({
-  selector: 'krix-state-tree',
-  templateUrl: './state-tree.component.html',
+  selector: 'krix-store-page',
+  templateUrl: './store-page.html',
 })
-export class StateTreeComponent extends BaseComponent implements OnInit {
+export class StorePageComponent extends BaseComponent implements OnInit {
   public stateStore: KrixStateStore.StateStore;
   public store: unknown;
 

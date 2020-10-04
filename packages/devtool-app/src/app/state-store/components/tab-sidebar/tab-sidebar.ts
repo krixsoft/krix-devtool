@@ -8,10 +8,10 @@ import { HistoryService } from '../../core/history.service';
 import { Interfaces } from '../../shared';
 
 @Component({
-  selector: 'krix-state-store-sidebar',
-  templateUrl: './state-store-sidebar.component.html',
+  selector: 'krix-tab-sidebar',
+  templateUrl: './tab-sidebar.html',
 })
-export class StateStoreSidebarComponent extends BaseComponent implements OnInit, OnDestroy {
+export class TabSidebarComponent extends BaseComponent implements OnInit, OnDestroy {
   public historyItems: Interfaces.HistoryItem[];
   public filteredHistoryItems: Interfaces.HistoryItem[];
   public currentHistoryItem: Interfaces.HistoryItem;
@@ -26,6 +26,9 @@ export class StateStoreSidebarComponent extends BaseComponent implements OnInit,
   }
   get inputCommandFilterValue (): string {
     return this.commandFilterValue;
+  }
+
+  set inSelectedStore (value: string) {
   }
 
   constructor (
