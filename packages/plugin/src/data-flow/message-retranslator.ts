@@ -31,7 +31,7 @@ export class MessageRetranslator extends Core.Singleton {
   }
 
   /**
-   * Sends a bridge message to the CS.
+   * Sends a `Endpoint` message to the CS.
    *
    * @param  {Core.Enums.MsgCommands} message
    * @param  {MessagePayloadType} msgData

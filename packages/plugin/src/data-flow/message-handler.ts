@@ -14,7 +14,7 @@ export class MessageHandler extends Core.Singleton {
   }
 
   /**
-   * Handles a `Message` flow for a current connection.
+   * Handles a `Endpoint` message.
    *
    * @param  {Core.Interfaces.EndpointMessage} message
    * @return {void}
@@ -38,8 +38,9 @@ export class MessageHandler extends Core.Singleton {
   }
 
   /**
-   * Handles `Update Package List` command. This logic finds all package ids by the package name and sends
-   * these ids to the DTA.
+   * Handles `Update Package List` command.
+   * - gets the list of all package ids by the package name from the `Package` store.
+   * - sends the list of all package ids to the DTA.
    *
    * @param  {Core.Interfaces.EndpointMessagePayload.Request.UpdatePackageListCommand} message
    * @return {void}
@@ -55,9 +56,10 @@ export class MessageHandler extends Core.Singleton {
       return;
     }
 
-    // Get all package identifiers for the specific package and send their to DTA
+    // Get the list of all package ids by the package name from the `Package` store
     const packageIds = this.packageStore.getAllPackageIds(packageName);
 
+    // Send the list of all package ids to the DTA
     this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.UpdatePackageListCommand>(
       Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
       {
@@ -68,8 +70,12 @@ export class MessageHandler extends Core.Singleton {
   }
 
   /**
-   * Handles `Execute Package Command` command. This logic finds a package by the package name and package id
-   * from the message. After that it executes a command from message and returns a result to the DTA.
+   * Handles `Execute Package Command` command.
+   * - gets a package by the package name and package id.
+   * - executes a command from message.
+   *   - extracts and checks the package instance function.
+   *   - extracts the package instance function arguments.
+   * - returns a result to the DTA.
    *
    * @param  {Core.Interfaces.EndpointMessagePayload.Request.ExecutePackageCommand} message
    * @return {void}
@@ -79,6 +85,7 @@ export class MessageHandler extends Core.Singleton {
   ): void {
     const packageName = message?.packageName;
     const packageId = message?.packageId;
+    // Get a package by the package name and package id
     const packageInst: any = this.packageStore.getPackageInst(packageName, packageId);
 
     if (packageInst === null || packageInst === undefined) {
@@ -87,6 +94,7 @@ export class MessageHandler extends Core.Singleton {
       return;
     }
 
+    // Extract and check the package instance function
     const packageInstFnName: string = message?.fnName;
     const packageInstFn: Function = packageInst[packageInstFnName];
 
@@ -96,10 +104,13 @@ export class MessageHandler extends Core.Singleton {
       return;
     }
 
+    // Extract the package instance function arguments
     const packageInstFnArgs = message?.fnArgs ?? [];
 
+    // Execute a command from message
     const result = packageInstFn.apply(packageInst, packageInstFnArgs);
 
+    // Return a result to the DTA
     this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.ExecutePackageCommand>(
       Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand,
       {
