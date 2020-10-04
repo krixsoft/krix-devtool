@@ -1,7 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as Core from '@krix-devtool/core';
-
-import * as Shared from '../../shared';
 
 import { MessageRetranslator } from './message-retranslator';
 import { MessageHandler } from './message-handler';
@@ -9,8 +7,6 @@ import { MessageHandler } from './message-handler';
 @Injectable()
 export class EndpointConnector {
   constructor (
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
     private messageRetranslator: MessageRetranslator,
     private messageHandler: MessageHandler,
   ) {
@@ -29,7 +25,7 @@ export class EndpointConnector {
     this.messageRetranslator.setBgSPort(port);
 
     // Get tab identifier where user opened dev-tool
-    const tabId = this.lodash.get(chrome, `devtools.inspectedWindow.tabId`);
+    const tabId = _.get(chrome, `devtools.inspectedWindow.tabId`);
     this.messageRetranslator.setTabId(tabId);
 
     console.log(`EndpointConnector - connect:`, `Tab Id: ${tabId}, Port:`, port);
@@ -68,7 +64,7 @@ export class EndpointConnector {
     console.log(`DTA * EndpointConnector - onMessage:`, message, port);
 
     const tabId = this.messageRetranslator.getTabId();
-    if (this.lodash.isNil(tabId) === true || message?.tabId !== tabId) {
+    if (_.isNil(tabId) === true || message?.tabId !== tabId) {
       console.warn(`DTA * EndpointConnector - onMessage:`,
         `DTA is trying to handle message from another tab (${message.tabId}:${message.target})`);
       return;

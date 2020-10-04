@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { faStripeS } from '@fortawesome/free-brands-svg-icons';
 import * as _ from 'lodash';
-
-import * as Shared from '../../../shared';
 
 import { BaseComponent } from '../../../shared/base.component';
 
@@ -31,8 +29,6 @@ export class StateStoreSidebarComponent extends BaseComponent implements OnInit,
   }
 
   constructor (
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
     private historyService: HistoryService,
     private changeDetection: ChangeDetectorRef,
   ) {
@@ -41,8 +37,6 @@ export class StateStoreSidebarComponent extends BaseComponent implements OnInit,
   }
 
   ngOnInit (): void {
-    super.ngOnInit();
-
     this.historyService.getHistoryChangeObserver()
       .subscribe(() => {
         this.updateView();
@@ -66,7 +60,7 @@ export class StateStoreSidebarComponent extends BaseComponent implements OnInit,
     const newHistoryItemId = +liEl?.dataset?.id;
 
     if (this.currentHistoryItem.id === newHistoryItemId) {
-      const lastHistoryItem = this.lodash.last(this.historyItems);
+      const lastHistoryItem = _.last(this.historyItems);
       this.historyService.goToHistoryItem(lastHistoryItem?.id);
     } else {
       this.historyService.goToHistoryItem(newHistoryItemId);
@@ -99,7 +93,7 @@ export class StateStoreSidebarComponent extends BaseComponent implements OnInit,
   private updateFilteredHistoryItems (
   ): void {
     const rgxFilterValue = new RegExp(`${this.commandFilterValue}`, 'i');
-    this.filteredHistoryItems = this.lodash.filter(this.historyItems, (command) => {
+    this.filteredHistoryItems = _.filter(this.historyItems, (command) => {
       const result = rgxFilterValue.exec(command.statePath);
       return !_.isNil(result) && !_.isUndefined(result[0]);
     });

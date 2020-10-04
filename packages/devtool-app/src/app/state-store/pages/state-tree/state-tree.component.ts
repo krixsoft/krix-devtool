@@ -1,10 +1,9 @@
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import * as KrixStateStore from '@krix/state-store';
 
 import { BaseComponent } from '../../../shared/base.component';
-import * as Shared from '../../../shared';
 
 import { HistoryService } from '../../core/history.service';
 
@@ -19,8 +18,6 @@ export class StateTreeComponent extends BaseComponent implements OnInit {
   public sjStoreChange: Subscription;
 
   constructor (
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
     private historyService: HistoryService,
     private changeDetection: ChangeDetectorRef,
   ) {
@@ -30,7 +27,6 @@ export class StateTreeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit (): void {
-    super.ngOnInit();
     this.stateStore = this.historyService.getStateStore();
 
     const sjHistoryChange = this.historyService
@@ -45,7 +41,7 @@ export class StateTreeComponent extends BaseComponent implements OnInit {
   updateView (
   ): void {
     const store = this.stateStore.getState();
-    this.store = this.lodash.assign({}, store);
+    this.store = _.clone(store);
     this.changeDetection.detectChanges();
   }
 }

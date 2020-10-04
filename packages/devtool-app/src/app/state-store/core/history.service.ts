@@ -1,9 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
 import * as KrixStateStore from '@krix/state-store';
-
-import * as Shared from '../../shared';
 
 import { Interfaces } from '../shared';
 
@@ -20,8 +18,6 @@ export class HistoryService {
   private historyMessageNumber: number;
 
   constructor (
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
   ) {
     this.krixStateStore = KrixStateStore.StateStore.create();
 
@@ -59,7 +55,7 @@ export class HistoryService {
       return;
     }
 
-    const historyItem: Interfaces.HistoryItem = this.lodash.assign({
+    const historyItem: Interfaces.HistoryItem = _.assign({
       id: this.historyMessageNumber,
     }, message.data);
     this.historyMessageNumber += 1;
@@ -84,8 +80,7 @@ export class HistoryService {
   goToHistoryItem (
     newCurrentHistoryItemId: number,
   ): void {
-    const newCurrentHistoryItemIndex = this.lodash
-      .findIndex(this.history, [ 'id', newCurrentHistoryItemId ]);
+    const newCurrentHistoryItemIndex = _.findIndex(this.history, [ 'id', newCurrentHistoryItemId ]);
     if (newCurrentHistoryItemIndex === this.currentHistoryItemIndex) {
       return;
     }

@@ -1,17 +1,10 @@
 import type { Subscription } from 'rxjs';
-import { OnDestroy, OnInit } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 
-export class BaseComponent implements OnInit, OnDestroy {
+export class BaseComponent implements OnDestroy {
   private subscription: Set<Subscription>;
 
   constructor () {
-  }
-
-  /**
-   * STUB.
-   */
-  ngOnInit (
-  ): void {
     this.subscription = new Set();
   }
 

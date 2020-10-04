@@ -1,6 +1,4 @@
-import { Inject, Component, OnInit } from '@angular/core';
-
-import * as Shared from './shared';
+import { Component, OnInit } from '@angular/core';
 
 // Services
 import { EndpointConnector } from './core/data-flow';
@@ -13,13 +11,11 @@ export class AppComponent implements OnInit {
   title = 'DevTool';
 
   constructor (
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
     private readonly endpointConnector: EndpointConnector,
   ) { }
 
   ngOnInit (): void {
-    if (this.lodash.isNil(chrome) === true || this.lodash.isNil(chrome.devtools) === true) {
+    if (_.isNil(chrome) === true || _.isNil(chrome.devtools) === true) {
       console.warn(`DevTool application wasn't started in the chrome environment`);
       return;
     }
