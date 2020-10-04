@@ -32,7 +32,7 @@ export class EndpointConnector extends Core.Singleton {
     port.onMessage.addListener((message, senderPort) => {
       this.onExtensionMessage(message, senderPort);
     });
-    
+
     // Add `On Message` listener to the DTP connection
     window.addEventListener('message', (event) => {
       this.onDTPMessage(event);

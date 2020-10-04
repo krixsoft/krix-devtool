@@ -33,13 +33,13 @@ export class MessageHandler extends Core.Singleton {
 
   /**
    * Handles `Init CS` command. This logic sets a `Tab Id` to the message retranslator.
-   * 
+   *
    * @param  {Core.Interfaces.EndpointMessagePayload.InitCSCommand} message
    * @return {void}
    */
   onInitCS (
     message: Core.Interfaces.EndpointMessagePayload.InitCSCommand,
-  ) {
+  ): void {
     this.messageRetranslator.setTabId(message?.tabId);
   }
 }

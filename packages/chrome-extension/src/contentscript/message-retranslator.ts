@@ -1,5 +1,5 @@
-import * as Core from '@krix-devtool/core';
 import * as _ from 'lodash';
+import * as Core from '@krix-devtool/core';
 
 export class MessageRetranslator extends Core.Singleton {
   private bgsPort: chrome.runtime.Port;
@@ -7,27 +7,29 @@ export class MessageRetranslator extends Core.Singleton {
 
   /**
    * Sets a port of the BgS.
-   * 
+   *
    * @return {number}
    */
-  setBgSPort (port: chrome.runtime.Port): void {
+  setBgSPort (
+    port: chrome.runtime.Port,
+  ): void {
     this.bgsPort = port;
   }
 
   /**
    * Sets a tab id for the current CS.
-   * 
+   *
    * @return {number}
    */
   setTabId (
-    tabId: number
+    tabId: number,
   ): void {
     this.tabId = tabId;
   }
 
   /**
    * Returns a tab id for the current CS.
-   * 
+   *
    * @return {number}
    */
   getTabId (

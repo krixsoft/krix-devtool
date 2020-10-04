@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as Core from '@krix-devtool/core';
 
 import { MessageHandler } from './message-handler';
@@ -15,10 +14,10 @@ export class EndpointConnector extends Core.Singleton {
 
   /**
    * Adds listener to `Runtime On Connect` logic.
-   * 
+   *
    * @return {void}
    */
-  public connect () {
+  connect (): void {
     chrome.runtime.onConnect.addListener((port) => {
       this.onConnect(port);
     });
@@ -28,7 +27,7 @@ export class EndpointConnector extends Core.Singleton {
    * `Connect` handler.
    * - registers CS - adds the port to `Message Retranslator` by a tab identifier.
    * - adds `Message` and `Disconnect` watchers.
-   *
+   *onMessage
    * @param  {chrome.runtime.Port} port
    * @return {void}
    */
