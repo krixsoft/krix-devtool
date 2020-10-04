@@ -27,7 +27,7 @@ export class MessageHandler extends Core.Singleton {
         this.onExecutePackageCommand(message.payload);
         break;
       case Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList:
-        this.onPackageUpdatePackageList(message.payload);
+        this.onUpdatePackageList(message.payload);
         break;
       default:
         console.error(`DTP * MessageHandler - onMessage: Catch unsupported command`);
@@ -41,11 +41,11 @@ export class MessageHandler extends Core.Singleton {
    * Handles `Update Package List` command. This logic finds all package ids by the package name and sends
    * these ids to the DTA.
    *
-   * @param  {Core.Interfaces.EndpointMessagePayload.UpdatePackageListCommand} message
+   * @param  {Core.Interfaces.EndpointMessagePayload.Request.UpdatePackageListCommand} message
    * @return {void}
    */
-  onPackageUpdatePackageList (
-    message: Core.Interfaces.EndpointMessagePayload.UpdatePackageListCommand,
+  onUpdatePackageList (
+    message: Core.Interfaces.EndpointMessagePayload.Request.UpdatePackageListCommand,
   ): void {
     const packageName = message?.packageName;
 
@@ -55,18 +55,27 @@ export class MessageHandler extends Core.Singleton {
       return;
     }
 
-    this.packageStore.sendUpdatePackageListCommand(packageName);
+    // Get all package identifiers for the specific package and send their to DTA
+    const packageIds = this.packageStore.getAllPackageIds(packageName);
+
+    this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.UpdatePackageListCommand>(
+      Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
+      {
+        packageName: packageName,
+        packageIds: packageIds,
+      },
+    );
   }
 
   /**
    * Handles `Execute Package Command` command. This logic finds a package by the package name and package id
-   * from the message. After that it executes a command from message and returns result to the DTA.
+   * from the message. After that it executes a command from message and returns a result to the DTA.
    *
-   * @param  {Core.Interfaces.EndpointMessagePayload.ExecutePackageCommand} message
+   * @param  {Core.Interfaces.EndpointMessagePayload.Request.ExecutePackageCommand} message
    * @return {void}
    */
   onExecutePackageCommand (
-    message: Core.Interfaces.EndpointMessagePayload.ExecutePackageCommand,
+    message: Core.Interfaces.EndpointMessagePayload.Request.ExecutePackageCommand,
   ): void {
     const packageName = message?.packageName;
     const packageId = message?.packageId;
@@ -91,7 +100,7 @@ export class MessageHandler extends Core.Singleton {
 
     const result = packageInstFn.apply(packageInst, packageInstFnArgs);
 
-    this.messageRetranslator.sendMessage(
+    this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.ExecutePackageCommand>(
       Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand,
       {
         packageName: packageName,

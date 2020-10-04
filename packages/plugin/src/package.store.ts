@@ -43,8 +43,6 @@ export class PackageStore
     // Get the `Package Instance` store and save the new instance to it
     const packageInstStoreMap = this.packageStoreMap.get(packageName);
     packageInstStoreMap.set(packageId, packageInst);
-
-    this.sendUpdatePackageListCommand(packageName);
   }
 
   /**
@@ -87,28 +85,5 @@ export class PackageStore
     const packageInstStoreMap = this.packageStoreMap.get(packageName);
     const stateStoresNames = Array.from(packageInstStoreMap.keys());
     return stateStoresNames;
-  }
-
-  /**
-   * Sends `Update Package List` command.
-   * - extracts all package ids by the specific package name;
-   * - sends this list to the DTA.
-   *
-   * @param  {Core.Enums.PackageName} packageName
-   * @return {void}
-   */
-  sendUpdatePackageListCommand (
-    packageName: Core.Enums.PackageName,
-  ): void {
-    // Get all package identifiers for the specific package and send their to DTA
-    const packageIds = this.getAllPackageIds(packageName);
-
-    this.messageRetranslator.sendMessage(
-      Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
-      {
-        packageName: packageName,
-        packageIds: packageIds,
-      },
-    );
   }
 }
