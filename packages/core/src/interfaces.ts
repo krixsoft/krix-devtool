@@ -49,10 +49,6 @@ export namespace EndpointMessagePayload {
     export interface UpdatePackageListCommand {
       packageName: Enums.PackageName;
     }
-
-    export interface InitCSCommand {
-      tabId: number;
-    }
   }
 
   export namespace Response {
@@ -66,6 +62,10 @@ export namespace EndpointMessagePayload {
     export interface UpdatePackageListCommand {
       packageName: Enums.PackageName;
       packageIds: string[];
+    }
+
+    export interface InitCSCommand {
+      tabId: number;
     }
   }
 }
