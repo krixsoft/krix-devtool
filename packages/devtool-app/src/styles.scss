@@ -87,26 +87,14 @@ krix-state-store-tab {
 
   overflow: hidden;
 
-  .layout-history {
-    width: 35%;
-    height: 100%;
-
-    position: relative;
-
-    background-color: #23262d;
-  }
-
-  .layout-main {
-    width: 65%;
-
-    background-color: #212227;
-  }
-
   krix-tab-sidebar {
     display: flex;
     flex-direction: column;
-  
+    width: 35%;
     height: 100%;
+    position: relative;
+
+    background-color: #23262d;
   
     .store-panel {
       width: 100%;
@@ -201,7 +189,10 @@ krix-state-store-tab {
     display: flex;
     flex-direction: column;
   
+    width: 65%;
     height: 100%;
+
+    background-color: #212227;
   
     .navbar {
       display: flex;
