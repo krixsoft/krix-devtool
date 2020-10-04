@@ -3,7 +3,7 @@ import { Inject, Component, OnInit } from '@angular/core';
 import * as Shared from './shared';
 
 // Services
-import { EndpointConnector } from './core/services';
+import { EndpointConnector } from './core/data-flow';
 
 @Component({
   selector: 'krix-devtool-app',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit (): void {
-    if (this.lodash.isNil(chrome)) {
+    if (this.lodash.isNil(chrome) === true || this.lodash.isNil(chrome.devtools) === true) {
       console.warn(`DevTool application wasn't started in the chrome environment`);
       return;
     }

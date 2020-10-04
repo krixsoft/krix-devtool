@@ -29,6 +29,16 @@ export class MessageRetranslator {
   }
 
   /**
+   * Returns a tab id for the current CS.
+   *
+   * @return {number}
+   */
+  getTabId (
+    ): number {
+      return this.tabId;
+    }
+
+  /**
    * Sends message to the specific endpoint by the endpoint type.
    *
    * @param  {Core.Interfaces.ExtensionMessage} message

@@ -8,7 +8,8 @@ import * as Shared from '../shared';
 import {
   EndpointConnector,
   MessageRetranslator,
-} from './services';
+  MessageHandler,
+} from './data-flow';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {
   providers: [
     EndpointConnector,
     MessageRetranslator,
+    MessageHandler,
     {
       provide: Shared.Constants.DI.Lodash,
       useValue: _,
