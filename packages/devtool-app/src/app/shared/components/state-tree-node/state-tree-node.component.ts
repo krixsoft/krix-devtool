@@ -1,5 +1,5 @@
 import { ValueTypes } from './../../enums';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -16,9 +16,10 @@ export class StateTreeNodeComponent implements OnInit {
   public objectPreview: string = '';
 
   @Input('store')
-  set inStore (value: any) {
+  set inStore (value: unknown) {
     this.state = value;
     this.childrenStateNodes = this.createStateNodesFromStore(this.state);
+    this.changeDetection.detectChanges();
   }
 
   /**
@@ -27,7 +28,12 @@ export class StateTreeNodeComponent implements OnInit {
   public faMinus = faMinus;
   public faPlus = faPlus;
 
-  constructor (private sanitizer: DomSanitizer) { ; }
+  constructor (
+    private sanitizer: DomSanitizer,
+    private changeDetection: ChangeDetectorRef,
+  ) {
+    this.changeDetection.detach();
+  }
 
   ngOnInit (): void { }
 
@@ -41,6 +47,7 @@ export class StateTreeNodeComponent implements OnInit {
     stateNode: Interfaces.StateNode,
   ): void {
     stateNode.nodeIsOpened = !stateNode.nodeIsOpened;
+    this.changeDetection.detectChanges();
   }
 
   /**
@@ -50,7 +57,7 @@ export class StateTreeNodeComponent implements OnInit {
    * @return {string}
    */
   getStringRepresentationOfValue (
-    value: any,
+    value: unknown,
   ): string {
     if (_.isArray(value)) {
       return '[ ... ]';
@@ -75,7 +82,8 @@ export class StateTreeNodeComponent implements OnInit {
     if (_.isNaN(value)) {
       return 'NaN';
     }
-    return value;
+
+    return `${value}`;
   }
 
   /**
@@ -85,9 +93,11 @@ export class StateTreeNodeComponent implements OnInit {
    * @return {Interfaces.StateNode[]}
    */
   createStateNodesFromStore (
-    store: any,
+    store: unknown,
   ): Interfaces.StateNode[] {
-    if (!_.isObject(store)) { return; };
+    if (!_.isObject(store)) {
+      return;
+    }
 
     const stateNodes: Interfaces.StateNode[] = [];
 
@@ -113,12 +123,12 @@ export class StateTreeNodeComponent implements OnInit {
       // If node for state doesn't exist
       if (_.isNil(nodeForState) === true) {
         // Add new node
-        const newNodeForState = {
+        const newNodeForState: Interfaces.StateNode = {
           key: key,
           value: newValue,
+          valueType: stateValueType,
           nodeCanBeOpened: nodeCanBeOpened,
           nodeIsOpened: false,
-          valueType: stateValueType,
         };
 
         stateNodes.push(newNodeForState);
@@ -171,7 +181,7 @@ export class StateTreeNodeComponent implements OnInit {
    * @return {ValueTypes}
    */
   getValueType (
-    value: any,
+    value: unknown,
   ): ValueTypes {
     if (_.isNull(value)) {
       return ValueTypes.Null;
@@ -213,7 +223,7 @@ export class StateTreeNodeComponent implements OnInit {
    */
   trackByFn (
     index: number,
-    item: any,
+    item: Interfaces.StateNode,
   ): string {
     return `${item.key}`;
   }
@@ -223,12 +233,14 @@ export class StateTreeNodeComponent implements OnInit {
    * @param  {any} object
    * @returns string
    */
-  showObjectPreview (object: any): any {
+  showObjectPreview (
+    object: unknown,
+  ): any {
     if (_.isObject(object) === false) { return object; }
 
     const objectPreviewFields: string[] = [];
 
-    for (const key in object) {
+    for (const key in object as any) {
       if (Object.prototype.hasOwnProperty.call(object, key) === false) {
         continue;
       }
