@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // SS
-import { GlobalAction } from './state-store/actions/global.action';
+import { GlobalStore } from './state-store/stores/global.store';
 import { StateStore } from './state-store/state-store.service';
 import { Interfaces } from './state-store/shared';
 import { Enums } from './state-store/shared';
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   constructor (
     // SS
     private stateStore: StateStore,
-    private globalAction: GlobalAction,
+    private globalStore: GlobalStore,
   ) { }
 
   ngOnInit (
@@ -41,18 +41,18 @@ export class AppComponent implements OnInit {
   startStateStoreEmulator (
   ): void {
     setInterval(() => {
-      this.globalAction.increaseUserCounter();
+      this.globalStore.increaseUserCounter();
     }, 1000);
 
     setInterval(() => {
-      this.globalAction.decreaseUserCounter();
+      this.globalStore.decreaseUserCounter();
     }, 4500);
 
     setInterval(() => {
-      this.globalAction.resetUserCounter();
+      this.globalStore.resetUserCounter();
     }, 15000);
 
-    this.globalAction.setCurrentUserId('ec56j-bff46-1apyt-cai0g0-hell0');
+    this.globalStore.setCurrentUserId('ec56j-bff46-1apyt-cai0g0-hell0');
 
     const resources: Interfaces.Resource[] = [
       {
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
     setInterval(() => {
       const resourceIndex = this.getRandomInt(0, resources.length);
       const resource = resources[resourceIndex];
-      this.globalAction.emitLastResourceUpdate(resource.name, resource.value);
+      this.globalStore.emitLastResourceUpdate(resource.name, resource.value);
     }, 5000);
   }
 

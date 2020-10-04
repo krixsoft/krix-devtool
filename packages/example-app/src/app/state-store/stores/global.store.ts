@@ -5,7 +5,7 @@ import { StateStore } from '../state-store.service';
 import { Interfaces, Enums } from '../shared';
 
 @Injectable()
-export class GlobalAction {
+export class GlobalStore {
   constructor (private stateStore: StateStore) {
     const initialState: Interfaces.GlobalStore = {
       userCounter: 0,

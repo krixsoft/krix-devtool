@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 // Services
 import { StateStore } from './state-store.service';
-import { GlobalAction } from './actions/global.action';
+import { GlobalStore } from './stores/global.store';
 
 // --- Modules
 
@@ -13,7 +13,7 @@ import { GlobalAction } from './actions/global.action';
   ],
   providers: [
     StateStore,
-    GlobalAction,
+    GlobalStore,
   ],
 })
 export class StateStoreModule { }
