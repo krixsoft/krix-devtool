@@ -43,6 +43,15 @@ export class PackageStore
     // Get the `Package Instance` store and save the new instance to it
     const packageInstStoreMap = this.packageStoreMap.get(packageName);
     packageInstStoreMap.set(packageId, packageInst);
+
+    const packageIds = this.getAllPackageIds(packageName);
+    this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.UpdatePackageListCommand>(
+      Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
+      {
+        packageName: packageName,
+        packageIds: packageIds,
+      },
+    );
   }
 
   /**

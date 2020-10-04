@@ -37,15 +37,6 @@ export class DevToolConnectorPlugin
   ): void {
     this.packageStore.setPackageInst(Core.Enums.PackageName.StateStore, storeName, stateStore);
 
-    const packageIds = this.packageStore.getAllPackageIds(Core.Enums.PackageName.StateStore);
-    this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Response.UpdatePackageListCommand>(
-      Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
-      {
-        packageName: Core.Enums.PackageName.StateStore,
-        packageIds: packageIds,
-      },
-    );
-
     // Subscibe on changes of `Store Command` flow of the state store
     stateStore.getStoreCommandObserver()
       .subscribe((storeCommand) => {
