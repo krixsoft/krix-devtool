@@ -46,7 +46,7 @@ export class MessageRetranslator {
    */
   sendMessage <TMsg = any> (
     targetEndpoint: Core.Enums.AppEndpoint,
-    msgCommand: Core.Enums.MsgCommands,
+    msgCommand: Core.Interfaces.MsgCommands,
     msgData?: TMsg,
   ): void {
     if (targetEndpoint === Core.Enums.AppEndpoint.ContentScript) {
