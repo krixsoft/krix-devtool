@@ -34,7 +34,7 @@ export class MessageHandler extends Core.Singleton {
         break;
     }
 
-    console.log(`DTP * MessageHandler - onMessage:`, event);
+    console.log(`DTP * MessageHandler - onMessage:`, message);
   }
 
   /**
