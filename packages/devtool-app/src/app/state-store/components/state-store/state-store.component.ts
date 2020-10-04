@@ -14,7 +14,7 @@ export class StateStoreComponent extends BaseComponent implements OnInit {
   constructor (
     private historyService: HistoryService,
     private messageHandler: MessageHandler,
-    ) {
+  ) {
     super();
   }
 

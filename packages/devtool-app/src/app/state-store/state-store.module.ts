@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { SharedModule } from './../shared/shared.module';
 import { StateStoreRouter } from './state-store.router';
+import { StateStoreDemoModule } from './demo/state-store-demo.module';
 
 // --- Components
 import { StateStoreComponent } from './components/state-store/state-store.component';
@@ -20,6 +21,7 @@ import { HistoryService } from './core/history.service';
     SharedModule,
     RouterModule,
     StateStoreRouter,
+    StateStoreDemoModule,
   ],
   declarations: [
     StateStoreComponent,
