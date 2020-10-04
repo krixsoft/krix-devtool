@@ -28,7 +28,3 @@ export namespace MsgCommands {
 export enum StateStoreCommand {
   GetStore = 'GetStore',
 }
-
-export type PackageCommands = StateStoreCommand;
-
-export type MsgCommands = MsgCommands.DevToolPlugin | MsgCommands.DevToolApp | MsgCommands.BackgroundScript;

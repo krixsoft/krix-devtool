@@ -38,7 +38,7 @@ export class MessageRetranslator extends Core.Singleton {
    * @return {void}
    */
   sendMessage <MessagePayloadType = any> (
-    msgCommand: Core.Enums.MsgCommands,
+    msgCommand: Core.Interfaces.MsgCommands,
     msgPayload?: MessagePayloadType,
   ): void {
     const messsag: Core.Interfaces.EndpointMessage<MessagePayloadType> = {

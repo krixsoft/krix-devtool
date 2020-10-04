@@ -1,6 +1,12 @@
 import * as Enums from './enums';
 import * as KrixStateStore from '@krix/state-store';
 
+export type PackageCommands = Enums.StateStoreCommand;
+
+export type MsgCommands = Enums.MsgCommands.DevToolPlugin
+  | Enums.MsgCommands.DevToolApp
+  | Enums.MsgCommands.BackgroundScript;
+
 export interface OnInit {
   onInit(): void;
 }
@@ -9,15 +15,15 @@ export interface InitDeps {
   initDeps(): void;
 }
 
-export interface ExtensionMessage <PayloadType = any> extends EndpointMessage<PayloadType> {
-  tabId: number;
-}
-
 export interface EndpointMessage <PayloadType = any> {
-  command: Enums.MsgCommands;
+  command: MsgCommands;
   target: Enums.AppEndpoint;
   source: Enums.AppEndpoint;
   payload?: PayloadType;
+}
+
+export interface ExtensionMessage <PayloadType = any> extends EndpointMessage<PayloadType> {
+  tabId: number;
 }
 
 export type PackageType = KrixStateStore.StateStore;
@@ -41,7 +47,7 @@ export namespace EndpointMessagePayload {
   export interface ExecutePackageCommand {
     packageName: Enums.PackageName;
     packageId: string;
-    packageCommand: Enums.PackageCommands;
+    packageCommand: PackageCommands;
     fnName: string;
     fnArgs: any[];
   }
