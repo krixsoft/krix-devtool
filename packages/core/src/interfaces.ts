@@ -36,20 +36,37 @@ export interface PackageMessage  {
 }
 
 export namespace EndpointMessagePayload {
+
+  export namespace Request {
+    export interface ExecutePackageCommand {
+      packageName: Enums.PackageName;
+      packageId: string;
+      packageCommand: PackageCommands;
+      fnName: string;
+      fnArgs: any[];
+    }
+
+    export interface UpdatePackageListCommand {
+      packageName: Enums.PackageName;
+    }
+  }
+
+  export namespace Response {
+    export interface ExecutePackageCommand<TResult = any> {
+      packageName: Enums.PackageName;
+      packageId: string;
+      packageCommand: PackageCommands;
+      result: TResult;
+    }
+
+    export interface UpdatePackageListCommand {
+      packageName: Enums.PackageName;
+      packageIds: string[];
+    }
+  }
+
   export interface InitCSCommand {
     tabId: number;
-  }
-
-  export interface UpdatePackageListCommand {
-    packageName: Enums.PackageName;
-  }
-
-  export interface ExecutePackageCommand {
-    packageName: Enums.PackageName;
-    packageId: string;
-    packageCommand: PackageCommands;
-    fnName: string;
-    fnArgs: any[];
   }
 }
 
