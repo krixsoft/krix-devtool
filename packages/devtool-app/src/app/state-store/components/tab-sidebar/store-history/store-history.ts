@@ -56,8 +56,8 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
     event: MouseEvent,
   ): void {
     const el = event?.target as HTMLElement;
-    const liEl = el.closest('.history-item');
-    const newHistoryItemId = +liEl?.dataset?.id;
+    const historyItemEl: HTMLElement = el.closest('.history-item');
+    const newHistoryItemId = +historyItemEl?.dataset?.id;
 
     if (this.currentHistoryItem.id === newHistoryItemId) {
       const lastHistoryItem = _.last(this.historyItems);
