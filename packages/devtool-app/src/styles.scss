@@ -262,8 +262,6 @@ krix-state-store-tab {
       height: 100%;
       width: 100%;
   
-      padding-right: 20px;
-  
       box-shadow: 8px 8px 14px -17px #000000 inset;
       overflow-y: auto;
       overflow-x: hidden;
@@ -274,16 +272,15 @@ krix-state-store-tab {
       }
     }
   }
-}
 
+  krix-store-page {
+    height: 100%;
+    width: 100%;
+    display: block;
 
-krix-state-tree {
-  display: block;
-
-  height: 100%;
-  width: 100%;
-
-  padding-top: 20px;
+    padding-top: 5px;
+    padding-right: 20px;
+  }
 }
 
 krix-state-tree-node {
