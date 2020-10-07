@@ -9,12 +9,41 @@ import { Interfaces } from '../shared';
 export class HistoryService {
   private krixStateStore: KrixStateStore.StateStore;
 
+  /**
+   * The list of all history items.
+   */
   private historyList: Interfaces.HistoryItem[];
+
+  /**
+   * Filtered history list by the current search criteria.
+   */
+  private filteredHistoryList: Interfaces.HistoryItem[];
+  /**
+   * We use this field as the current search criteria.
+   */
+  private searchText: string;
+  /**
+   * The regular expression which correspond the current search criteria.
+   */
+  private searchRgx: RegExp;
+
+  /**
+   * The index of the selected history item.
+   */
   private currentHistoryItemIndex: number;
+  /**
+   * The selected history item.
+   */
   private currentHistoryItem: Interfaces.HistoryItem;
 
+  /**
+   * RxJS subject which we use to notify an external logic about changes.
+   */
   private sjHistoryChange: Subject<null>;
 
+  /**
+   * Uniq history message number - the identifier of the next new history item.
+   */
   private freeHistoryMessageNumber: number;
 
   constructor (
@@ -24,8 +53,65 @@ export class HistoryService {
     this.sjHistoryChange = new Subject();
 
     this.historyList = [];
+
+    this.filteredHistoryList = [];
+    this.setFilter('');
+
     this.currentHistoryItemIndex = -1;
     this.freeHistoryMessageNumber = 0;
+  }
+
+  /**
+   * Sets a new search text and recalculates the history list.
+   *
+   * @param  {string} searchText
+   * @return {void}
+   */
+  setFilter (
+    searchText: string,
+  ): void {
+    if (this.searchText === searchText) {
+      return;
+    }
+
+    if (_.isEmpty(searchText) === true) {
+      this.searchText = '';
+      this.filteredHistoryList = [ ...this.historyList ];
+
+      this.sjHistoryChange.next(null);
+      return;
+    }
+
+    this.searchText = searchText;
+    const escapedsearchString = _.replace(searchText, /[.*+\-?^${}()|[\]\\]/g, '\\$&');
+    this.searchRgx = new RegExp(escapedsearchString, 'i');
+
+    this.filteredHistoryList = _.filter(this.historyList, (historyItem) => {
+      return this.compareHistoryItemWithSearchText(historyItem);
+    });
+
+    this.currentHistoryItemIndex = this.filteredHistoryList.length - 1;
+    this.currentHistoryItem = this.currentHistoryItemIndex === -1
+      ? null : this.filteredHistoryList[this.currentHistoryItemIndex];
+
+    this.sjHistoryChange.next(null);
+  }
+
+  /**
+   * Compares the history item with search text. Returns `true` if the match succeeds.
+   *
+   * @param  {Interfaces.HistoryItem} historyItem
+   * @return {boolean}
+   */
+  compareHistoryItemWithSearchText (
+    historyItem: Interfaces.HistoryItem,
+  ): boolean {
+    if (_.isEmpty(this.searchText) === true) {
+      return true;
+    }
+
+    const matchArr = this.searchRgx.exec(historyItem.statePath);
+    return _.isNil(matchArr) === false;
   }
 
   /**
@@ -55,7 +141,7 @@ export class HistoryService {
    */
   getHistory (
   ): Interfaces.HistoryItem[] {
-    return [ ...this.historyList ];
+    return [ ...this.filteredHistoryList ];
   }
 
   /**
@@ -91,14 +177,21 @@ export class HistoryService {
 
     this.historyList.push(historyItem);
 
+    // Skip the update of the current item if the new element doesn't fit the search text
+    if (this.compareHistoryItemWithSearchText(historyItem) === false) {
+      return;
+    }
+
+    this.filteredHistoryList.push(historyItem);
+
     // FYI: If we subtract 1, we get the last element in the queue but the last element is the new element
     // so we subtract 2 and get the previous last element (when the queue was without the new element).
     // If the current history item index is the previous last element we will move selector to the next
     // element.
-    if (this.historyList.length - 2 === this.currentHistoryItemIndex) {
+    if (this.filteredHistoryList.length - 2 === this.currentHistoryItemIndex) {
       this.goToNextDirection(1);
       this.currentHistoryItemIndex += 1;
-      this.currentHistoryItem = this.historyList[this.currentHistoryItemIndex];
+      this.currentHistoryItem = this.filteredHistoryList[this.currentHistoryItemIndex];
     }
 
     this.sjHistoryChange.next(null);
@@ -113,7 +206,7 @@ export class HistoryService {
   goToHistoryItem (
     newCurrentHistoryItemId: number,
   ): void {
-    const newCurrentHistoryItemIndex = _.findIndex(this.historyList, [ 'id', newCurrentHistoryItemId ]);
+    const newCurrentHistoryItemIndex = _.findIndex(this.filteredHistoryList, [ 'id', newCurrentHistoryItemId ]);
     if (newCurrentHistoryItemIndex === this.currentHistoryItemIndex) {
       return;
     }
@@ -127,7 +220,7 @@ export class HistoryService {
     }
 
     this.currentHistoryItemIndex = newCurrentHistoryItemIndex;
-    this.currentHistoryItem = this.historyList[newCurrentHistoryItemIndex];
+    this.currentHistoryItem = this.filteredHistoryList[newCurrentHistoryItemIndex];
 
     this.sjHistoryChange.next(null);
   }
@@ -145,7 +238,7 @@ export class HistoryService {
   ) {
     for (let i = 1; i <= stepsCount; i++) {
       const nextHistoryItemIndex = this.currentHistoryItemIndex + i;
-      const nextHistoryItem = this.historyList[nextHistoryItemIndex];
+      const nextHistoryItem = this.filteredHistoryList[nextHistoryItemIndex];
 
       if (nextHistoryItem?.options?.signal === true) {
         continue;
@@ -171,7 +264,7 @@ export class HistoryService {
   ) {
     for (let i = 0; i < stepsCount; i++) {
       const prevHistoryItemIndex = this.currentHistoryItemIndex - i;
-      const prevHistoryItem = this.historyList[prevHistoryItemIndex];
+      const prevHistoryItem = this.filteredHistoryList[prevHistoryItemIndex];
 
       if (prevHistoryItem?.options?.signal === true) {
         continue;
@@ -184,7 +277,7 @@ export class HistoryService {
     }
 
     const newCurrentHistoryItemIndex = this.currentHistoryItemIndex - stepsCount;
-    const newCurrentHistoryItem = this.historyList[newCurrentHistoryItemIndex];
+    const newCurrentHistoryItem = this.filteredHistoryList[newCurrentHistoryItemIndex];
 
     if (newCurrentHistoryItem?.options?.signal === true) {
       return;
