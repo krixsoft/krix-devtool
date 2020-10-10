@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { faStripeS } from '@fortawesome/free-brands-svg-icons';
-import * as _ from 'lodash';
 
 import { BaseComponent } from '../../../../shared/base.component';
+import * as SharedInterfaces from '../../../../shared/interfaces';
 
 import { HistoryService } from '../../../core/history.service';
 import { Interfaces } from '../../../shared';
@@ -13,15 +13,15 @@ import { Interfaces } from '../../../shared';
 })
 export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDestroy {
   public historyItems: Interfaces.HistoryItem[];
-  public filteredHistoryItems: Interfaces.HistoryItem[];
   public currentHistoryItem: Interfaces.HistoryItem;
+  public currentHistoryItemIsLastItem: boolean;
 
   public faStripeS = faStripeS;
 
   private commandFilterValue: string = '';
   set inputCommandFilterValue (value: string) {
     this.commandFilterValue = value;
-    this.updateFilteredHistoryItems();
+    this.historyService.setFilter(value);
     this.changeDetection.detectChanges();
   }
   get inputCommandFilterValue (): string {
@@ -45,19 +45,18 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
   }
 
   /**
-   * Handles "Click" events from the history list.
+   * Handles "Delegate Click" events from the history list.
    * - changes the current history item.
+   * - updates the current history item.
    *
-   * @event  {MouseClick}
-   * @param  {MouseEvent} event
+   * @event  {DelegateClick}
+   * @param  {SharedInterfaces.ClickDelegateEvent} event
    * @return {void}
    */
   onClickChangeHistoryItem (
-    event: MouseEvent,
+    event: SharedInterfaces.ClickDelegateEvent,
   ): void {
-    const el = event?.target as HTMLElement;
-    const historyItemEl: HTMLElement = el.closest('.history-item');
-    const newHistoryItemId = +historyItemEl?.dataset?.id;
+    const newHistoryItemId = +event.id;
 
     if (this.currentHistoryItem.id === newHistoryItemId) {
       const lastHistoryItem = _.last(this.historyItems);
@@ -80,22 +79,11 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
   private updateView (
   ): void {
     this.historyItems = this.historyService.getHistory();
-    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
-    this.updateFilteredHistoryItems();
-    this.changeDetection.detectChanges();
-  }
 
-  /**
-   * Updates the list of filtered history items.
-   *
-   * @return {void}
-   */
-  private updateFilteredHistoryItems (
-  ): void {
-    const rgxFilterValue = new RegExp(`${this.commandFilterValue}`, 'i');
-    this.filteredHistoryItems = _.filter(this.historyItems, (command) => {
-      const result = rgxFilterValue.exec(command.statePath);
-      return !_.isNil(result) && !_.isUndefined(result[0]);
-    });
+    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
+
+    this.currentHistoryItemIsLastItem = this.historyService.currentHistoryItemIsLastItem;
+
+    this.changeDetection.detectChanges();
   }
 }

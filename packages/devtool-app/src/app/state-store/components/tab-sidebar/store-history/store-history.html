@@ -5,16 +5,28 @@
     [(ngModel)]="inputCommandFilterValue"
   />
 </div>
-<div class="history-list" (click)="onClickChangeHistoryItem($event)">
+<div
+  class="history-list"
+
+  krixClickDelegate
+  [tagSelectors]="[ '.history-item' ]"
+  (dClick)="onClickChangeHistoryItem($event)"
+  
+  krixScrollBottomStick
+  [scrollStickActive]="currentHistoryItemIsLastItem"
+  [scrollStickEvent]="currentHistoryItem"
+>
   <div
     class="history-item"
-    *ngFor="let historyItem of filteredHistoryItems"
+    *ngFor="let historyItem of historyItems"
     [class.selected]="historyItem.id === currentHistoryItem?.id"
     [attr.data-id]="historyItem.id"
   >
-    {{ historyItem.statePath }}
-    <span *ngIf="historyItem?.options?.signal === true"
-      ><fa-icon [icon]="faStripeS" class="state-signal-icon"></fa-icon
-    ></span>
+    <div class="content-section">
+      {{ historyItem.statePath }}
+    </div>
+    <div *ngIf="historyItem?.options?.signal === true" class="icon-section">
+      <fa-icon [icon]="faStripeS" class="state-signal-icon"></fa-icon>
+    </div>
   </div>
 </div>
