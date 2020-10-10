@@ -2,6 +2,10 @@
 @import './fonts.scss';
 @import "./scss/index.scss";
 
+$highlight-color: #fac800;
+$dark-bg-color: #212227;
+$light-bg-color: #23262d;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -51,7 +55,7 @@ krix-app-navigation {
   height: 2.5em;
   z-index: 5;
 
-  background-color: #212227;
+  background-color: $dark-bg-color;
   border-bottom: 1px solid #1d1d21;
   box-shadow: 0px -3px 6px 0px #000000;
 
@@ -71,9 +75,9 @@ krix-app-navigation {
       border-top: 2px solid transparent;
       border-right: 2px solid hsla(230, 9%, 10%, 0.4);
       border-left: 2px solid hsla(230, 9%, 10%, 0.4);
-      border-bottom: 2px solid #fac800;
+      border-bottom: 2px solid $highlight-color;
 
-      color: #fac800;
+      color: $highlight-color;
     }
   }
 }
@@ -94,13 +98,13 @@ krix-state-store-tab {
     height: 100%;
     position: relative;
 
-    background-color: #23262d;
+    background-color: $light-bg-color;
   
     .store-selector-container {
       border-right: 1px solid #26282e;
     }
 
-    .store-selector-container, .history-filter-container {
+    .store-selector-container {
       height: 2.5em;
 
       border-bottom: 1px solid #1d1d21;
@@ -122,37 +126,27 @@ krix-state-store-tab {
 
       padding: 0.7em 1em;
 
-      background-color: #23262d;
+      background-color: $light-bg-color;
       border: none;
       
       color: white;
 
       &::placeholder {
-        color: #fac800;
+        color: $highlight-color;
       }
     }
   }
 
   krix-store-history {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 2.5em);
     display: flex;
     flex-direction: column;
 
-    .store-selector-container, .history-filter-container {
+    .history-filter-container {
       height: 2.5em;
 
       border-bottom: 1px solid #1d1d21;
-    }
-
-    .store-selector {
-      width: 100%;
-      height: 100%;
-
-      background-color: transparent;
-      border: none;
-
-      outline: none;
     }
 
     input {
@@ -161,13 +155,13 @@ krix-state-store-tab {
 
       padding: 0.7em 1em;
 
-      background-color: #23262d;
+      background-color: $dark-bg-color;
       border: none;
       
       color: white;
 
       &::placeholder {
-        color: #fac800;
+        color: $highlight-color;
       }
     }
   
@@ -191,8 +185,16 @@ krix-state-store-tab {
 
       &:hover,
       &.selected {
-        background-color: #212227;
+        background-color: $dark-bg-color;
         border-bottom: 2px solid transparent;
+
+        color: $highlight-color;
+
+        .content-section {
+          &:after {
+            content: '#';
+          }
+        }
       }
 
       &:last-child {
@@ -205,10 +207,10 @@ krix-state-store-tab {
     .state-signal-icon {
       padding: 1px 4px;
 
-      border: 2px solid #fac800;
+      border: 2px solid $highlight-color;
       border-radius: 5px;
 
-      color: #fac800;
+      color: $highlight-color;
       font-size: 0.75em;
     }
   }
@@ -220,7 +222,7 @@ krix-state-store-tab {
     width: 65%;
     height: 100%;
 
-    background-color: #212227;
+    background-color: $dark-bg-color;
   
     .navbar {
       display: flex;
@@ -228,13 +230,13 @@ krix-state-store-tab {
   
       height: 2.5em;
   
-      background-color: #23262d;
+      background-color: $light-bg-color;
       border-left: 1px solid #1d1d21;
   
       a {
         height: 2.5em;
   
-        border-bottom: 2px solid #23262d;
+        border-bottom: 2px solid $light-bg-color;
         
         color: #b3bec4;
         text-decoration: none;
@@ -249,7 +251,7 @@ krix-state-store-tab {
   
           width: 5em;
   
-          border-bottom: 2px solid #fac800;
+          border-bottom: 2px solid $highlight-color;
   
           cursor: pointer;
         }
@@ -306,7 +308,7 @@ krix-state-tree-node {
     cursor: default;
 
     fa-icon {
-      color: #fac800;
+      color: $highlight-color;
       font-size: .75em;
     }
 
