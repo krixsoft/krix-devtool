@@ -16,6 +16,15 @@ const components = [
   StateTreeNodeComponent,
 ];
 
+// --- Direvtives
+import { ClickDelegateDirective } from './directives/click-delegate.directive';
+import { ScrollBottomStickDirective } from './directives/scroll-bottom-stick.directive';
+
+const directives = [
+  ClickDelegateDirective,
+  ScrollBottomStickDirective,
+];
+
 // --- Pipes
 import { ForOfPipe } from './pipes/for-of.pipe';
 
@@ -26,6 +35,7 @@ const pipes = [
 @NgModule({
   declarations: [
     ...pipes,
+    ...directives,
     ...components,
   ],
   imports: [
@@ -35,6 +45,7 @@ const pipes = [
   exports: [
     ...modules,
     ...pipes,
+    ...directives,
     ...components,
   ],
 })

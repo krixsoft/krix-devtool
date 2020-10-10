@@ -13,3 +13,21 @@ export interface StateNode {
   nodeCanBeOpened: boolean;
 }
 
+export interface ClickDelegateEvent {
+  /**
+   * data-id attribute
+   */
+  id: string;
+  /**
+   * data-type attribute
+   */
+  type: string;
+  /**
+   * CSS class.
+   */
+  tagSelector: string;
+  /**
+   * Native mouse event.
+   */
+  event: MouseEvent;
+}
