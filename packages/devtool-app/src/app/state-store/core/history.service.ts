@@ -35,6 +35,10 @@ export class HistoryService {
    * The selected history item.
    */
   private currentHistoryItem: Interfaces.HistoryItem;
+  /**
+   * `true` if the selected history item is the last element.
+   */
+  public currentHistoryItemIsLastItem: boolean;
 
   /**
    * RxJS subject which we use to notify an external logic about changes.
@@ -58,6 +62,7 @@ export class HistoryService {
     this.setFilter('');
 
     this.currentHistoryItemIndex = -1;
+    this.currentHistoryItemIsLastItem = true;
     this.freeHistoryMessageNumber = 0;
   }
 
@@ -210,6 +215,8 @@ export class HistoryService {
     if (newCurrentHistoryItemIndex === this.currentHistoryItemIndex) {
       return;
     }
+
+    this.currentHistoryItemIsLastItem = newCurrentHistoryItemIndex === (this.filteredHistoryList.length - 1);
 
     if (newCurrentHistoryItemIndex > this.currentHistoryItemIndex) {
       const stepsCount = newCurrentHistoryItemIndex - this.currentHistoryItemIndex;
