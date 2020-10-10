@@ -189,7 +189,9 @@ krix-state-store-tab {
         border-bottom: 2px solid transparent;
 
         color: $highlight-color;
+      }
 
+      &.selected {
         .content-section {
           &:after {
             content: '#';
