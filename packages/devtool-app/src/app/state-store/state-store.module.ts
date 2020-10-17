@@ -13,7 +13,8 @@ import { TabSidebarComponent } from './components/tab-sidebar/tab-sidebar';
 import { StoreHistoryComponent } from './components/tab-sidebar/store-history/store-history';
 
 import { TabContentComponent } from './components/tab-content/tab-content';
-import { StorePageComponent } from './components/tab-content/store-page/store-page';
+import { StoreViewPageComponent } from './components/tab-content/store-view-page/store-view-page';
+import { CommandViewPageComponent } from './components/tab-content/command-view-page/command-view-page';
 
 // --- Services
 import { HistoryService } from './core/history.service';
@@ -33,7 +34,8 @@ import { HistoryService } from './core/history.service';
     StoreHistoryComponent,
 
     TabContentComponent,
-    StorePageComponent,
+    StoreViewPageComponent,
+    CommandViewPageComponent,
   ],
   providers: [
     HistoryService,

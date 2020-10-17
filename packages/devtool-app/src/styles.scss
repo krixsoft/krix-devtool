@@ -239,23 +239,32 @@ krix-tab-content {
 
     a {
       height: 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      border-bottom: 2px solid $light-bg-color;
+      border-top: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      padding: 0 1.35em;
       
       color: #b3bec4;
       text-decoration: none;
 
       outline: none;
 
-      &:hover,
+      &.hover,
+      &:hover{
+        text-decoration: underline;
+
+        cursor: pointer;
+      }
+
+      &.active.hover,
+      &.active:hover,
       &.active {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 5em;
-
         border-bottom: 2px solid $highlight-color;
+
+        text-decoration: none;
 
         cursor: pointer;
       }

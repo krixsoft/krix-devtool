@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 // --- Components
 import { StateStoreTabComponent } from './components/state-store-tab/state-store-tab';
-import { StorePageComponent } from './components/tab-content/store-page/store-page';
+import { StoreViewPageComponent } from './components/tab-content/store-view-page/store-view-page';
+import { CommandViewPageComponent } from './components/tab-content/command-view-page/command-view-page';
 
 const routes: Routes = [{
   path: 'state-store',
@@ -11,7 +12,16 @@ const routes: Routes = [{
   children: [
     {
       path: '',
-      component: StorePageComponent,
+      pathMatch: 'full',
+      redirectTo: 'store',
+    },
+    {
+      path: 'store',
+      component: StoreViewPageComponent,
+    },
+    {
+      path: 'command',
+      component: CommandViewPageComponent,
     },
   ],
 }];

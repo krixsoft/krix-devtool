@@ -8,10 +8,10 @@ import { BaseComponent } from '../../../../shared/base.component';
 import { HistoryService } from '../../../core/history.service';
 
 @Component({
-  selector: 'krix-store-page',
-  templateUrl: './store-page.html',
+  selector: 'krix-store-view-page',
+  templateUrl: './store-view-page.html',
 })
-export class StorePageComponent extends BaseComponent implements OnInit {
+export class StoreViewPageComponent extends BaseComponent implements OnInit {
   public stateStore: KrixStateStore.StateStore;
   public store: unknown;
 
