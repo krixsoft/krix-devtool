@@ -108,7 +108,7 @@ export class HistoryService {
    * @param  {Interfaces.HistoryItem} historyItem
    * @return {boolean}
    */
-  compareHistoryItemWithSearchText (
+  private compareHistoryItemWithSearchText (
     historyItem: Interfaces.HistoryItem,
   ): boolean {
     if (_.isEmpty(this.searchText) === true) {
