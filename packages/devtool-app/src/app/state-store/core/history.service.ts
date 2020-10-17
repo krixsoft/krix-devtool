@@ -52,18 +52,35 @@ export class HistoryService {
 
   constructor (
   ) {
-    this.krixStateStore = KrixStateStore.StateStore.create();
-
     this.sjHistoryChange = new Subject();
 
-    this.historyList = [];
+    const krixStateStore = KrixStateStore.StateStore.create();
+    this.setStore(krixStateStore);
+  }
 
-    this.filteredHistoryList = [];
-    this.setFilter('');
+  /**
+   * Sets a new state-store and resets all internal states.
+   *
+   * @param  {KrixStateStore.StateStore} krixStateStore
+   * @return {void}
+   */
+  setStore (
+    krixStateStore: KrixStateStore.StateStore,
+  ): void {
+    if (krixStateStore === this.krixStateStore) {
+      return;
+    }
+
+    this.krixStateStore = krixStateStore;
+    this.historyList = [];
 
     this.currentHistoryItemIndex = -1;
     this.currentHistoryItemIsLastItem = true;
     this.freeHistoryMessageNumber = 0;
+
+    this.searchText = null;
+    this.setFilter('');
+    this.sjHistoryChange.next(null);
   }
 
   /**
