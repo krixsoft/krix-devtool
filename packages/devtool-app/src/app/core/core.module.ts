@@ -7,6 +7,7 @@ import {
   MessageRetranslator,
   MessageHandler,
 } from './data-flow';
+import { SettingsService } from './settings.service';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {
     EndpointConnector,
     MessageRetranslator,
     MessageHandler,
+    SettingsService,
   ],
 })
 export class CoreModule { }
