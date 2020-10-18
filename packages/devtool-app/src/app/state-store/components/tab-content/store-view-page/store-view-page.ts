@@ -27,8 +27,6 @@ export class StoreViewPageComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit (): void {
-    this.stateStore = this.historyService.getStateStore();
-
     const sjHistoryChange = this.historyService
       .getHistoryChangeObserver()
       .subscribe(() => {
@@ -40,6 +38,7 @@ export class StoreViewPageComponent extends BaseComponent implements OnInit {
 
   updateView (
   ): void {
+    this.stateStore = this.historyService.getStateStore();
     const store = this.stateStore.getState();
     this.store = _.clone(store);
     this.changeDetection.detectChanges();
