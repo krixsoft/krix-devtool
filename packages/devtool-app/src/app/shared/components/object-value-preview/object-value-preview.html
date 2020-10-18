@@ -1,0 +1,35 @@
+<ng-template *ngIf="objectValueDescriptor.valueCanBeOpened === true && objectValueDescriptor.valueIsOpened === false; then thenObjectValue else elseObjectValue"></ng-template>
+
+<ng-template #thenObjectValue>
+  <ng-template *ngIf="valueType === valueTypes.Array; then thenLeftBracer else elseLeftBracer"></ng-template>
+
+  <ng-template #thenLeftBracer>
+    <span class="object">[</span>
+  </ng-template>
+  <ng-template #elseLeftBracer>
+    <span class="object">{{ '{' }}</span>
+  </ng-template>
+
+  <ng-template ngFor let-item [ngForOf]="objectValueDescriptor.value | forOf" let-valueIsLast="last">
+    {{ item.key }}:
+    <span [class]="getColorClassName(item.value)">
+      {{ getStringRepresentationOfPrimitiveValue(item.value) }}
+    </span>
+    {{ valueIsLast === true ? '' : ',' }}
+  </ng-template>
+
+  <ng-template *ngIf="valueType === valueTypes.Array; then thenRightBracer else elseRightBracer"></ng-template>
+
+  <ng-template #thenRightBracer>
+    <span class="object">]</span>
+  </ng-template>
+  <ng-template #elseRightBracer>
+    <span class="object">{{ '}' }}</span>
+  </ng-template>
+</ng-template>
+
+<ng-template #elseObjectValue>
+  <span class="state-tree-node-value" [class]="getColorClassName(objectValueDescriptor.value)">
+    {{ getStringRepresentationOfPrimitiveValue(objectValueDescriptor.value) }}
+  </span>
+</ng-template>

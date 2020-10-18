@@ -10,10 +10,12 @@ const modules = [
 ];
 
 // --- Components
-import { StateTreeNodeComponent } from './components/state-tree-node/state-tree-node.component';
+import { ObjectValuePreviewComponent } from './components/object-value-preview/object-value-preview';
+import { ObjectRenderComponent } from './components/object-render/object-render';
 
 const components = [
-  StateTreeNodeComponent,
+  ObjectValuePreviewComponent,
+  ObjectRenderComponent,
 ];
 
 // --- Direvtives
