@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as Core from '@krix-devtool/core';
+import { interval } from 'rxjs';
 
 import { MessageHandler } from '../../core/data-flow';
+import { BaseManager } from '../../shared/base.manager';
 
 // SS
 import { GlobalStore } from './stores/global.store';
@@ -10,7 +12,7 @@ import { Enums } from './shared';
 import { StateStore } from './state-store.service';
 
 @Injectable()
-export class StateStoreDemoService {
+export class StateStoreDemoService extends BaseManager {
   public userCounter: number;
   public currentUserId: string;
 
@@ -19,26 +21,34 @@ export class StateStoreDemoService {
     // SS
     private stateStore: StateStore,
     private globalStore: GlobalStore,
-  ) { }
+  ) {
+    super();
+  }
 
   /**
    * Starts an emulator which generates and emits data to the state store.
    *
    * @return {void}
    */
-  startStateStoreEmulator (
+  startEmulator (
   ): void {
-    setInterval(() => {
-      this.globalStore.increaseUserCounter();
-    }, 1000);
+    const increaseUserCounter$ = interval(1000)
+      .subscribe(() => {
+        this.globalStore.increaseUserCounter();
+      });
+    this.subscribe(increaseUserCounter$);
 
-    setInterval(() => {
-      this.globalStore.decreaseUserCounter();
-    }, 4500);
+    const decreaseUserCounter$ = interval(4500)
+      .subscribe(() => {
+        this.globalStore.decreaseUserCounter();
+      });
+    this.subscribe(decreaseUserCounter$);
 
-    setInterval(() => {
-      this.globalStore.resetUserCounter();
-    }, 15000);
+    const resetUserCounter$ = interval(15000)
+      .subscribe(() => {
+        this.globalStore.resetUserCounter();
+      });
+    this.subscribe(resetUserCounter$);
 
     this.globalStore.setCurrentUserId('ec56j-bff46-1apyt-cai0g0-hell0');
 
@@ -84,13 +94,25 @@ export class StateStoreDemoService {
       },
     ];
 
-    setInterval(() => {
-      const resourceIndex = this.getRandomInt(0, resources.length);
-      const resource = resources[resourceIndex];
-      this.globalStore.emitLastResourceUpdate(resource.name, resource.value);
-    }, 5000);
+    const lastResourceUpdate$ = interval(5000)
+      .subscribe(() => {
+        const resourceIndex = this.getRandomInt(0, resources.length);
+        const resource = resources[resourceIndex];
+        this.globalStore.emitLastResourceUpdate(resource.name, resource.value);
+      });
+    this.subscribe(lastResourceUpdate$);
 
-    this.stateStore.krixStateStore.getStoreCommandObserver()
+    this.messageHandler.onMessage({
+      command: Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList,
+      target: null,
+      source: null,
+      payload: {
+        packageName: Core.Enums.PackageName.StateStore,
+        packageIds: [ 'main' ],
+      },
+    });
+
+    const storeCommandObserver = this.stateStore.krixStateStore.getStoreCommandObserver()
       .subscribe((command) => {
         this.messageHandler.onMessage({
           command: Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand,
@@ -103,6 +125,17 @@ export class StateStoreDemoService {
           },
         });
       });
+    this.subscribe(storeCommandObserver);
+  }
+
+  /**
+   * Stops all emulator's tasks.
+   *
+   * @return {void}
+   */
+  stopEmulator (
+  ): void {
+    this.stopAllSubscriptions();
   }
 
   /**
