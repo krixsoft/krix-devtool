@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as Core from '@krix-devtool/core';
 
+import { Environment } from '../../../environments/environment';
+
 @Injectable()
 export class MessageRetranslator {
   private bgsPort: chrome.runtime.Port;
@@ -50,8 +52,12 @@ export class MessageRetranslator {
     msgData?: TMsg,
   ): void {
     if (targetEndpoint === Core.Enums.AppEndpoint.ContentScript) {
-      console.warn(`MessageRetranslatorService - sendMessage:`,
+      console.warn(`DTA.MessageRetranslatorService.sendMessage:`,
         `DTA is trying to send messages to the unsupported endpoint (${targetEndpoint})`);
+      return;
+    }
+
+    if (Environment.production === false) {
       return;
     }
 
