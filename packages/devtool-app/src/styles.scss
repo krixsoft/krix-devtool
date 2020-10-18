@@ -311,13 +311,13 @@ krix-tab-content {
   }
 }
 
-krix-store-page {
+krix-store-view-page,
+krix-command-view-page {
   height: 100%;
   width: 100%;
   display: block;
 
-  padding-top: 5px;
-  padding-right: 20px;
+  padding: 10px 20px;
 }
 
 krix-object-render {
