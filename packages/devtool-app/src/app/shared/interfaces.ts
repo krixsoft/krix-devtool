@@ -31,3 +31,8 @@ export interface ClickDelegateEvent {
    */
   event: MouseEvent;
 }
+
+export interface ForOfPipeItem {
+  key: string;
+  value: any;
+}
