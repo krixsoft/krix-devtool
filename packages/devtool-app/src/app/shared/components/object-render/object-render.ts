@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import * as Interfaces from '../../interfaces';
@@ -6,6 +6,7 @@ import * as Interfaces from '../../interfaces';
 @Component({
   selector: 'krix-object-render',
   templateUrl: './object-render.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObjectRenderComponent {
   public objectValueDescriptors: Interfaces.ObjectValueDescriptor[] = [];
