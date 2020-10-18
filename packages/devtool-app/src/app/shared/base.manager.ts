@@ -1,7 +1,6 @@
 import type { Subscription } from 'rxjs';
-import { OnDestroy } from '@angular/core';
 
-export class BaseComponent implements OnDestroy {
+export class BaseManager {
   private subscription: Set<Subscription>;
 
   constructor () {
@@ -13,7 +12,7 @@ export class BaseComponent implements OnDestroy {
    *
    * @return {void}
    */
-  ngOnDestroy (
+  protected stopAllSubscriptions (
   ): void {
     this.subscription.forEach((data) => {
       if (data === null || typeof data.unsubscribe !== 'function') {
