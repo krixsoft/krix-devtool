@@ -3,6 +3,9 @@ import { Subject, Observable } from 'rxjs';
 
 import * as KrixStateStore from '@krix/state-store';
 
+// Services
+import { SettingsService } from '../../core/settings.service';
+
 import { Interfaces } from '../shared';
 
 @Injectable()
@@ -51,6 +54,7 @@ export class StateStoreHistoryService {
   private freeHistoryMessageNumber: number;
 
   constructor (
+    private settingsService: SettingsService,
   ) {
     this.sjHistoryChange = new Subject();
 
@@ -199,12 +203,34 @@ export class StateStoreHistoryService {
 
     this.historyList.push(historyItem);
 
-    // Skip the update of the current item if the new element doesn't fit the search text
-    if (this.compareHistoryItemWithSearchText(historyItem) === false) {
-      return;
+    let emitUpdate = false;
+    // Don't add a new item to the filtered list if it doesn't fit the search text
+    if (this.compareHistoryItemWithSearchText(historyItem) === true) {
+      this.filteredHistoryList.push(historyItem);
+      emitUpdate = true;
     }
 
-    this.filteredHistoryList.push(historyItem);
+    let removedItem: Interfaces.HistoryItem = null;
+    // Remove the first item from the history list if history list is full
+    if (this.settingsService.stateStoreHistorySize === this.historyList.length - 1) {
+      removedItem = this.historyList.shift();
+    }
+
+    // Handle the case when the removed item is the first item of filtered list
+    if (_.isNil(removedItem) === false && removedItem.id === this.filteredHistoryList[0]?.id) {
+      if (removedItem.id === this.currentHistoryItem?.id) {
+        // Move the pointer to the next item if the removed is the current item
+        this.goToNextDirection(1);
+      } else {
+        // Move the pointer to the previous item if the removed isn't the current item.
+        // FYI: Fn removes the first item from the filtered list (filtered list is an array) so it shifts
+        // all indexes in the array.
+        this.currentHistoryItemIndex -= 1;
+      }
+
+      this.filteredHistoryList.shift();
+      emitUpdate = true;
+    }
 
     // FYI: If we subtract 1, we get the last element in the queue but the last element is the new element
     // so we subtract 2 and get the previous last element (when the queue was without the new element).
@@ -213,10 +239,14 @@ export class StateStoreHistoryService {
     if (this.filteredHistoryList.length - 2 === this.currentHistoryItemIndex) {
       this.goToNextDirection(1);
       this.currentHistoryItemIndex += 1;
-      this.currentHistoryItem = this.filteredHistoryList[this.currentHistoryItemIndex];
+      emitUpdate = true;
     }
 
-    this.sjHistoryChange.next(null);
+    this.currentHistoryItem = this.filteredHistoryList[this.currentHistoryItemIndex];
+
+    if (emitUpdate === true) {
+      this.sjHistoryChange.next(null);
+    }
   }
 
   /**
@@ -263,6 +293,10 @@ export class StateStoreHistoryService {
     for (let i = 1; i <= stepsCount; i++) {
       const nextHistoryItemIndex = this.currentHistoryItemIndex + i;
       const nextHistoryItem = this.filteredHistoryList[nextHistoryItemIndex];
+
+      if (_.isNil(nextHistoryItem) === true) {
+        return;
+      }
 
       if (nextHistoryItem?.options?.signal === true) {
         continue;
