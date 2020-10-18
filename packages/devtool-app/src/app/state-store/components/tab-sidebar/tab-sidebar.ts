@@ -4,7 +4,9 @@ import * as _ from 'lodash';
 
 import { BaseComponent } from '../../../shared/base.component';
 
-import { HistoryService } from '../../core/history.service';
+// Services
+import { StateStoreHistoryService } from '../../core/ss-history.service';
+
 import { Interfaces } from '../../shared';
 
 @Component({
@@ -32,7 +34,7 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
   }
 
   constructor (
-    private historyService: HistoryService,
+    private ssHistoryService: StateStoreHistoryService,
     private changeDetection: ChangeDetectorRef,
   ) {
     super();
@@ -40,10 +42,11 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
   }
 
   ngOnInit (): void {
-    this.historyService.getHistoryChangeObserver()
+    const ssHistoryService$ = this.ssHistoryService.getHistoryChangeObserver()
       .subscribe(() => {
         this.updateView();
       });
+    this.subscribe(ssHistoryService$);
     this.updateView();
   }
 
@@ -64,12 +67,12 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
 
     if (this.currentHistoryItem.id === newHistoryItemId) {
       const lastHistoryItem = _.last(this.historyItems);
-      this.historyService.goToHistoryItem(lastHistoryItem?.id);
+      this.ssHistoryService.goToHistoryItem(lastHistoryItem?.id);
     } else {
-      this.historyService.goToHistoryItem(newHistoryItemId);
+      this.ssHistoryService.goToHistoryItem(newHistoryItemId);
     }
 
-    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
+    this.currentHistoryItem = this.ssHistoryService.getCurrentHistoryItem();
   }
 
   /**
@@ -82,8 +85,8 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
    */
   private updateView (
   ): void {
-    this.historyItems = this.historyService.getHistory();
-    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
+    this.historyItems = this.ssHistoryService.getHistory();
+    this.currentHistoryItem = this.ssHistoryService.getCurrentHistoryItem();
     this.updateFilteredHistoryItems();
     this.changeDetection.detectChanges();
   }

@@ -4,7 +4,7 @@ import { faStripeS } from '@fortawesome/free-brands-svg-icons';
 import { BaseComponent } from '../../../../shared/base.component';
 import * as SharedInterfaces from '../../../../shared/interfaces';
 
-import { HistoryService } from '../../../core/history.service';
+import { StateStoreHistoryService } from '../../../core/ss-history.service';
 import { Interfaces } from '../../../shared';
 
 @Component({
@@ -21,7 +21,7 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
   private commandFilterValue: string = '';
   set inputCommandFilterValue (value: string) {
     this.commandFilterValue = value;
-    this.historyService.setFilter(value);
+    this.ssHistoryService.setFilter(value);
     this.changeDetection.detectChanges();
   }
   get inputCommandFilterValue (): string {
@@ -29,7 +29,7 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
   }
 
   constructor (
-    private historyService: HistoryService,
+    private ssHistoryService: StateStoreHistoryService,
     private changeDetection: ChangeDetectorRef,
   ) {
     super();
@@ -37,7 +37,7 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
   }
 
   ngOnInit (): void {
-    this.historyService.getHistoryChangeObserver()
+    this.ssHistoryService.getHistoryChangeObserver()
       .subscribe(() => {
         this.updateView();
       });
@@ -60,12 +60,12 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
 
     if (this.currentHistoryItem.id === newHistoryItemId) {
       const lastHistoryItem = _.last(this.historyItems);
-      this.historyService.goToHistoryItem(lastHistoryItem?.id);
+      this.ssHistoryService.goToHistoryItem(lastHistoryItem?.id);
     } else {
-      this.historyService.goToHistoryItem(newHistoryItemId);
+      this.ssHistoryService.goToHistoryItem(newHistoryItemId);
     }
 
-    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
+    this.currentHistoryItem = this.ssHistoryService.getCurrentHistoryItem();
   }
 
   /**
@@ -78,11 +78,11 @@ export class StoreHistoryComponent extends BaseComponent implements OnInit, OnDe
    */
   private updateView (
   ): void {
-    this.historyItems = this.historyService.getHistory();
+    this.historyItems = this.ssHistoryService.getHistory();
 
-    this.currentHistoryItem = this.historyService.getCurrentHistoryItem();
+    this.currentHistoryItem = this.ssHistoryService.getCurrentHistoryItem();
 
-    this.currentHistoryItemIsLastItem = this.historyService.currentHistoryItemIsLastItem;
+    this.currentHistoryItemIsLastItem = this.ssHistoryService.currentHistoryItemIsLastItem;
 
     this.changeDetection.detectChanges();
   }

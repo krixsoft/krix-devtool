@@ -6,7 +6,7 @@ import * as KrixStateStore from '@krix/state-store';
 import { Interfaces } from '../shared';
 
 @Injectable()
-export class HistoryService {
+export class StateStoreHistoryService {
   private krixStateStore: KrixStateStore.StateStore;
 
   /**

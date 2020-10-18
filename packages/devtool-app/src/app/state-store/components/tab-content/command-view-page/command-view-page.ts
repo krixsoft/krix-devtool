@@ -6,7 +6,7 @@ import * as KrixStateStore from '@krix/state-store';
 import { BaseComponent } from '../../../../shared/base.component';
 
 import { Interfaces } from '../../../shared';
-import { HistoryService } from '../../../core/history.service';
+import { StateStoreHistoryService } from '../../../core/ss-history.service';
 
 @Component({
   selector: 'krix-command-view-page',
@@ -19,7 +19,7 @@ export class CommandViewPageComponent extends BaseComponent implements OnInit {
   public sjStoreChange: Subscription;
 
   constructor (
-    private historyService: HistoryService,
+    private ssHistoryService: StateStoreHistoryService,
     private changeDetection: ChangeDetectorRef,
   ) {
     super();
@@ -28,9 +28,9 @@ export class CommandViewPageComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit (): void {
-    this.stateStore = this.historyService.getStateStore();
+    this.stateStore = this.ssHistoryService.getStateStore();
 
-    const sjHistoryChange = this.historyService
+    const sjHistoryChange = this.ssHistoryService
       .getHistoryChangeObserver()
       .subscribe(() => {
         this.updateView();
@@ -41,7 +41,7 @@ export class CommandViewPageComponent extends BaseComponent implements OnInit {
 
   updateView (
   ): void {
-    const currentHistoryItem = this.historyService.getCurrentHistoryItem();
+    const currentHistoryItem = this.ssHistoryService.getCurrentHistoryItem();
     this.currentHistoryItem = _.clone(currentHistoryItem);
     this.changeDetection.detectChanges();
   }
