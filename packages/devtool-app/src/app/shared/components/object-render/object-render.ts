@@ -47,21 +47,30 @@ export class ObjectRenderComponent {
   }
 
   /**
-   * Handles `Click` events for the `UL` tag. Switchs a `Node Is Opened` flag to the
-   * opposite value.
+   * Handles `Click` delegate events. Switchs the `Node Is Opened` flag to the opposite value.
    *
-   * @param stateNode
+   * @param  {Interfaces.ClickDelegateEvent} event
+   * @return {void}
    */
-  onClickToggleShowUl (
-    clickedObjectValueDescriptor: Interfaces.ObjectValueDescriptor,
+  onClickToggleObject (
+    event: Interfaces.ClickDelegateEvent,
   ): void {
+    const selectedObjectValueDescriptor = _.find(this.objectValueDescriptors, [ 'key', event.id ]);
+    if (_.isNil(selectedObjectValueDescriptor) === true) {
+      return;
+    }
+
+    if (selectedObjectValueDescriptor.valueCanBeOpened === false) {
+      return;
+    }
+
     this.objectValueDescriptors = _.map(this.objectValueDescriptors, (objectValueDescriptor) => {
-      if (clickedObjectValueDescriptor.key !== objectValueDescriptor.key) {
+      if (selectedObjectValueDescriptor.key !== objectValueDescriptor.key) {
         return objectValueDescriptor;
       }
 
       return _.assign({}, objectValueDescriptor, {
-        valueIsOpened: !clickedObjectValueDescriptor.valueIsOpened,
+        valueIsOpened: !selectedObjectValueDescriptor.valueIsOpened,
       });
     });
 

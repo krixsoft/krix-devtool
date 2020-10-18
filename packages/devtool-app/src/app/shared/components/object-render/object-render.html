@@ -1,29 +1,35 @@
-<div class="object-value" *ngFor="let objectValueDescriptor of objectValueDescriptors; trackBy: trackByFn">
-  <span
-    class="object-value-preview"
-    (click)="onClickToggleShowUl(objectValueDescriptor)"
-    [class.clickble]="objectValueDescriptor.valueCanBeOpened"
-  >
-    <fa-icon
-      [icon]="faPlus"
-      *ngIf="objectValueDescriptor.valueCanBeOpened && !objectValueDescriptor.valueIsOpened"
-    ></fa-icon>
-    <fa-icon
-      [icon]="faMinus"
-      *ngIf="objectValueDescriptor.valueCanBeOpened && objectValueDescriptor.valueIsOpened"
-    ></fa-icon>
-
-    <span>
-      {{ objectValueDescriptor.key }}:
+<div
+  [krixClickDelegate]
+  (dClick)="onClickToggleObject($event)"
+  [tagSelectors]="[ '.object-value-preview' ]"
+>
+  <div class="object-value" *ngFor="let objectValueDescriptor of objectValueDescriptors; trackBy: trackByFn">
+    <span
+      class="object-value-preview"
+      [attr.data-id]="objectValueDescriptor.key"
+      [class.clickble]="objectValueDescriptor.valueCanBeOpened"
+    >
+      <fa-icon
+        [icon]="faPlus"
+        *ngIf="objectValueDescriptor.valueCanBeOpened && !objectValueDescriptor.valueIsOpened"
+      ></fa-icon>
+      <fa-icon
+        [icon]="faMinus"
+        *ngIf="objectValueDescriptor.valueCanBeOpened && objectValueDescriptor.valueIsOpened"
+      ></fa-icon>
+  
+      <span>
+        {{ objectValueDescriptor.key }}:
+      </span>
+  
+      <krix-object-value-preview
+        [objectValueDescriptor]="objectValueDescriptor"
+      ></krix-object-value-preview>
     </span>
-
-    <krix-object-value-preview
-      [objectValueDescriptor]="objectValueDescriptor"
-    ></krix-object-value-preview>
-  </span>
-
-  <krix-object-render
-    [object]="objectValueDescriptor.value"
-    *ngIf="objectValueDescriptor.value && objectValueDescriptor.valueIsOpened"
-  ></krix-object-render>
+  
+    <krix-object-render
+      [object]="objectValueDescriptor.value"
+      *ngIf="objectValueDescriptor.value && objectValueDescriptor.valueIsOpened"
+    ></krix-object-render>
+  </div>
 </div>
