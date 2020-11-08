@@ -7,7 +7,8 @@ import { BaseComponent } from '../../../shared/base.component';
 
 // Services
 import { MessageHandler } from '../../../core/data-flow';
-import { StateStoreMessageHandler } from './../../core/ss-message-handler';
+import { StateStoreMessageHandler } from '../../core/ss-message-handler';
+import { MessageService } from '../../../core/message.service';
 import { StateStoreDemoService } from '../../demo/state-store-demo.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class StateStoreTabComponent extends BaseComponent implements OnInit, OnD
     private stateStoreDemoService: StateStoreDemoService,
     private messageHandler: MessageHandler,
     private ssMessageHandler: StateStoreMessageHandler,
+    private messageService: MessageService,
   ) {
     super();
   }
@@ -33,6 +35,8 @@ export class StateStoreTabComponent extends BaseComponent implements OnInit, OnD
         this.ssMessageHandler.onMessage(message);
       });
     this.subscribe(packageCommand$);
+
+    this.messageService.updatePackageList(Core.Enums.PackageName.StateStore);
 
     if (Environment.production === false) {
       this.stateStoreDemoService.startEmulator();

@@ -1,0 +1,13 @@
+<select 
+    name="state-store-selector" 
+    id="state-store-selector" 
+    class="state-store-selector"
+    [(ngModel)]="vSelectedStateStoreName"
+  >
+  <option
+    class="state-store-selector-item"
+    *ngFor="let stateStoreName of stateStoresNames"
+    [value]="stateStoreName"
+    [class.active]="stateStoreName === selectedStateStoreName"
+  >{{ stateStoreName }}</option>
+</select>

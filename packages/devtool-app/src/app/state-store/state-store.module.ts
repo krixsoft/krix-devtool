@@ -10,6 +10,7 @@ import { StateStoreDemoModule } from './demo/state-store-demo.module';
 import { StateStoreTabComponent } from './components/state-store-tab/state-store-tab';
 
 import { TabSidebarComponent } from './components/tab-sidebar/tab-sidebar';
+import { StoreSelectorComponent } from './components/tab-sidebar/store-selector/store-selector';
 import { StoreHistoryComponent } from './components/tab-sidebar/store-history/store-history';
 
 import { TabContentComponent } from './components/tab-content/tab-content';
@@ -32,6 +33,7 @@ import { StateStoreMessageHandler } from './core/ss-message-handler';
     StateStoreTabComponent,
 
     TabSidebarComponent,
+    StoreSelectorComponent,
     StoreHistoryComponent,
 
     TabContentComponent,

@@ -6,6 +6,7 @@ import { BaseComponent } from '../../../shared/base.component';
 
 // Services
 import { StateStoreHistoryService } from '../../core/ss-history.service';
+import { StateStoreMessageHandler } from './../../core/ss-message-handler';
 
 import { Interfaces } from '../../shared';
 
@@ -30,11 +31,20 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
     return this.commandFilterValue;
   }
 
-  set inSelectedStore (value: string) {
+  public stateStoresNames: string[];
+
+  private selectedStateStoreName: string;
+  set vSelectedStateStoreName (value: string) {
+    console.log(value);
+    this.selectedStateStoreName = value;
+  }
+  get vSelectedStateStoreName (): string {
+    return this.selectedStateStoreName;
   }
 
   constructor (
     private ssHistoryService: StateStoreHistoryService,
+    private ssMessageHandler: StateStoreMessageHandler,
     private changeDetection: ChangeDetectorRef,
   ) {
     super();
@@ -47,6 +57,14 @@ export class TabSidebarComponent extends BaseComponent implements OnInit, OnDest
         this.updateView();
       });
     this.subscribe(ssHistoryService$);
+
+    const ssMessageHandler$ = this.ssMessageHandler.getCommandObserver()
+      .subscribe(() => {
+        this.stateStoresNames = this.ssMessageHandler.getStateStoresNames();
+        this.changeDetection.detectChanges();
+      });
+    this.subscribe(ssMessageHandler$);
+
     this.updateView();
   }
 

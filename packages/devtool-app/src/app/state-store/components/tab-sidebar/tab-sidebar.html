@@ -1,11 +1,2 @@
-<div class="store-selector-container">
-  <select 
-      name="store-selector" 
-      id="store-selector" 
-      class="store-selector"
-      [(ngModel)]="inSelectedStore"
-    >
-    <option *ngFor="let storeName of storeNames" [value]="method.id">{{ storeName }}</option>
-  </select>
-</div>
+<krix-store-selector></krix-store-selector>
 <krix-store-history></krix-store-history>

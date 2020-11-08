@@ -102,12 +102,28 @@ krix-tab-sidebar {
 
   background-color: $light-bg-color;
 
-  .state-store-selector-container {
-    height: 2.5em;
+  input {
+    height: 100%;
+    width: 100%;
+
+    padding: 0.7em 1em;
+
+    background-color: $light-bg-color;
+    border: none;
     
-    border-right: 1px solid #26282e;
-    border-bottom: 1px solid #1d1d21;
+    color: white;
+
+    &::placeholder {
+      color: $highlight-color;
+    }
   }
+}
+
+krix-store-selector {
+  height: 2.5em;
+  
+  border-right: 1px solid #26282e;
+  border-bottom: 1px solid #1d1d21;
 
   .state-store-selector {
     width: 100%;
@@ -143,22 +159,6 @@ krix-tab-sidebar {
         color: $highlight-color;
         text-decoration: none;
       }
-  }
-
-  input {
-    height: 100%;
-    width: 100%;
-
-    padding: 0.7em 1em;
-
-    background-color: $light-bg-color;
-    border: none;
-    
-    color: white;
-
-    &::placeholder {
-      color: $highlight-color;
-    }
   }
 }
 
