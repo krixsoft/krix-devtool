@@ -103,18 +103,15 @@ export class StateStoreHistoryService {
     if (_.isEmpty(searchText) === true) {
       this.searchText = '';
       this.filteredHistoryList = [ ...this.historyList ];
+    } else {
+      this.searchText = searchText;
+      const escapedsearchString = _.replace(searchText, /[.*+\-?^${}()|[\]\\]/g, '\\$&');
+      this.searchRgx = new RegExp(escapedsearchString, 'i');
 
-      this.sjHistoryChange.next(null);
-      return;
+      this.filteredHistoryList = _.filter(this.historyList, (historyItem) => {
+        return this.compareHistoryItemWithSearchText(historyItem);
+      });
     }
-
-    this.searchText = searchText;
-    const escapedsearchString = _.replace(searchText, /[.*+\-?^${}()|[\]\\]/g, '\\$&');
-    this.searchRgx = new RegExp(escapedsearchString, 'i');
-
-    this.filteredHistoryList = _.filter(this.historyList, (historyItem) => {
-      return this.compareHistoryItemWithSearchText(historyItem);
-    });
 
     this.currentHistoryItemIndex = this.filteredHistoryList.length - 1;
     this.currentHistoryItem = this.currentHistoryItemIndex === -1
