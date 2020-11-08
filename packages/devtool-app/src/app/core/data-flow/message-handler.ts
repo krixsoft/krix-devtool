@@ -29,13 +29,7 @@ export class MessageHandler {
   onMessage (
     message: Core.Interfaces.EndpointMessage,
   ): void {
+    console.info(`DTA.MessageHandler.onMessage: Command`, message);
     this.sjCommand.next(message);
-    switch (message.command) {
-      case Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand:
-        break;
-      default:
-        console.error(`DTA * MessageHandler - onMessage: Catch unsupported command`);
-        break;
-    }
   }
 }

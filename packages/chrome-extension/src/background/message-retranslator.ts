@@ -94,7 +94,7 @@ export class MessageRetranslator extends Core.Singleton {
       // Send message to a DTA
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(bridgeMetadata.dtaPort)) {
-          console.warn(`BgS * MessageRetranslator - sendMessage:`,
+          console.warn(`BgS.MessageRetranslator.sendMessage:`,
             `BgS is trying to send messages to the unregistered DevTool Application (${message.tabId})`);
           return;
         }
@@ -106,7 +106,7 @@ export class MessageRetranslator extends Core.Singleton {
       case Core.Enums.AppEndpoint.ContentScript:
       case Core.Enums.AppEndpoint.DevToolPlugin: {
         if (_.isNil(bridgeMetadata.csPort)) {
-          console.warn(`BgS * MessageRetranslator - sendMessage:`,
+          console.warn(`BgS.MessageRetranslator.sendMessage:`,
             `BgS is trying to send messages to the unregistered Content Script (${message.tabId})`);
           return;
         }
@@ -116,7 +116,7 @@ export class MessageRetranslator extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`BgS * MessageRetranslator - sendMessage:`,
+        console.warn(`BgS.MessageRetranslator.sendMessage:`,
           `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

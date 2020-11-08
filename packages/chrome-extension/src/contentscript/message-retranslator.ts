@@ -51,7 +51,7 @@ export class MessageRetranslator extends Core.Singleton {
       case Core.Enums.AppEndpoint.BackgroundScript:
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(this.bgsPort)) {
-          console.warn(`CS * MessageRetranslator - sendMessage:`,
+          console.warn(`CS.MessageRetranslator.sendMessage:`,
             `CS is trying to send messages to the unregistered BgS (${message.tabId})`);
           return;
         }
@@ -66,7 +66,7 @@ export class MessageRetranslator extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`CS * MessageRetranslator - sendMessage:`,
+        console.warn(`CS.MessageRetranslator.sendMessage:`,
           `CS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

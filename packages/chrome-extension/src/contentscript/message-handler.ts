@@ -24,11 +24,11 @@ export class MessageHandler extends Core.Singleton {
         this.onInitCS(message.payload);
         break;
       default:
-        console.error(`CS * MessageHandler - onMessage: Catch unsupported command`);
+        console.error(`CS.MessageHandler.onMessage: Catch unsupported command`);
         break;
     }
 
-    console.log(`CS * MessageHandler - onMessage:`, message);
+    console.log(`CS.MessageHandler.onMessage:`, message);
   }
 
   /**

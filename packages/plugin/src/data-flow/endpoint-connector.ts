@@ -18,7 +18,7 @@ export class EndpointConnector extends Core.Singleton {
    */
   public connect (
   ): void {
-    console.log(`DTP * EndpointConnector - connect:`);
+    console.log(`DTP.EndpointConnector.connect:`);
 
     // Subscribe to `message` window events
     window.addEventListener('message', (event: MessageEvent) => {
@@ -41,7 +41,7 @@ export class EndpointConnector extends Core.Singleton {
   ): void {
     // Skips messages from an outside endpoint (not current tab);
     if (event.source !== window) {
-      console.log(`DTP * MessageHandler - onMessage: Catch signal from unsupported provider`);
+      console.log(`DTP.MessageHandler.onMessage: Catch signal from unsupported provider`);
       return;
     }
     // Extracts a message from the message event

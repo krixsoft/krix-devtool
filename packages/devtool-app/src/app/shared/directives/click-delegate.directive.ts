@@ -36,11 +36,11 @@ export class ClickDelegateDirective {
     event: MouseEvent,
   ): void {
     if (_.isNil(event) || _.isNil(event.target)) {
-      throw new Error('ClickDelegateDirective - onClick: Event target does not exist!');
+      throw new Error('ClickDelegateDirective.onClick: Event target does not exist!');
     }
 
     if (_.isEmpty(this.tagSelectors) === true) {
-      throw new Error('ClickDelegateDirective - onClick: Tag selectors are required!');
+      throw new Error('ClickDelegateDirective.onClick: Tag selectors are required!');
     }
 
     let el: HTMLElement | SVGElement;

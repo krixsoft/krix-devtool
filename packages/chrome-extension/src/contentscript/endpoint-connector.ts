@@ -25,7 +25,7 @@ export class EndpointConnector extends Core.Singleton {
       name: Core.Constants.CSToBgSConnectionName,
     });
 
-    console.log(`CS * EndpointConnector - connect:`, port);
+    console.log(`CS.EndpointConnector.connect:`, port);
     this.messageRetranslator.setBgSPort(port);
 
     // Add `On Message` listener to the BgS connection port
@@ -62,12 +62,12 @@ export class EndpointConnector extends Core.Singleton {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
-    console.log(`CS * EndpointConnector - onExtensionMessage:`, message, port);
+    console.log(`CS.EndpointConnector.onExtensionMessage:`, message, port);
 
     const tabId = this.messageRetranslator.getTabId();
     if ((_.isNil(tabId) === true || message?.tabId !== tabId)
         && message?.command !== Core.Enums.MsgCommands.BackgroundScript.InitCS) {
-      console.warn(`CS * EndpointConnector - onExtensionMessage:`,
+      console.warn(`CS.EndpointConnector.onExtensionMessage:`,
         `CS is trying to handle message from another tab (${message.tabId}:${message.target})`);
       return;
     }
@@ -85,7 +85,7 @@ export class EndpointConnector extends Core.Singleton {
         return;
       // Skip unsupported endpoints
       default:
-        console.warn(`CS * EndpointConnector - onExtensionMessage:`,
+        console.warn(`CS.EndpointConnector.onExtensionMessage:`,
           `CS is trying to handle the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }
@@ -103,10 +103,10 @@ export class EndpointConnector extends Core.Singleton {
   private onDTPMessage (
     event: MessageEvent,
   ): void {
-    console.log(`CS * EndpointConnector - onDTPMessage:`, event);
+    console.log(`CS.EndpointConnector.onDTPMessage:`, event);
 
     if (event.source !== window) {
-      console.log(`CS * MessageHandler - onDTPMessage: Catch signal from unsupported provider`);
+      console.log(`CS.MessageHandler.onDTPMessage: Catch signal from unsupported provider`);
       return;
     }
     const message: Core.Interfaces.EndpointMessage = event.data;
@@ -135,7 +135,7 @@ export class EndpointConnector extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`CS * EndpointConnector - onDTPMessage:`,
+        console.warn(`CS.EndpointConnector.onDTPMessage:`,
           `CS is trying to handle the unsupported endpoint (${message.target})`);
     }
   }
