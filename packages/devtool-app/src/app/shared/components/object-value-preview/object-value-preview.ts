@@ -21,7 +21,7 @@ export class ObjectValuePreviewComponent implements OnInit {
     this.updateView();
     this.changeDetection.detectChanges();
   }
-  private objectValueDescriptor: Interfaces.ObjectValueDescriptor;
+  public objectValueDescriptor: Interfaces.ObjectValueDescriptor;
 
   constructor (
     private changeDetection: ChangeDetectorRef,
