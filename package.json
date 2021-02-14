@@ -11,6 +11,7 @@
     "gulp:tasks": "gulp --tasks",
     "dev:build": "gulp dev:linfra:build",
     "dev:watch": "npm run dev:build && lerna run --parallel dev:watch",
+    "pkg:build": "lerna run ext:build --scope @krix-devtool/core && lerna run pkg:build --scope @krix/devtool-plugin",
     "ext:bundle": "gulp ext:bundle",
     "ext:build": "gulp ext:linfra:build && npm run ext:bundle"
   },
