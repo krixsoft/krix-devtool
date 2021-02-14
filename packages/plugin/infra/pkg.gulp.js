@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unsafe-call */
 const gulp = require(`gulp`);
 const replace = require('gulp-replace');
 const LinfraCore = require(`@linfra/core`);
@@ -10,7 +9,7 @@ module.exports = LinfraCore.Helpers.GulpHelper.combineGulpFiles(
 );
 exports = module.exports;
 
-const distFolder = `./dist`;
+const distFolder = `../dist`;
 
 /**
  * Package Prepublish Logic
@@ -18,7 +17,7 @@ const distFolder = `./dist`;
 
 exports[`pkg:update-main`] = function pkgUpdateMainInPackageJSON () {
   return gulp.src([
-    `./package.json`,
+    `../package.json`,
   ])
     .pipe(replace(/\.\/dist\/index\.js/g, './index.js'))
     .pipe(gulp.dest(`${distFolder}`));
@@ -26,7 +25,8 @@ exports[`pkg:update-main`] = function pkgUpdateMainInPackageJSON () {
 
 exports[`pkg:copy-metafiles`] = function pkgCopyMetafiles () {
   return gulp.src([
-    `./LICENSE.md`,
+    `../LICENSE.md`,
+    `../README.md`,
   ])
     .pipe(gulp.dest(`${distFolder}`));
 };
