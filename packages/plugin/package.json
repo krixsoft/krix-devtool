@@ -1,6 +1,6 @@
 {
   "name": "@krix/devtool-plugin",
-  "version": "0.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "Krix DevTool Plugin",
   "main": "./dist/index.js",
   "repository": {
@@ -58,8 +58,8 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@krix/state-store": "^6.0.0",
     "@krix-devtool/core": "0.0.0",
+    "@krix/state-store": "^6.0.0",
     "lodash": "^4.17.15",
     "rxjs": "^6.5.5"
   }
