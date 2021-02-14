@@ -1,6 +1,6 @@
 {
   "name": "@krix/devtool-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Krix DevTool Plugin",
   "main": "./dist/index.js",
   "repository": {
