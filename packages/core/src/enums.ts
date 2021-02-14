@@ -1,7 +1,7 @@
 
 export enum PackageName {
   StateStore = 'state-store',
-  DataStore = 'data-store',
+  ResourceStore = 'resource-store',
 }
 
 export enum AppEndpoint {
