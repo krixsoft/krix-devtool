@@ -14,8 +14,15 @@ export class StateStore {
   constructor () {
     this.krixStateStore = KrixStateStore.StateStore.create();
 
+    const secondStore = KrixStateStore.StateStore.create();
+    secondStore.setState({
+      state: [ 'superValue' ],
+      value: 100500,
+    });
+
     this.devToolConnectorPlugin = KrixDevToolPlugin.DevToolConnectorPlugin.getInstance();
     this.devToolConnectorPlugin.connectStateStore('main', this.krixStateStore);
+    this.devToolConnectorPlugin.connectStateStore('dd', secondStore);
   }
 
   /**
