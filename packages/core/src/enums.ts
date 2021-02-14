@@ -1,15 +1,30 @@
 
+export enum PackageName {
+  StateStore = 'state-store',
+  ResourceStore = 'resource-store',
+}
+
 export enum AppEndpoint {
-  DevToolPlugin = 'dev-tool-plugin',
+  DevToolPlugin = 'devtool-plugin',
   ContentScript = 'content-script',
   BackgroundScript = 'background-script',
-  DevToolApp = 'dev-tool-app',
+  DevToolApp = 'devtool-app',
 }
 
 export namespace MsgCommands {
+  export enum BackgroundScript {
+    InitCS = 'InitCS',
+    InitDTA = 'InitDTA',
+  }
+  export enum DevToolPlugin {
+    UpdatePackageList = 'UpdatePackageList',
+    ExecutePackageCommand = 'ExecutePackageCommand',
+  }
   export enum DevToolApp {
-    InitDevTool = 'init-dev-tool',
+    HandlePackageCommand = 'HandlePackageCommand',
   }
 }
 
-export type MsgCommands = MsgCommands.DevToolApp;
+export enum StateStoreCommand {
+  GetStore = 'GetStore',
+}

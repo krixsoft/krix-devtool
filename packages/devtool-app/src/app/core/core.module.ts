@@ -1,24 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as _ from 'lodash';
-
-import * as Shared from '../shared';
 
 // --- Services
 import {
-  MessageRetranslatorService,
-} from './services';
+  EndpointConnector,
+  MessageRetranslator,
+  MessageHandler,
+} from './data-flow';
+import { MessageService } from './message.service';
+import { SettingsService } from './settings.service';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
   providers: [
-    MessageRetranslatorService,
-    {
-      provide: Shared.Constants.DI.Lodash,
-      useValue: _,
-    },
+    EndpointConnector,
+    MessageRetranslator,
+    MessageHandler,
+    MessageService,
+    SettingsService,
   ],
 })
 export class CoreModule { }

@@ -1,35 +1,77 @@
+import * as _ from 'lodash';
 import * as Core from '@krix-devtool/core';
+
+import * as ExtConfig from '../config';
 
 export class MessageRetranslator extends Core.Singleton {
   private bgsPort: chrome.runtime.Port;
-  private id: number;
+  private tabId: number;
 
-  setBgSPort (port: chrome.runtime.Port): void {
+  /**
+   * Sets a port of the BgS.
+   *
+   * @return {number}
+   */
+  setBgSPort (
+    port: chrome.runtime.Port,
+  ): void {
     this.bgsPort = port;
   }
 
-  setIdentifier (id: number): void {
-    this.id = id;
+  /**
+   * Sets a tab id for the current CS.
+   *
+   * @return {number}
+   */
+  setTabId (
+    tabId: number,
+  ): void {
+    this.tabId = tabId;
   }
 
-  sendMessage <TMsg = any> (
-    endpoint: Core.Enums.AppEndpoint,
-    msgType: any,
-    msgData?: TMsg,
+  /**
+   * Returns a tab id for the current CS.
+   *
+   * @return {number}
+   */
+  getTabId (
+  ): number {
+    return this.tabId;
+  }
+
+  /**
+   * Sends message to the specific endpoint by the endpoint type.
+   *
+   * @param  {Core.Interfaces.ExtensionMessage} message
+   * @return {void}
+   */
+  sendMessage (
+    message: Core.Interfaces.ExtensionMessage,
   ): void {
-    if (endpoint === Core.Enums.AppEndpoint.ContentScript) {
-      console.warn(`MessageRetranslator - sendMessage:`,
-        `CS is trying to send messages to the unsupported endpoint (${endpoint})`);
-      return;
+    switch (message.target) {
+      // Send message to a DTA
+      case Core.Enums.AppEndpoint.BackgroundScript:
+      case Core.Enums.AppEndpoint.DevToolApp: {
+        if (_.isNil(this.bgsPort)) {
+          // eslint-disable-next-line no-unused-expressions
+          ExtConfig.production === false && console.warn(`CS.MessageRetranslator.sendMessage:`,
+            `CS is trying to send messages to the unregistered BgS (${message.tabId})`);
+          return;
+        }
+
+        this.bgsPort.postMessage(message);
+        return;
+      }
+      // Send message to a CS or DTP
+      case Core.Enums.AppEndpoint.DevToolPlugin: {
+        window.postMessage(message, '*');
+        return;
+      }
+      // Skip unsupported endpoints
+      default:
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`CS.MessageRetranslator.sendMessage:`,
+          `CS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
-
-    const messsag: Core.Interfaces.BaseMessage<TMsg> = {
-      id: this.id,
-      ept: endpoint,
-      type: msgType,
-      payload: msgData,
-    };
-
-    this.bgsPort.postMessage(messsag);
   }
 }

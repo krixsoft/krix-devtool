@@ -1,54 +1,32 @@
-import { Inject, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import * as Core from '@krix-devtool/core';
-
-import * as Shared from './shared';
+import { Environment } from '../environments/environment';
 
 // Services
-import {
-  MessageRetranslatorService,
-} from './core/services';
+import { EndpointConnector } from './core/data-flow';
 
 @Component({
-  selector: 'krix-root',
+  selector: 'krix-devtool-app',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
   title = 'DevTool';
 
   constructor (
-    private readonly messageRetranslator: MessageRetranslatorService,
-    @Inject(Shared.Constants.DI.Lodash)
-    private readonly lodash: Shared.Interfaces.Pkg.Lodash,
-  ) {
-  }
+    private readonly endpointConnector: EndpointConnector,
+  ) { }
 
   ngOnInit (): void {
-    if (this.lodash.isNil(chrome)) {
+    if (_.isNil(chrome) === true || _.isNil(chrome.devtools) === true) {
+      // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.warn(`DevTool application wasn't started in the chrome environment`);
       return;
     }
-    console.log(chrome);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(chrome);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(`DTA: Hello World!`);
 
-    console.log(`DTA: Hello World!`);
-
-    // TODO: Move to BridgeConnectorService
-    const port = chrome.runtime.connect({
-      name: Core.Constants.DTAToBgSConnectionName,
-    });
-    this.messageRetranslator.setBgSPort(port);
-
-    const tabId = this.lodash.get(chrome, `devtools.inspectedWindow.tabId`);
-    this.messageRetranslator.setIdentifier(tabId);
-
-    // TODO: Move to BridgeConnectorService
-    port.onMessage.addListener((message, senderPort) => {
-      console.log(`DTA - onMessage:`, message, senderPort);
-    });
-
-    this.messageRetranslator.sendMessage(
-      Core.Enums.AppEndpoint.BackgroundScript,
-      Core.Enums.MsgCommands.DevToolApp.InitDevTool,
-    );
+    this.endpointConnector.connect();
   }
 }

@@ -11,7 +11,8 @@
     "gulp:tasks": "gulp --tasks",
     "dev:build": "gulp dev:linfra:build",
     "dev:watch": "npm run dev:build && lerna run --parallel dev:watch",
-    "ext:build": "gulp ext:linfra:build && gulp ext:bundle"
+    "ext:bundle": "gulp ext:bundle",
+    "ext:build": "gulp ext:linfra:build && npm run ext:bundle"
   },
   "repository": {
     "type": "git",
@@ -26,17 +27,17 @@
   "devDependencies": {
     "@linfra/arbiter": "^2.1.1-alpha.0",
     "@linfra/core": "^2.0.5-alpha.0",
-    "@types/node": "^13.7.1",
-    "@typescript-eslint/eslint-plugin": "^2.14.0",
-    "@typescript-eslint/parser": "^2.14.0",
-    "eslint": "^6.8.0",
-    "typescript": "^3.7.4"
+    "@types/node": "^14.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.0.0",
+    "typescript": "^3.9.2"
   },
   "dependencies": {
-    "concurrently": "^5.0.2",
+    "concurrently": "^5.2.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
-    "lerna": "^3.18.3",
+    "lerna": "^3.21.0",
     "lodash": "^4.17.15"
   }
 }

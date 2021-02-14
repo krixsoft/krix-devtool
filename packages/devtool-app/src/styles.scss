@@ -1,1 +1,382 @@
-/* You can add global styles to this file, and also import other style files */
+@import './scss/base';
+@import './fonts.scss';
+@import "./scss/index.scss";
+
+$highlight-color: #fac800;
+$dark-bg-color: #212227;
+$light-bg-color: #23262d;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #17181b;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  background-color: #17181b;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cea503;
+}
+
+input, textarea {
+  color: $basic-text-color;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+}
+
+body {
+  font-weight: 600;
+  font-size: 16px;
+  color: #b3bec4;
+}
+
+krix-devtool-app {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  width: 100%;
+}
+
+krix-app-navigation {
+  display: flex;
+  align-items: center;
+  
+  height: 2.5em;
+  z-index: 5;
+
+  background-color: $dark-bg-color;
+  border-bottom: 1px solid #1d1d21;
+  box-shadow: 0px -3px 6px 0px #000000;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 8em;
+
+    color: #b3bec4;
+    text-decoration: none;
+
+    &.active {
+      background: hsla(230, 8%, 13%, 1);
+      border-top: 2px solid transparent;
+      border-right: 2px solid hsla(230, 9%, 10%, 0.4);
+      border-left: 2px solid hsla(230, 9%, 10%, 0.4);
+      border-bottom: 2px solid $highlight-color;
+
+      color: $highlight-color;
+    }
+  }
+}
+
+krix-state-store-tab {
+  display: flex;
+  flex: 1;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+}
+
+krix-tab-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  height: 100%;
+  position: relative;
+
+  background-color: $light-bg-color;
+
+  input {
+    height: 100%;
+    width: 100%;
+
+    padding: 0.7em 1em;
+
+    background-color: $light-bg-color;
+    border: none;
+    
+    color: white;
+
+    &::placeholder {
+      color: $highlight-color;
+    }
+  }
+}
+
+krix-store-selector {
+  height: 2.5em;
+  
+  border-right: 1px solid #26282e;
+  border-bottom: 1px solid #1d1d21;
+
+  .state-store-selector {
+    width: 100%;
+    height: 100%;
+
+    padding: .5em 1em;
+    
+    background-color: transparent;
+    border: none;
+
+    color: #b3bec4;
+    font-size: 16px;
+    font-weight: 600;
+
+    outline: none;
+  }
+
+  .state-store-selector-item {
+    background-color: #212227;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    &.hover,
+      &:hover{
+        text-decoration: underline;
+      }
+
+      &.active.hover,
+      &.active:hover,
+      &.active {
+        color: $highlight-color;
+        text-decoration: none;
+      }
+  }
+}
+
+krix-store-history {
+  width: 100%;
+  height: calc(100% - 2.5em);
+  display: flex;
+  flex-direction: column;
+
+  .history-filter-container {
+    height: 2.5em;
+
+    border-bottom: 1px solid #1d1d21;
+  }
+
+  input {
+    height: 100%;
+    width: 100%;
+
+    padding: 0.7em 1em;
+
+    background-color: $dark-bg-color;
+    border: none;
+    
+    color: white;
+
+    &::placeholder {
+      color: $highlight-color;
+    }
+  }
+
+  .history-list {
+    height: 100%;
+
+    overflow: auto;
+  }
+
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0.5em 1em;
+
+    border-top: 1px solid #1d1d21;
+    border-bottom: 2px solid #26282e;
+
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+
+    &:hover,
+    &.selected {
+      background-color: $dark-bg-color;
+      border-bottom: 2px solid transparent;
+
+      color: $highlight-color;
+    }
+
+    &.selected {
+      .content-section {
+        &:after {
+          content: '#';
+        }
+      }
+    }
+
+    &:last-child {
+      padding-bottom: calc(0.5em + 1px);
+
+      border-bottom: 1px solid #1d1d21;
+    }
+  }
+
+  .state-signal-icon {
+    padding: 1px 4px;
+
+    border: 2px solid $highlight-color;
+    border-radius: 5px;
+
+    color: $highlight-color;
+    font-size: 0.75em;
+  }
+}
+
+krix-tab-content {
+  display: flex;
+  flex-direction: column;
+
+  width: 65%;
+  height: 100%;
+
+  background-color: $dark-bg-color;
+
+  .navbar {
+    display: flex;
+    align-items: center;
+
+    height: 2.5em;
+
+    background-color: $light-bg-color;
+    border-left: 1px solid #1d1d21;
+
+    a {
+      height: 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-top: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      padding: 0 1.35em;
+      
+      color: #b3bec4;
+      text-decoration: none;
+
+      outline: none;
+
+      &.hover,
+      &:hover{
+        text-decoration: underline;
+
+        cursor: pointer;
+      }
+
+      &.active.hover,
+      &.active:hover,
+      &.active {
+        border-bottom: 2px solid $highlight-color;
+
+        text-decoration: none;
+
+        cursor: pointer;
+      }
+    }
+  }
+
+  .main-router-outlet {
+    flex: 1;
+
+    height: 100%;
+    width: 100%;
+
+    box-shadow: 8px 8px 14px -17px #000000 inset;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    router-outlet {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+krix-store-view-page,
+krix-command-view-page {
+  height: 100%;
+  width: 100%;
+  display: block;
+
+  padding: 10px 20px;
+}
+
+krix-object-render {
+  display: block;
+
+  .object-value {
+    width: 100%;
+
+    margin-bottom: 5px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  krix-object-render {
+    padding-left: 30px;
+    margin-top: 5px;
+  }
+
+  .object-value-preview {
+    width: 100%;
+    
+    cursor: default;
+
+    fa-icon {
+      color: $highlight-color;
+      font-size: .75em;
+    }
+
+    &.clickble {
+      cursor: pointer;
+    }
+  }
+}
+
+krix-object-value-preview {
+  .object {
+    color: #f4a460;
+  }
+
+  .string {
+    color: #88b580;
+  }
+
+  .number {
+    color: #4f80b3;
+  }
+
+  .null-or-undefined {
+    color: #ad7bad;
+  }
+
+  .boolean {
+    color: #d64848;
+  }
+}

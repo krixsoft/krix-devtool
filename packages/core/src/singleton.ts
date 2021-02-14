@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 export class Singleton {
   protected static instance: any;

@@ -1,0 +1,14 @@
+<h1>State Store</h1>
+
+<form
+  [formGroup]="stateStoreForm"
+>
+  <div class="form-group">
+    <label class="form-control-label" for="state-store-num-of-events">
+      How many events should we store during the session?
+    </label>
+    <input id="state-store-num-of-events" class="form-control"
+      type="text" formControlName="numOfEvents"
+    />
+  </div>
+</form>
