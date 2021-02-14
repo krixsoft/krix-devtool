@@ -70,7 +70,8 @@ export class StateStoreMessageHandler {
         break;
       default:
         // eslint-disable-next-line no-unused-expressions
-      Environment.production === false && console.error(`DTA.StateStoreMessageHandler.onMessage: Catch unsupported command`);
+      Environment.production === false && console.error(`DTA.StateStoreMessageHandler.onMessage:`,
+        `Catch unsupported command`);
         break;
     }
     this.sjCommand.next(message);

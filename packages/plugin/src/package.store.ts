@@ -1,6 +1,9 @@
+import type * as KrixStateStore from '@krix/state-store';
 import * as Core from '@krix-devtool/core';
 
 import { MessageRetranslator } from './data-flow/message-retranslator';
+
+type PackageType = KrixStateStore.StateStore;
 
 export class PackageStore
   extends Core.Singleton
@@ -9,7 +12,7 @@ export class PackageStore
   /**
    * Store which keeps `Package Instance` stores.
    */
-  private packageStoreMap: Map<Core.Enums.PackageName, Map<string, Core.Interfaces.PackageType>>;
+  private packageStoreMap: Map<Core.Enums.PackageName, Map<string, PackageType>>;
 
   private messageRetranslator: MessageRetranslator;
 
@@ -27,13 +30,13 @@ export class PackageStore
    *
    * @param  {Core.Enums.PackageName} packageName
    * @param  {string} packageId
-   * @param  {Core.Interfaces.PackageType} packageInst
+   * @param  {PackageType} packageInst
    * @return {void}
    */
   setPackageInst (
     packageName: Core.Enums.PackageName,
     packageId: string,
-    packageInst: Core.Interfaces.PackageType,
+    packageInst: PackageType,
   ): void {
     // Create a `Package Instance` store if it doesn't exist
     if (this.packageStoreMap.has(packageName) === false) {
@@ -59,12 +62,12 @@ export class PackageStore
    *
    * @param  {Core.Enums.PackageName} packageName
    * @param  {string} packageId
-   * @return {Core.Interfaces.PackageType}
+   * @return {PackageType}
    */
   getPackageInst (
     packageName: Core.Enums.PackageName,
     packageId: string,
-  ): Core.Interfaces.PackageType {
+  ): PackageType {
     // Throw an error if a `Package Instance` store doesn't exist
     if (this.packageStoreMap.has(packageName) === false) {
       throw new Error(`Package store ${packageName} doesn't exist`);

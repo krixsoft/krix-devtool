@@ -45,7 +45,8 @@ export class EndpointConnector extends Core.Singleton {
     // Skips messages from an outside endpoint (not current tab);
     if (event.source !== window) {
       // eslint-disable-next-line no-unused-expressions
-      PkgConfig.production === false && console.log(`DTP.MessageHandler.onMessage: Catch signal from unsupported provider`);
+      PkgConfig.production === false && console.log(`DTP.MessageHandler.onMessage:`,
+        `Catch signal from unsupported provider`);
       return;
     }
     // Extracts a message from the message event
