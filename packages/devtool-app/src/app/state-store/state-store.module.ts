@@ -20,6 +20,7 @@ import { CommandViewPageComponent } from './components/tab-content/command-view-
 // --- Services
 import { StateStoreHistoryService } from './core/ss-history.service';
 import { StateStoreMessageHandler } from './core/ss-message-handler';
+import { StateStoreArbiter } from './core/ss.arbiter';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { StateStoreMessageHandler } from './core/ss-message-handler';
   providers: [
     StateStoreHistoryService,
     StateStoreMessageHandler,
+    StateStoreArbiter,
   ],
 })
 export class StateStoreModule { }
