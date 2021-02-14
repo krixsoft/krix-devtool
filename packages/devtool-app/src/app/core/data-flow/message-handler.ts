@@ -29,7 +29,6 @@ export class MessageHandler {
   onMessage (
     message: Core.Interfaces.EndpointMessage,
   ): void {
-    console.info(`DTA.MessageHandler.onMessage: Command`, message);
     this.sjCommand.next(message);
   }
 }
