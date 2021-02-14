@@ -114,6 +114,10 @@ export class EndpointConnector extends Core.Singleton {
     // Extract a message endpoint from the message
     const target = message?.target ?? null;
     switch (target) {
+      // FYI: After every external request `window.addEventListener('message')` logic calls this method.
+      // We don't send message to the `DTP` because we send them in `onExtensionMessage` logic.
+      case Core.Enums.AppEndpoint.DevToolPlugin:
+        return;
       // Dispatch the message to the CS message handler
       case Core.Enums.AppEndpoint.ContentScript:
         this.messageHandler.onMessage(message);
