@@ -1,5 +1,7 @@
 import * as Core from '@krix-devtool/core';
 
+import * as ExtConfig from '../config';
+
 import { MessageHandler } from './message-handler';
 import { MessageRetranslator } from './message-retranslator';
 
@@ -34,7 +36,8 @@ export class EndpointConnector extends Core.Singleton {
   private onConnect (
     port: chrome.runtime.Port,
   ): void {
-    console.log(`BgS.EndpointConnector.onConnect:`, port);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`BgS.EndpointConnector.onConnect:`, port);
 
     // Register CS
     if (port.name === Core.Constants.CSToBgSConnectionName) {
@@ -51,7 +54,8 @@ export class EndpointConnector extends Core.Singleton {
 
     // Add `Disconnect` watcher for the port
     port.onDisconnect.addListener((disconnectedPort) => {
-      console.log(`BgS.EndpointConnector.onDisconnect:`, disconnectedPort);
+      // eslint-disable-next-line no-unused-expressions
+      ExtConfig.production === false && console.log(`BgS.EndpointConnector.onDisconnect:`, disconnectedPort);
       this.onDisconnect(disconnectedPort);
     });
   }
@@ -65,7 +69,8 @@ export class EndpointConnector extends Core.Singleton {
   private onDisconnect (
     port: chrome.runtime.Port,
   ): void {
-    console.log(`BgS.EndpointConnector.onDisconnect:`, port);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`BgS.EndpointConnector.onDisconnect:`, port);
   }
 
   /**
@@ -83,7 +88,8 @@ export class EndpointConnector extends Core.Singleton {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
-    console.log(`BgS.EndpointConnector.onMessage:`, message, port);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`BgS.EndpointConnector.onMessage:`, message, port);
 
     // Extract a message endpoint from the message
     const target = message?.target ?? null;
@@ -100,7 +106,8 @@ export class EndpointConnector extends Core.Singleton {
         return;
       // Skip unsupported endpoints
       default:
-        console.warn(`EndpointConnector.onMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`EndpointConnector.onMessage:`,
           `BgS is trying to handle the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

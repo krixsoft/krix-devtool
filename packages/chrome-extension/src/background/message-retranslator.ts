@@ -2,6 +2,8 @@ import * as _ from 'lodash';
 import { Subject, Observable } from 'rxjs';
 import * as Core from '@krix-devtool/core';
 
+import * as ExtConfig from '../config';
+
 import { Interfaces, Enums } from '../shared';
 
 export class MessageRetranslator extends Core.Singleton {
@@ -94,7 +96,8 @@ export class MessageRetranslator extends Core.Singleton {
       // Send message to a DTA
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(bridgeMetadata.dtaPort)) {
-          console.warn(`BgS.MessageRetranslator.sendMessage:`,
+          // eslint-disable-next-line no-unused-expressions
+          ExtConfig.production === false && console.warn(`BgS.MessageRetranslator.sendMessage:`,
             `BgS is trying to send messages to the unregistered DevTool Application (${message.tabId})`);
           return;
         }
@@ -106,7 +109,8 @@ export class MessageRetranslator extends Core.Singleton {
       case Core.Enums.AppEndpoint.ContentScript:
       case Core.Enums.AppEndpoint.DevToolPlugin: {
         if (_.isNil(bridgeMetadata.csPort)) {
-          console.warn(`BgS.MessageRetranslator.sendMessage:`,
+          // eslint-disable-next-line no-unused-expressions
+          ExtConfig.production === false && console.warn(`BgS.MessageRetranslator.sendMessage:`,
             `BgS is trying to send messages to the unregistered Content Script (${message.tabId})`);
           return;
         }
@@ -116,7 +120,8 @@ export class MessageRetranslator extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`BgS.MessageRetranslator.sendMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`BgS.MessageRetranslator.sendMessage:`,
           `BgS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

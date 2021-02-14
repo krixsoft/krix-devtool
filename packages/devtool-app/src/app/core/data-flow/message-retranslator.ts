@@ -52,7 +52,8 @@ export class MessageRetranslator {
     msgData?: TMsg,
   ): void {
     if (targetEndpoint === Core.Enums.AppEndpoint.ContentScript) {
-      console.warn(`DTA.MessageRetranslatorService.sendMessage:`,
+      // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.warn(`DTA.MessageRetranslatorService.sendMessage:`,
         `DTA is trying to send messages to the unsupported endpoint (${targetEndpoint})`);
       return;
     }

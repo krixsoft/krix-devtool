@@ -1,6 +1,8 @@
 import * as Core from '@krix-devtool/core';
 import * as _ from 'lodash';
 
+import * as ExtConfig from '../config';
+
 import { MessageHandler } from './message-handler';
 import { MessageRetranslator } from './message-retranslator';
 
@@ -25,7 +27,8 @@ export class EndpointConnector extends Core.Singleton {
       name: Core.Constants.CSToBgSConnectionName,
     });
 
-    console.log(`CS.EndpointConnector.connect:`, port);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`CS.EndpointConnector.connect:`, port);
     this.messageRetranslator.setBgSPort(port);
 
     // Add `On Message` listener to the BgS connection port
@@ -62,12 +65,14 @@ export class EndpointConnector extends Core.Singleton {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
-    console.log(`CS.EndpointConnector.onExtensionMessage:`, message, port);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`CS.EndpointConnector.onExtensionMessage:`, message, port);
 
     const tabId = this.messageRetranslator.getTabId();
     if ((_.isNil(tabId) === true || message?.tabId !== tabId)
         && message?.command !== Core.Enums.MsgCommands.BackgroundScript.InitCS) {
-      console.warn(`CS.EndpointConnector.onExtensionMessage:`,
+      // eslint-disable-next-line no-unused-expressions
+      ExtConfig.production === false && console.warn(`CS.EndpointConnector.onExtensionMessage:`,
         `CS is trying to handle message from another tab (${message.tabId}:${message.target})`);
       return;
     }
@@ -85,7 +90,8 @@ export class EndpointConnector extends Core.Singleton {
         return;
       // Skip unsupported endpoints
       default:
-        console.warn(`CS.EndpointConnector.onExtensionMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`CS.EndpointConnector.onExtensionMessage:`,
           `CS is trying to handle the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }
@@ -103,10 +109,13 @@ export class EndpointConnector extends Core.Singleton {
   private onDTPMessage (
     event: MessageEvent,
   ): void {
-    console.log(`CS.EndpointConnector.onDTPMessage:`, event);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`CS.EndpointConnector.onDTPMessage:`, event);
 
     if (event.source !== window) {
-      console.log(`CS.MessageHandler.onDTPMessage: Catch signal from unsupported provider`);
+      // eslint-disable-next-line no-unused-expressions
+      ExtConfig.production === false && console.log(`CS.MessageHandler.onDTPMessage:`,
+        `Catch signal from unsupported provider`);
       return;
     }
     const message: Core.Interfaces.EndpointMessage = event.data;
@@ -139,7 +148,8 @@ export class EndpointConnector extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`CS.EndpointConnector.onDTPMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`CS.EndpointConnector.onDTPMessage:`,
           `CS is trying to handle the unsupported endpoint (${message.target})`);
     }
   }

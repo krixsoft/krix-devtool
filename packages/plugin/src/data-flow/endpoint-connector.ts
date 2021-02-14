@@ -1,5 +1,7 @@
 import * as Core from '@krix-devtool/core';
 
+import * as PkgConfig from '../config';
+
 import { MessageHandler } from './message-handler';
 
 export class EndpointConnector extends Core.Singleton {
@@ -18,7 +20,8 @@ export class EndpointConnector extends Core.Singleton {
    */
   public connect (
   ): void {
-    console.log(`DTP.EndpointConnector.connect:`);
+    // eslint-disable-next-line no-unused-expressions
+    PkgConfig.production === false && console.log(`DTP.EndpointConnector.connect: Successful`);
 
     // Subscribe to `message` window events
     window.addEventListener('message', (event: MessageEvent) => {
@@ -41,7 +44,8 @@ export class EndpointConnector extends Core.Singleton {
   ): void {
     // Skips messages from an outside endpoint (not current tab);
     if (event.source !== window) {
-      console.log(`DTP.MessageHandler.onMessage: Catch signal from unsupported provider`);
+      // eslint-disable-next-line no-unused-expressions
+      PkgConfig.production === false && console.log(`DTP.MessageHandler.onMessage: Catch signal from unsupported provider`);
       return;
     }
     // Extracts a message from the message event

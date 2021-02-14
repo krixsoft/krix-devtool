@@ -1,5 +1,7 @@
 import * as Core from '@krix-devtool/core';
 
+import * as ExtConfig from '../config';
+
 import { MessageRetranslator } from './message-retranslator';
 
 export class MessageHandler extends Core.Singleton {
@@ -24,11 +26,13 @@ export class MessageHandler extends Core.Singleton {
         this.onInitCS(message.payload);
         break;
       default:
-        console.error(`CS.MessageHandler.onMessage: Catch unsupported command`);
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.error(`CS.MessageHandler.onMessage: Catch unsupported command`);
         break;
     }
 
-    console.log(`CS.MessageHandler.onMessage:`, message);
+    // eslint-disable-next-line no-unused-expressions
+    ExtConfig.production === false && console.log(`CS.MessageHandler.onMessage:`, message);
   }
 
   /**

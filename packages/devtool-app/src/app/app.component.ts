@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Environment } from '../environments/environment';
+
 // Services
 import { EndpointConnector } from './core/data-flow';
 
@@ -16,11 +18,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit (): void {
     if (_.isNil(chrome) === true || _.isNil(chrome.devtools) === true) {
-      console.warn(`DevTool application wasn't started in the chrome environment`);
+      // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.warn(`DevTool application wasn't started in the chrome environment`);
       return;
     }
-    console.log(chrome);
-    console.log(`DTA: Hello World!`);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(chrome);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(`DTA: Hello World!`);
 
     this.endpointConnector.connect();
   }

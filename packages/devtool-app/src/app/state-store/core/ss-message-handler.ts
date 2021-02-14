@@ -3,6 +3,8 @@ import * as Core from '@krix-devtool/core';
 import { Subject, Observable } from 'rxjs';
 import * as KrixStateStore from '@krix/state-store';
 
+import { Environment } from '../../../environments/environment';
+
 // Services
 import { StateStoreHistoryService } from './ss-history.service';
 import { StateStoreArbiter } from './ss.arbiter';
@@ -67,7 +69,8 @@ export class StateStoreMessageHandler {
         this.onMessageExecuteCommand(message.payload);
         break;
       default:
-        console.error(`DTA.StateStoreMessageHandler.onMessage: Catch unsupported command`);
+        // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.error(`DTA.StateStoreMessageHandler.onMessage: Catch unsupported command`);
         break;
     }
     this.sjCommand.next(message);

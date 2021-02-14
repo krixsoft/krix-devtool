@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as Core from '@krix-devtool/core';
 
+import { Environment } from '../../../environments/environment';
+
 import { MessageRetranslator } from './message-retranslator';
 import { MessageHandler } from './message-handler';
 
@@ -28,7 +30,8 @@ export class EndpointConnector {
     const tabId = _.get(chrome, `devtools.inspectedWindow.tabId`);
     this.messageRetranslator.setTabId(tabId);
 
-    console.log(`DTA.EndpointConnector.connect:`, `Tab Id: ${tabId}, Port:`, port);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(`DTA.EndpointConnector.connect:`, `Tab Id: ${tabId}, Port:`, port);
 
     // Add `Message` watcher to port
     port.onMessage.addListener((message, senderPort) => {
@@ -61,11 +64,13 @@ export class EndpointConnector {
     message: Core.Interfaces.ExtensionMessage,
     port: chrome.runtime.Port,
   ): void {
-    console.log(`DTA.EndpointConnector.onMessage:`, message, port);
+    // eslint-disable-next-line no-unused-expressions
+    Environment.production === false && console.log(`DTA.EndpointConnector.onMessage:`, message, port);
 
     const tabId = this.messageRetranslator.getTabId();
     if (_.isNil(tabId) === true || message?.tabId !== tabId) {
-      console.warn(`DTA.EndpointConnector.onMessage:`,
+      // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.warn(`DTA.EndpointConnector.onMessage:`,
         `DTA is trying to handle message from another tab (${message.tabId}:${message.target})`);
       return;
     }
@@ -79,7 +84,8 @@ export class EndpointConnector {
         return;
       // Skip unsupported endpoints
       default:
-        console.warn(`DTA.EndpointConnector.onMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+      Environment.production === false && console.warn(`DTA.EndpointConnector.onMessage:`,
           `DTA is trying to handle the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

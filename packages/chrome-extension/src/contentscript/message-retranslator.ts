@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 import * as Core from '@krix-devtool/core';
 
+import * as ExtConfig from '../config';
+
 export class MessageRetranslator extends Core.Singleton {
   private bgsPort: chrome.runtime.Port;
   private tabId: number;
@@ -51,7 +53,8 @@ export class MessageRetranslator extends Core.Singleton {
       case Core.Enums.AppEndpoint.BackgroundScript:
       case Core.Enums.AppEndpoint.DevToolApp: {
         if (_.isNil(this.bgsPort)) {
-          console.warn(`CS.MessageRetranslator.sendMessage:`,
+          // eslint-disable-next-line no-unused-expressions
+          ExtConfig.production === false && console.warn(`CS.MessageRetranslator.sendMessage:`,
             `CS is trying to send messages to the unregistered BgS (${message.tabId})`);
           return;
         }
@@ -66,7 +69,8 @@ export class MessageRetranslator extends Core.Singleton {
       }
       // Skip unsupported endpoints
       default:
-        console.warn(`CS.MessageRetranslator.sendMessage:`,
+        // eslint-disable-next-line no-unused-expressions
+        ExtConfig.production === false && console.warn(`CS.MessageRetranslator.sendMessage:`,
           `CS is trying to send messages to the unsupported endpoint (${message.tabId}:${message.target})`);
     }
   }

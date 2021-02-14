@@ -1,5 +1,7 @@
 import * as Core from '@krix-devtool/core';
 
+import * as PkgConfig from '../config';
+
 import { PackageStore } from '../package.store';
 import { MessageRetranslator } from './message-retranslator';
 
@@ -30,11 +32,13 @@ export class MessageHandler extends Core.Singleton {
         this.onUpdatePackageList(message.payload);
         break;
       default:
-        console.error(`DTP.MessageHandler.onMessage: Catch unsupported command`);
+        // eslint-disable-next-line no-unused-expressions
+        PkgConfig.production === false && console.error(`DTP.MessageHandler.onMessage: Catch unsupported command`);
         break;
     }
 
-    console.log(`DTP.MessageHandler.onMessage:`, message);
+    // eslint-disable-next-line no-unused-expressions
+    PkgConfig.production === false && console.log(`DTP.MessageHandler.onMessage:`, message);
   }
 
   /**
@@ -51,7 +55,8 @@ export class MessageHandler extends Core.Singleton {
     const packageName = message?.packageName;
 
     if (packageName === null || packageName === undefined) {
-      console.error(`DTP.MessageHandler.onPackageUpdatePackageList:`,
+      // eslint-disable-next-line no-unused-expressions
+      PkgConfig.production === false && console.error(`DTP.MessageHandler.onPackageUpdatePackageList:`,
         `Package Name isn't defined`);
       return;
     }
@@ -89,7 +94,8 @@ export class MessageHandler extends Core.Singleton {
     const packageInst: any = this.packageStore.getPackageInst(packageName, packageId);
 
     if (packageInst === null || packageInst === undefined) {
-      console.error(`DTP.MessageHandler.onExecutePackageCommand:`,
+      // eslint-disable-next-line no-unused-expressions
+      PkgConfig.production === false && console.error(`DTP.MessageHandler.onExecutePackageCommand:`,
         `Package (${packageName} - ${packageId}) doesn't exist`);
       return;
     }
@@ -99,7 +105,8 @@ export class MessageHandler extends Core.Singleton {
     const packageInstFn: Function = packageInst[packageInstFnName];
 
     if (typeof packageInstFn !== 'function') {
-      console.error(`DTP.MessageHandler.onExecutePackageCommand:`,
+      // eslint-disable-next-line no-unused-expressions
+      PkgConfig.production === false && console.error(`DTP.MessageHandler.onExecutePackageCommand:`,
         `Package function (${packageInstFn}) doesn't exist in the package`);
       return;
     }
