@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs';
 
 // Services
 import { StateStoreHistoryService } from './ss-history.service';
+import { StateStoreArbiter } from './ss.arbiter';
 
 @Injectable()
 export class StateStoreMessageHandler {
@@ -13,6 +14,7 @@ export class StateStoreMessageHandler {
 
   constructor (
     private ssHistoryService: StateStoreHistoryService,
+    private ssArbiter: StateStoreArbiter,
   ) {
     this.sjCommand = new Subject();
   }
@@ -47,7 +49,13 @@ export class StateStoreMessageHandler {
     message: Core.Interfaces.EndpointMessage,
   ): void {
     switch (message.command) {
-      case Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand:
+      case Core.Enums.MsgCommands.DevToolApp.HandlePackageCommand: {
+        const activeStoreName = this.ssArbiter.getActiveStoreName();
+        if (_.isNil(activeStoreName) === true
+            || message.payload.packageId !== activeStoreName) {
+          return;
+        }
+
         this.ssHistoryService.onMessage(message.payload.command);
         break;
       case Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList:
