@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Core from '@krix-devtool/core';
 import { Subject, Observable } from 'rxjs';
+import * as KrixStateStore from '@krix/state-store';
 
 // Services
 import { StateStoreHistoryService } from './ss-history.service';
@@ -58,13 +59,55 @@ export class StateStoreMessageHandler {
 
         this.ssHistoryService.onMessage(message.payload.command);
         break;
+      }
       case Core.Enums.MsgCommands.DevToolPlugin.UpdatePackageList:
-        this.stateStoresNames = message.payload.packageIds;
+        this.ssArbiter.setStoreNames(message.payload.packageIds);
+        break;
+      case Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand:
+        this.onMessageExecuteCommand(message.payload);
         break;
       default:
         console.error(`DTA.StateStoreMessageHandler.onMessage: Catch unsupported command`);
         break;
     }
     this.sjCommand.next(message);
+  }
+
+  /**
+   * Handles `Execute Command` command.
+   *
+   * @param  {Core.Interfaces.EndpointMessagePayload.Response.ExecutePackageCommand} command
+   * @return {void}
+   */
+  onMessageExecuteCommand (
+    command: Core.Interfaces.EndpointMessagePayload.Response.ExecutePackageCommand,
+  ): void {
+    switch (command.packageCommand) {
+      case Core.Enums.StateStoreCommand.GetStore: {
+        this.onMessageECGetStore(command.result);
+        break;
+      }
+    }
+  }
+
+  /**
+   * Handles `Execute Command` command with `Get Store` store command.
+   *
+   * @param  {unknown} store
+   * @return {void}
+   */
+  onMessageECGetStore (
+    store: object,
+  ): void {
+    const krixStateStore = KrixStateStore.StateStore.create();
+
+    _.forEach(store, (value, key) => {
+      krixStateStore.setState({
+        state: [ key ],
+        value: value,
+      });
+    });
+
+    this.ssHistoryService.setStore(krixStateStore);
   }
 }
