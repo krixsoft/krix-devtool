@@ -29,4 +29,26 @@ export class MessageService {
       },
     );
   }
+
+  /**
+   * Sends the request to get the state store by the store name.
+   *
+   * @param  {string} packageId
+   * @return {void}
+   */
+  getStateStore (
+    storeName: string,
+  ): void {
+    this.messageRetranslator.sendMessage<Core.Interfaces.EndpointMessagePayload.Request.ExecutePackageCommand>(
+      Core.Enums.AppEndpoint.DevToolPlugin,
+      Core.Enums.MsgCommands.DevToolPlugin.ExecutePackageCommand,
+      {
+        packageName: Core.Enums.PackageName.StateStore,
+        packageId: storeName,
+        packageCommand: Core.Enums.StateStoreCommand.GetStore,
+        fnName: 'getState',
+        fnArgs: [],
+      },
+    );
+  }
 }
