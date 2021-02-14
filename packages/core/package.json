@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
+  "private": true,
   "scripts": {
     "gulp:clear:dist": "gulp --gulpfile=./common.gulp.js clear:dist",
     "gulp:clear:test": "gulp --gulpfile=./common.gulp.js clear:test",
