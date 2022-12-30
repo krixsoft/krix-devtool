@@ -40,11 +40,11 @@
     "eslint": "^7.1.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
-    "gulp-mocha": "^7.0.2",
+    "gulp-mocha": "^8.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-run": "^1.7.1",
     "gulp-typescript": "^5.0.1",
-    "mocha": "^7.2.0",
+    "mocha": "^10.2.0",
     "sinon": "^9.0.2",
     "tslint": "~6.1.2",
     "typescript": "~3.9.3"
